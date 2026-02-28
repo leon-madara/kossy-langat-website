@@ -1,0 +1,339 @@
+.mentorship-page {
+    position: relative;
+    background-color: var(--background);
+    overflow: hidden;
+}
+
+/* ===== HERO: FULL-BLEED PARALLAX ===== */
+.mentor-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.mentor-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.mentor-hero-bg img {
+    width: 100%;
+    height: 120%;
+    /* Extra for parallax travel */
+    object-fit: cover;
+    object-position: center 30%;
+    filter: brightness(0.35) contrast(1.1);
+}
+
+.mentor-hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 900px;
+    padding: 2rem;
+}
+
+.mentor-hero-eyebrow {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-accent);
+    margin-bottom: 2rem;
+}
+
+.mentor-hero-headline {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    line-height: 0.95;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+.mentor-hero-headline .highlight {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold-accent);
+    display: block;
+}
+
+.mentor-hero-sub {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ===== CONTENT SECTIONS ===== */
+.mentor-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .mentor-container {
+        padding: 0 5rem;
+    }
+}
+
+/* --- Section: Reality --- */
+.mentor-reality {
+    position: relative;
+    padding: 8rem 0;
+    border-bottom: 1px solid rgba(var(--border-rgb), 0.2);
+}
+
+.mentor-reality-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .mentor-reality-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+    }
+}
+
+.mentor-reality-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+}
+
+.mentor-reality-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.mentor-reality-image:hover img {
+    transform: scale(1.03);
+}
+
+.mentor-section-label {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-accent);
+    margin-bottom: 1.5rem;
+}
+
+.mentor-section-title {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--primary);
+    margin-bottom: 2rem;
+}
+
+.mentor-body-text {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--foreground);
+    opacity: 0.85;
+    margin-bottom: 1.5rem;
+}
+
+.mentor-quote {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--primary);
+    border-left: 3px solid var(--gold-accent);
+    padding-left: 2rem;
+    margin: 3rem 0;
+}
+
+/* --- Section: Advice Grid --- */
+.mentor-advice {
+    padding: 8rem 0;
+    border-bottom: 1px solid rgba(var(--border-rgb), 0.2);
+}
+
+.advice-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+    .advice-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .advice-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.advice-card {
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(var(--border-rgb), 0.15);
+    transition: border-color 0.4s ease, transform 0.3s ease;
+}
+
+.advice-card:hover {
+    border-color: var(--gold-accent);
+    transform: translateY(-4px);
+}
+
+.advice-number {
+    font-family: var(--font-playfair), serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(var(--border-rgb), 0.15);
+    margin-bottom: 1.5rem;
+}
+
+.advice-title {
+    font-family: var(--font-playfair), serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.advice-text {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--foreground);
+    opacity: 0.8;
+}
+
+/* --- Section: Resilience --- */
+.mentor-resilience {
+    padding: 8rem 0;
+    border-bottom: 1px solid rgba(var(--border-rgb), 0.2);
+}
+
+.resilience-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+    .resilience-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.resilience-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.resilience-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gold-accent);
+    color: var(--gold-accent);
+    font-family: var(--font-playfair), serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.resilience-title {
+    font-family: var(--font-playfair), serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.resilience-text {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--foreground);
+    opacity: 0.8;
+}
+
+/* --- Section: CTA --- */
+.mentor-cta {
+    position: relative;
+    padding: 8rem 0;
+    text-align: center;
+}
+
+.mentor-cta-headline {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mentor-cta-text {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--foreground);
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+}
+
+.mentor-cta-button {
+    display: inline-block;
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--background);
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 1.25rem 3.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.mentor-cta-button:hover {
+    background-color: transparent;
+    color: var(--primary);
+}
+
+/* ===== GSAP Reveal States ===== */
+.m-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.m-reveal-hero {
+    opacity: 0;
+    transform: translateY(30px);
+}

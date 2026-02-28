@@ -1,0 +1,117 @@
+.case-study-page {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    background-color: var(--background);
+}
+
+.case-study-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .case-study-container {
+        padding: 0 5rem;
+    }
+}
+
+.case-study-header {
+    margin-bottom: 4rem;
+}
+
+.case-study-location {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+}
+
+.case-study-title {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(3rem, 10vw, 6rem);
+    line-height: 1;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 2rem;
+}
+
+.case-study-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+}
+
+.case-study-tag {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.case-study-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+    .case-study-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.case-study-block-label {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold-accent);
+    margin-bottom: 1rem;
+}
+
+.case-study-block-text {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--foreground);
+    opacity: 0.9;
+}
+
+.case-study-result-block {
+    grid-column: 1 / -1;
+    background-color: #1A3636;
+    padding: 4rem;
+    margin-top: 2rem;
+}
+
+.case-study-result-label {
+    color: var(--powder-petal);
+}
+
+.case-study-result-text {
+    font-family: var(--font-playfair), serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--powder-petal);
+    line-height: 1.3;
+}
+
+/* GSAP Reveal */
+.cs-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}

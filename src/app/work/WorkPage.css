@@ -1,0 +1,65 @@
+.work-page {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 10rem;
+    padding-bottom: 8rem;
+    background-color: var(--background);
+}
+
+.work-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .work-container {
+        padding: 0 5rem;
+    }
+}
+
+.work-header {
+    margin-bottom: 6rem;
+}
+
+.work-headline {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    line-height: 1;
+    font-weight: 500;
+    color: var(--primary);
+    max-width: 900px;
+}
+
+.work-headline .italic {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.work-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    .work-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .work-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+    }
+}
+
+/* GSAP Reveal */
+.work-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+}

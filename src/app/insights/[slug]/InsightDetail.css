@@ -1,0 +1,79 @@
+.insight-detail-page {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 10rem;
+    padding-bottom: 8rem;
+    background-color: var(--background);
+}
+
+.insight-detail-container {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    /* Optimal reading width */
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.insight-detail-header {
+    margin-bottom: 4rem;
+    text-align: left;
+}
+
+.insight-detail-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.insight-detail-category {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-accent);
+}
+
+.insight-detail-date,
+.insight-detail-read-time {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.insight-detail-title {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--primary);
+    margin-bottom: 3rem;
+}
+
+.insight-divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(var(--border-rgb), 0.3);
+    margin-bottom: 4rem;
+}
+
+.insight-content {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--foreground);
+    opacity: 0.9;
+}
+
+.insight-content p {
+    margin-bottom: 2rem;
+}
+
+/* Specific GSAP reveal class for detail page */
+.ins-detail-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+}

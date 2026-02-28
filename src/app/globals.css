@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@import "./theme.generated.css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+
+  --color-coffee-bean: var(--coffee-bean);
+  --color-blue-slate: var(--blue-slate);
+  --color-cool-steel: var(--cool-steel);
+  --color-powder-petal: var(--powder-petal);
+  --color-dust-grey: var(--dust-grey);
+  --color-taupe-grey: var(--taupe-grey);
+  --color-gold-accent: #c58232;
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+}
+
+:root {
+  /* Brand Palette */
+  --coffee-bean: #754D37;
+  --blue-slate: #48616B;
+  --cool-steel: #9B9EA5;
+  --powder-petal: #DECFC7;
+  --dust-grey: #DCD3D2;
+  --taupe-grey: #685A54;
+  --gold-accent: #c58232;
+
+  /* Semantic Mapping */
+  --background: #F8F6F3;
+  /* Very light warm neutral */
+  --foreground: #1E2929;
+  /* Deep charcoal */
+  --primary: var(--blue-slate);
+  --accent: var(--coffee-bean);
+  --muted: var(--taupe-grey);
+  --border: var(--dust-grey);
+  --card: var(--powder-petal);
+
+  /* RGB helpers (for rgba(var(--*-rgb), a) patterns) */
+  --background-rgb: 248, 246, 243;
+  --foreground-rgb: 30, 41, 41;
+  --primary-rgb: 72, 97, 107;
+  --accent-rgb: 117, 77, 55;
+  --muted-rgb: 104, 90, 84;
+  --border-rgb: 220, 211, 210;
+  --card-rgb: 222, 207, 199;
+  --gold-accent-rgb: 197, 130, 50;
+}
+
+:root[data-theme="dark"] {
+  --background: #111A1A;
+  --foreground: #F8F6F3;
+  --primary: var(--powder-petal);
+  --accent: var(--coffee-bean);
+  --muted: var(--cool-steel);
+  --border: var(--taupe-grey);
+  --card: #1E2929;
+
+  --background-rgb: 17, 26, 26;
+  --foreground-rgb: 248, 246, 243;
+  --primary-rgb: 72, 97, 107;
+  --accent-rgb: 117, 77, 55;
+  --muted-rgb: 155, 158, 165;
+  --border-rgb: 104, 90, 84;
+  --card-rgb: 30, 41, 41;
+  --gold-accent-rgb: 197, 130, 50;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background: #111A1A;
+    --foreground: #F8F6F3;
+    --primary: var(--powder-petal);
+    --accent: var(--coffee-bean);
+    --muted: var(--cool-steel);
+    --border: var(--taupe-grey);
+    --card: #1E2929;
+
+    --background-rgb: 17, 26, 26;
+    --foreground-rgb: 248, 246, 243;
+    --primary-rgb: 72, 97, 107;
+    --accent-rgb: 117, 77, 55;
+    --muted-rgb: 155, 158, 165;
+    --border-rgb: 104, 90, 84;
+    --card-rgb: 30, 41, 41;
+    --gold-accent-rgb: 197, 130, 50;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hero,
+#gap-problem {
+  color: var(--powder-petal);
+}
+
+#gap-problem {
+  --muted: var(--cool-steel);
+  --muted-rgb: 155, 158, 165;
+}
+
+/* Utilities for GSAP / Framer Motion */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* GP-03: Texture & Grain Integrity */
+.texture-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+:root[data-theme="dark"] .texture-overlay {
+  mix-blend-mode: screen;
+  opacity: 0.03;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .texture-overlay {
+    mix-blend-mode: screen;
+    opacity: 0.03;
+  }
+}

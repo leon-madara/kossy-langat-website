@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1042">
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;}.t{font-size:28px;font-weight:700;fill:#111827;}.g{font-size:18px;font-weight:700;fill:#111827;}.l{font-size:12px;font-weight:600;fill:#111827;opacity:.8;}.h{font-size:12px;font-weight:600;fill:#111827;opacity:.6;}.s{rx:12;ry:12;stroke:#111827;stroke-opacity:.12;stroke-width:1;}</style>
+<rect x="0" y="0" width="1200" height="100%" fill="#ffffff"/>
+<text x="32" y="58" class="t">Theme Generator — Swatches</text>
+<text x="32" y="80" class="g">Light / Primary</text>
+<rect x="32" y="116" width="150" height="44" class="s" fill="#c58232"/>
+<text x="44" y="134" class="l">a0</text>
+<text x="44" y="151" class="h">#c58232</text>
+<rect x="196" y="116" width="150" height="44" class="s" fill="#cb8b41"/>
+<text x="208" y="134" class="l">a05</text>
+<text x="208" y="151" class="h">#cb8b41</text>
+<rect x="360" y="116" width="150" height="44" class="s" fill="#d29450"/>
+<text x="372" y="134" class="l">a10</text>
+<text x="372" y="151" class="h">#d29450</text>
+<rect x="524" y="116" width="150" height="44" class="s" fill="#d89d5d"/>
+<text x="536" y="134" class="l">a15</text>
+<text x="536" y="151" class="h">#d89d5d</text>
+<rect x="688" y="116" width="150" height="44" class="s" fill="#dfa66a"/>
+<text x="700" y="134" class="l">a20</text>
+<text x="700" y="151" class="h">#dfa66a</text>
+<rect x="852" y="116" width="150" height="44" class="s" fill="#e5af76"/>
+<text x="864" y="134" class="l">a25</text>
+<text x="864" y="151" class="h">#e5af76</text>
+<rect x="32" y="178" width="150" height="44" class="s" fill="#ebb883"/>
+<text x="44" y="196" class="l">a30</text>
+<text x="44" y="213" class="h">#ebb883</text>
+<rect x="196" y="178" width="150" height="44" class="s" fill="#f1c18f"/>
+<text x="208" y="196" class="l">a35</text>
+<text x="208" y="213" class="h">#f1c18f</text>
+<rect x="360" y="178" width="150" height="44" class="s" fill="#f8ca9c"/>
+<text x="372" y="196" class="l">a40</text>
+<text x="372" y="213" class="h">#f8ca9c</text>
+<rect x="524" y="178" width="150" height="44" class="s" fill="#fed3a8"/>
+<text x="536" y="196" class="l">a45</text>
+<text x="536" y="213" class="h">#fed3a8</text>
+<rect x="688" y="178" width="150" height="44" class="s" fill="#ffddb5"/>
+<text x="700" y="196" class="l">a50</text>
+<text x="700" y="213" class="h">#ffddb5</text>
+<text x="32" y="266" class="g">Light / Surface</text>
+<rect x="32" y="302" width="150" height="44" class="s" fill="#f8f6f3"/>
+<text x="44" y="320" class="l">a0</text>
+<text x="44" y="337" class="h">#f8f6f3</text>
+<rect x="196" y="302" width="150" height="44" class="s" fill="#f0eeeb"/>
+<text x="208" y="320" class="l">a05</text>
+<text x="208" y="337" class="h">#f0eeeb</text>
+<rect x="360" y="302" width="150" height="44" class="s" fill="#e8e6e3"/>
+<text x="372" y="320" class="l">a10</text>
+<text x="372" y="337" class="h">#e8e6e3</text>
+<rect x="524" y="302" width="150" height="44" class="s" fill="#e0dedc"/>
+<text x="536" y="320" class="l">a15</text>
+<text x="536" y="337" class="h">#e0dedc</text>
+<rect x="688" y="302" width="150" height="44" class="s" fill="#d8d6d4"/>
+<text x="700" y="320" class="l">a20</text>
+<text x="700" y="337" class="h">#d8d6d4</text>
+<rect x="852" y="302" width="150" height="44" class="s" fill="#d0cfcc"/>
+<text x="864" y="320" class="l">a25</text>
+<text x="864" y="337" class="h">#d0cfcc</text>
+<rect x="32" y="364" width="150" height="44" class="s" fill="#c8c7c5"/>
+<text x="44" y="382" class="l">a30</text>
+<text x="44" y="399" class="h">#c8c7c5</text>
+<rect x="196" y="364" width="150" height="44" class="s" fill="#c1bfbd"/>
+<text x="208" y="382" class="l">a35</text>
+<text x="208" y="399" class="h">#c1bfbd</text>
+<rect x="360" y="364" width="150" height="44" class="s" fill="#b9b8b5"/>
+<text x="372" y="382" class="l">a40</text>
+<text x="372" y="399" class="h">#b9b8b5</text>
+<rect x="524" y="364" width="150" height="44" class="s" fill="#b1b0ae"/>
+<text x="536" y="382" class="l">a45</text>
+<text x="536" y="399" class="h">#b1b0ae</text>
+<rect x="688" y="364" width="150" height="44" class="s" fill="#aaa9a7"/>
+<text x="700" y="382" class="l">a50</text>
+<text x="700" y="399" class="h">#aaa9a7</text>
+<text x="32" y="452" class="g">Dark / Primary</text>
+<rect x="32" y="488" width="150" height="44" class="s" fill="#c58232"/>
+<text x="44" y="506" class="l">a0</text>
+<text x="44" y="523" class="h">#c58232</text>
+<rect x="196" y="488" width="150" height="44" class="s" fill="#cb8b41"/>
+<text x="208" y="506" class="l">a05</text>
+<text x="208" y="523" class="h">#cb8b41</text>
+<rect x="360" y="488" width="150" height="44" class="s" fill="#d29450"/>
+<text x="372" y="506" class="l">a10</text>
+<text x="372" y="523" class="h">#d29450</text>
+<rect x="524" y="488" width="150" height="44" class="s" fill="#d89d5d"/>
+<text x="536" y="506" class="l">a15</text>
+<text x="536" y="523" class="h">#d89d5d</text>
+<rect x="688" y="488" width="150" height="44" class="s" fill="#dfa66a"/>
+<text x="700" y="506" class="l">a20</text>
+<text x="700" y="523" class="h">#dfa66a</text>
+<rect x="852" y="488" width="150" height="44" class="s" fill="#e5af76"/>
+<text x="864" y="506" class="l">a25</text>
+<text x="864" y="523" class="h">#e5af76</text>
+<rect x="32" y="550" width="150" height="44" class="s" fill="#ebb883"/>
+<text x="44" y="568" class="l">a30</text>
+<text x="44" y="585" class="h">#ebb883</text>
+<rect x="196" y="550" width="150" height="44" class="s" fill="#f1c18f"/>
+<text x="208" y="568" class="l">a35</text>
+<text x="208" y="585" class="h">#f1c18f</text>
+<rect x="360" y="550" width="150" height="44" class="s" fill="#f8ca9c"/>
+<text x="372" y="568" class="l">a40</text>
+<text x="372" y="585" class="h">#f8ca9c</text>
+<rect x="524" y="550" width="150" height="44" class="s" fill="#fed3a8"/>
+<text x="536" y="568" class="l">a45</text>
+<text x="536" y="585" class="h">#fed3a8</text>
+<rect x="688" y="550" width="150" height="44" class="s" fill="#ffddb5"/>
+<text x="700" y="568" class="l">a50</text>
+<text x="700" y="585" class="h">#ffddb5</text>
+<text x="32" y="638" class="g">Dark / Surface</text>
+<rect x="32" y="674" width="150" height="44" class="s" fill="#111a1a"/>
+<text x="44" y="692" class="l">a0</text>
+<text x="44" y="709" class="h">#111a1a</text>
+<rect x="196" y="674" width="150" height="44" class="s" fill="#1d2626"/>
+<text x="208" y="692" class="l">a05</text>
+<text x="208" y="709" class="h">#1d2626</text>
+<rect x="360" y="674" width="150" height="44" class="s" fill="#2a3333"/>
+<text x="372" y="692" class="l">a10</text>
+<text x="372" y="709" class="h">#2a3333</text>
+<rect x="524" y="674" width="150" height="44" class="s" fill="#374040"/>
+<text x="536" y="692" class="l">a15</text>
+<text x="536" y="709" class="h">#374040</text>
+<rect x="688" y="674" width="150" height="44" class="s" fill="#444d4d"/>
+<text x="700" y="692" class="l">a20</text>
+<text x="700" y="709" class="h">#444d4d</text>
+<rect x="852" y="674" width="150" height="44" class="s" fill="#525b5b"/>
+<text x="864" y="692" class="l">a25</text>
+<text x="864" y="709" class="h">#525b5b</text>
+<rect x="32" y="736" width="150" height="44" class="s" fill="#616a6a"/>
+<text x="44" y="754" class="l">a30</text>
+<text x="44" y="771" class="h">#616a6a</text>
+<rect x="196" y="736" width="150" height="44" class="s" fill="#707878"/>
+<text x="208" y="754" class="l">a35</text>
+<text x="208" y="771" class="h">#707878</text>
+<rect x="360" y="736" width="150" height="44" class="s" fill="#7f8787"/>
+<text x="372" y="754" class="l">a40</text>
+<text x="372" y="771" class="h">#7f8787</text>
+<rect x="524" y="736" width="150" height="44" class="s" fill="#8e9797"/>
+<text x="536" y="754" class="l">a45</text>
+<text x="536" y="771" class="h">#8e9797</text>
+<rect x="688" y="736" width="150" height="44" class="s" fill="#9ea6a6"/>
+<text x="700" y="754" class="l">a50</text>
+<text x="700" y="771" class="h">#9ea6a6</text>
+<text x="32" y="824" class="g">Semantic (preset)</text>
+<rect x="32" y="860" width="150" height="44" class="s" fill="#22946e"/>
+<text x="44" y="878" class="l">success-a0</text>
+<text x="44" y="895" class="h">#22946e</text>
+<rect x="196" y="860" width="150" height="44" class="s" fill="#47d5a6"/>
+<text x="208" y="878" class="l">success-a10</text>
+<text x="208" y="895" class="h">#47d5a6</text>
+<rect x="360" y="860" width="150" height="44" class="s" fill="#9ae8ce"/>
+<text x="372" y="878" class="l">success-a20</text>
+<text x="372" y="895" class="h">#9ae8ce</text>
+<rect x="524" y="860" width="150" height="44" class="s" fill="#a87a2a"/>
+<text x="536" y="878" class="l">warning-a0</text>
+<text x="536" y="895" class="h">#a87a2a</text>
+<rect x="688" y="860" width="150" height="44" class="s" fill="#d7ac61"/>
+<text x="700" y="878" class="l">warning-a10</text>
+<text x="700" y="895" class="h">#d7ac61</text>
+<rect x="852" y="860" width="150" height="44" class="s" fill="#ecd7b2"/>
+<text x="864" y="878" class="l">warning-a20</text>
+<text x="864" y="895" class="h">#ecd7b2</text>
+<rect x="32" y="922" width="150" height="44" class="s" fill="#9c2121"/>
+<text x="44" y="940" class="l">danger-a0</text>
+<text x="44" y="957" class="h">#9c2121</text>
+<rect x="196" y="922" width="150" height="44" class="s" fill="#d94a4a"/>
+<text x="208" y="940" class="l">danger-a10</text>
+<text x="208" y="957" class="h">#d94a4a</text>
+<rect x="360" y="922" width="150" height="44" class="s" fill="#eb9e9e"/>
+<text x="372" y="940" class="l">danger-a20</text>
+<text x="372" y="957" class="h">#eb9e9e</text>
+<rect x="524" y="922" width="150" height="44" class="s" fill="#21498a"/>
+<text x="536" y="940" class="l">info-a0</text>
+<text x="536" y="957" class="h">#21498a</text>
+<rect x="688" y="922" width="150" height="44" class="s" fill="#4077d1"/>
+<text x="700" y="940" class="l">info-a10</text>
+<text x="700" y="957" class="h">#4077d1</text>
+<rect x="852" y="922" width="150" height="44" class="s" fill="#92b2e5"/>
+<text x="864" y="940" class="l">info-a20</text>
+<text x="864" y="957" class="h">#92b2e5</text>
+</svg>

@@ -1,0 +1,44 @@
+.impact-metrics-section {
+    position: relative;
+    padding: 6rem 0;
+    background-color: var(--background);
+    overflow: hidden;
+}
+
+.impact-metrics-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+@media (min-width: 640px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4rem;
+    }
+
+    .impact-metrics-container {
+        padding: 0 5rem;
+    }
+}
+
+/* GSAP hidden state */
+.gsap-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}

@@ -1,0 +1,33 @@
+.metric-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.metric-value {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(3rem, 8vw, 4rem);
+    font-weight: 600;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.metric-label {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground);
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+}
+
+.metric-context {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 240px;
+}

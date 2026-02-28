@@ -1,0 +1,194 @@
+/* Generated theme tokens (Colorffy-style scales + role tokens).
+   Source palette: ResearchFindings/kossi website.pdf
+*/
+
+:root {
+  color-scheme: light;
+
+  /** Base colors */
+  --clr-dark-a0: #000000;
+  --clr-light-a0: #ffffff;
+
+  /** Theme primary colors */
+  --clr-primary-a0: #48616b;
+  --clr-primary-a10: #637a84;
+  --clr-primary-a20: #7f949d;
+  --clr-primary-a30: #9cafb7;
+  --clr-primary-a40: #bacbd2;
+  --clr-primary-a50: #d8e8ee;
+
+  /** Theme surface colors */
+  --clr-surface-a0: #f8f6f3;
+  --clr-surface-a10: #e8e6e3;
+  --clr-surface-a20: #d8d6d4;
+  --clr-surface-a30: #c8c7c5;
+  --clr-surface-a40: #b9b8b5;
+  --clr-surface-a50: #aaa9a7;
+
+  /** Theme tonal surface colors */
+  --clr-surface-tonal-a0: #e9faff;
+  --clr-surface-tonal-a10: #d9eaf1;
+  --clr-surface-tonal-a20: #c9dae0;
+  --clr-surface-tonal-a30: #bacad1;
+  --clr-surface-tonal-a40: #abbbc2;
+  --clr-surface-tonal-a50: #9dacb3;
+
+  /** Semantic colors (preset) */
+  --clr-success-a0: #22946e;
+  --clr-success-a10: #47d5a6;
+  --clr-success-a20: #9ae8ce;
+  --clr-warning-a0: #a87a2a;
+  --clr-warning-a10: #d7ac61;
+  --clr-warning-a20: #ecd7b2;
+  --clr-danger-a0: #9c2121;
+  --clr-danger-a10: #d94a4a;
+  --clr-danger-a20: #eb9e9e;
+  --clr-info-a0: #21498a;
+  --clr-info-a10: #4077d1;
+  --clr-info-a20: #92b2e5;
+
+  /** Role tokens (use these in components) */
+  --theme-bg: var(--clr-surface-a0);
+  --theme-surface-1: var(--clr-surface-a10);
+  --theme-surface-2: var(--clr-surface-a20);
+  --theme-border: var(--clr-surface-a30);
+  --theme-text: #4e4d4a;
+  --theme-text-muted: #8a8885;
+  --theme-primary: var(--clr-primary-a0);
+  --theme-primary-text: var(--clr-primary-a50);
+  --theme-focus: var(--clr-primary-a40);
+  --theme-gradient-surface: linear-gradient(
+    180deg,
+    var(--clr-surface-a0),
+    var(--clr-surface-a10)
+  );
+  --theme-gradient-primary-surface: linear-gradient(
+    135deg,
+    var(--clr-primary-a20) 0%,
+    var(--clr-surface-tonal-a0) 60%,
+    var(--clr-surface-a0) 100%
+  );
+  --theme-success: var(--clr-success-a0);
+  --theme-success-soft: var(--clr-success-a20);
+  --theme-on-success: #000000;
+  --theme-warning: var(--clr-warning-a0);
+  --theme-warning-soft: var(--clr-warning-a20);
+  --theme-on-warning: #000000;
+  --theme-danger: var(--clr-danger-a0);
+  --theme-danger-soft: var(--clr-danger-a20);
+  --theme-on-danger: #ffffff;
+  --theme-info: var(--clr-info-a0);
+  --theme-info-soft: var(--clr-info-a20);
+  --theme-on-info: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /** Base colors */
+  --clr-dark-a0: #000000;
+  --clr-light-a0: #ffffff;
+
+  /** Theme primary colors */
+  --clr-primary-a0: #48616b;
+  --clr-primary-a10: #637a84;
+  --clr-primary-a20: #7f949d;
+  --clr-primary-a30: #9cafb7;
+  --clr-primary-a40: #bacbd2;
+  --clr-primary-a50: #d8e8ee;
+
+  /** Theme surface colors */
+  --clr-surface-a0: #111a1a;
+  --clr-surface-a10: #2a3333;
+  --clr-surface-a20: #444d4d;
+  --clr-surface-a30: #616a6a;
+  --clr-surface-a40: #7f8787;
+  --clr-surface-a50: #9ea6a6;
+
+  /** Theme tonal surface colors */
+  --clr-surface-tonal-a0: #0e1a1f;
+  --clr-surface-tonal-a10: #263339;
+  --clr-surface-tonal-a20: #404e53;
+  --clr-surface-tonal-a30: #5c6b71;
+  --clr-surface-tonal-a40: #79888e;
+  --clr-surface-tonal-a50: #98a7ae;
+
+  /** Semantic colors (preset) */
+  --clr-success-a0: #22946e;
+  --clr-success-a10: #47d5a6;
+  --clr-success-a20: #9ae8ce;
+  --clr-warning-a0: #a87a2a;
+  --clr-warning-a10: #d7ac61;
+  --clr-warning-a20: #ecd7b2;
+  --clr-danger-a0: #9c2121;
+  --clr-danger-a10: #d94a4a;
+  --clr-danger-a20: #eb9e9e;
+  --clr-info-a0: #21498a;
+  --clr-info-a10: #4077d1;
+  --clr-info-a20: #92b2e5;
+
+  /** Role tokens (use these in components) */
+  --theme-bg: var(--clr-surface-a0);
+  --theme-surface-1: var(--clr-surface-a10);
+  --theme-surface-2: var(--clr-surface-a20);
+  --theme-border: var(--clr-surface-a30);
+  --theme-text: #9aa5a5;
+  --theme-text-muted: #6a7474;
+  --theme-primary: var(--clr-primary-a0);
+  --theme-primary-text: var(--clr-primary-a50);
+  --theme-focus: var(--clr-primary-a40);
+  --theme-gradient-surface: linear-gradient(
+    180deg,
+    var(--clr-surface-a0),
+    var(--clr-surface-a10)
+  );
+  --theme-gradient-primary-surface: linear-gradient(
+    135deg,
+    var(--clr-primary-a20) 0%,
+    var(--clr-surface-tonal-a0) 60%,
+    var(--clr-surface-a0) 100%
+  );
+  --theme-success: var(--clr-success-a0);
+  --theme-success-soft: var(--clr-success-a20);
+  --theme-on-success: #000000;
+  --theme-warning: var(--clr-warning-a0);
+  --theme-warning-soft: var(--clr-warning-a20);
+  --theme-on-warning: #000000;
+  --theme-danger: var(--clr-danger-a0);
+  --theme-danger-soft: var(--clr-danger-a20);
+  --theme-on-danger: #ffffff;
+  --theme-info: var(--clr-info-a0);
+  --theme-info-soft: var(--clr-info-a20);
+  --theme-on-info: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    /** Theme surface colors */
+    --clr-surface-a0: #111a1a;
+    --clr-surface-a10: #2a3333;
+    --clr-surface-a20: #444d4d;
+    --clr-surface-a30: #616a6a;
+    --clr-surface-a40: #7f8787;
+    --clr-surface-a50: #9ea6a6;
+
+    /** Theme tonal surface colors */
+    --clr-surface-tonal-a0: #0e1a1f;
+    --clr-surface-tonal-a10: #263339;
+    --clr-surface-tonal-a20: #404e53;
+    --clr-surface-tonal-a30: #5c6b71;
+    --clr-surface-tonal-a40: #79888e;
+    --clr-surface-tonal-a50: #98a7ae;
+
+    /** Role tokens (use these in components) */
+    --theme-bg: var(--clr-surface-a0);
+    --theme-surface-1: var(--clr-surface-a10);
+    --theme-surface-2: var(--clr-surface-a20);
+    --theme-border: var(--clr-surface-a30);
+    --theme-text: #9aa5a5;
+    --theme-text-muted: #6a7474;
+  }
+}
+

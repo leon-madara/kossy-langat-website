@@ -1,0 +1,133 @@
+.project-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card);
+    border: 1px solid rgba(var(--border-rgb), 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.project-card:hover {
+    border-color: rgba(var(--accent-rgb), 0.4);
+}
+
+.project-card-image-wrapper {
+    position: relative;
+    height: 200px;
+    background-color: rgba(var(--primary-rgb), 0.1);
+    color: rgba(255, 255, 255, 0.86);
+    overflow: hidden;
+}
+
+.project-card-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(var(--primary-rgb), 0.2), rgba(var(--accent-rgb), 0.1));
+}
+
+.project-card-tags {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.project-card-tag {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(var(--primary-rgb), 0.7);
+    padding: 0.125rem 0.5rem;
+    border-radius: 2px;
+    backdrop-filter: blur(4px);
+}
+
+.project-card-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.5rem;
+}
+
+.project-card-location {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--muted) 72%, var(--foreground) 28%);
+    margin-bottom: 0.5rem;
+}
+
+.project-card-title {
+    font-family: var(--font-playfair), serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--primary) 70%, var(--foreground) 30%);
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.project-card:hover .project-card-title {
+    color: var(--accent);
+}
+
+.project-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+.project-card-block-label {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: color-mix(in srgb, var(--muted) 72%, var(--foreground) 28%);
+    margin-bottom: 0.25rem;
+}
+
+.project-card-block-text {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.875rem;
+    color: var(--foreground);
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.project-card-link {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+.project-card-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .project-card:hover .project-card-title,
+    :root:not([data-theme]) .project-card-link {
+        color: var(--gold-accent);
+    }
+}
+
+:root[data-theme="dark"] .project-card:hover .project-card-title,
+:root[data-theme="dark"] .project-card-link {
+    color: var(--gold-accent);
+}

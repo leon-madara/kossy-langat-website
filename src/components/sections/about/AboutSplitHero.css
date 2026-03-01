@@ -1,0 +1,263 @@
+/* =============================================
+   ABOUT — Split-screen dropdown reveal hero
+   ============================================= */
+
+.about-split-hero {
+  position: relative;
+  width: 100%;
+  z-index: 5;
+  --hero-h: 55vh;
+  height: var(--hero-h);
+  min-height: var(--hero-h);
+  overflow: hidden;
+
+  --split-left: #070b0c;
+  --split-accent: color-mix(in srgb, var(--blue-slate) 64%, #070b0c 36%);
+  --split-right: color-mix(in srgb, #57b7b1 72%, var(--blue-slate) 28%);
+  --split-right-text: rgba(248, 246, 243, 0.96);
+  --split-rule: rgba(248, 246, 243, 0.72);
+}
+
+@supports (height: 1svh) {
+  .about-split-hero {
+    --hero-h: 55svh;
+  }
+}
+
+.about-split-hero__texture {
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  z-index: 7;
+}
+
+.about-split-hero__grid {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  display: grid;
+  grid-template-columns:
+    minmax(120px, 0.82fr)
+    clamp(10px, 1.2vw, 18px)
+    minmax(320px, 1.55fr)
+    minmax(320px, 1.2fr);
+}
+
+.about-split-hero__panel {
+  position: relative;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+  -webkit-clip-path: inset(0 0 0 0);
+  will-change: clip-path;
+}
+
+.about-split-hero__panel-inner {
+  height: 100%;
+  width: 100%;
+}
+
+.about-split-hero__panel--left {
+  background: var(--split-left);
+}
+
+.about-split-hero__panel--accent {
+  background: var(--split-accent);
+}
+
+.about-split-hero__panel--image {
+  background: #0b1112;
+}
+
+.about-split-hero__image-motion {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  will-change: transform;
+}
+
+.about-split-hero__image-layer {
+  position: absolute;
+  inset: 0;
+  will-change: clip-path, opacity;
+}
+
+.about-split-hero__image-layer--gray {
+  opacity: 0;
+}
+
+.about-split-hero__image {
+  object-fit: cover;
+  object-position: 42% 28%;
+  transform: translateZ(0);
+}
+
+.about-split-hero__image--gray {
+  filter: grayscale(1) contrast(1.06);
+}
+
+.about-split-hero__veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  background:
+    linear-gradient(to top,
+      rgba(7, 11, 12, 0.58) 0%,
+      rgba(7, 11, 12, 0.22) 45%,
+      rgba(87, 183, 177, 0.10) 100%);
+  mix-blend-mode: multiply;
+}
+
+.about-split-hero__image-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 520px at 38% 46%, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.55) 70%),
+    linear-gradient(to bottom, rgba(7, 11, 12, 0.05) 0%, rgba(7, 11, 12, 0.46) 100%);
+}
+
+.about-split-hero__panel--copy {
+  background: var(--split-right);
+  color: var(--split-right-text);
+}
+
+.about-split-hero__copy {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.75rem, 4vw, 4rem);
+  padding-top: clamp(3.25rem, 7vh, 5.5rem);
+}
+
+.about-split-hero__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 2.25rem;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(248, 246, 243, 0.88);
+}
+
+.about-split-hero__label-sep {
+  opacity: 0.55;
+}
+
+.about-split-hero__headline {
+  margin: 0;
+  font-family: var(--font-playfair), serif;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 3.6vw, 4.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+
+.about-split-hero__headline-line {
+  display: block;
+}
+
+.about-split-hero__highlight {
+  font-style: italic;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--gold-accent) 84%, #512a13 16%);
+}
+
+.about-split-hero__sub {
+  margin-top: 1.6rem;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(248, 246, 243, 0.85);
+}
+
+.about-split-hero__rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 44%;
+  height: 1px;
+  background: var(--split-rule);
+  transform-origin: 0% 50%;
+  transform: scaleX(0);
+  z-index: 8;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.about-split-hero__mesh {
+  position: absolute;
+  inset: -10%;
+  opacity: 0.85;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 520px at 65% 30%, rgba(72, 97, 107, 0.38) 0%, transparent 55%),
+    radial-gradient(700px 420px at 25% 70%, rgba(197, 130, 50, 0.16) 0%, transparent 56%),
+    linear-gradient(135deg, rgba(248, 246, 243, 0.03) 0%, rgba(248, 246, 243, 0) 65%);
+  filter: blur(0.2px);
+}
+
+.about-split-hero .mesh-gradient {
+  isolation: isolate;
+}
+
+@media (max-width: 900px) {
+  .about-split-hero__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.22fr 0.48fr 0.30fr;
+  }
+
+  .about-split-hero__panel--accent {
+    display: none;
+  }
+
+  .about-split-hero__panel--left {
+    grid-row: 1;
+  }
+
+  .about-split-hero__panel--image {
+    grid-row: 2;
+  }
+
+  .about-split-hero__panel--copy {
+    grid-row: 3;
+  }
+
+  .about-split-hero__rule {
+    top: 22%;
+    mix-blend-mode: normal;
+  }
+
+  .about-split-hero__copy {
+    justify-content: flex-start;
+    padding-top: clamp(3.25rem, 6vh, 4.75rem);
+    max-width: 44rem;
+  }
+
+  .about-split-hero__headline {
+    max-width: 26ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-split-hero__panel {
+    clip-path: inset(0 0 0 0) !important;
+    -webkit-clip-path: inset(0 0 0 0) !important;
+  }
+
+  .about-split-hero__image-layer--gray,
+  .about-split-hero__veil {
+    opacity: 0 !important;
+  }
+
+  .about-split-hero__rule {
+    transform: scaleX(1) !important;
+  }
+}

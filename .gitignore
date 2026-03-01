@@ -44,4 +44,6 @@ next-env.d.ts
 /ResearchFindings/
 /fontidas/
 /layout-audit-smoke/
+/layout-audit-cards/
 /themegen-*/
+/.codex-route-auto

@@ -99,13 +99,58 @@
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1.5rem;
 }
 
 .form-group {
+    --field-tint-rgb: var(--primary-rgb);
+    --field-tint-alpha: 0.06;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    position: relative;
+    z-index: 0;
+    gap: 0.65rem;
+    padding: 1.25rem 1.25rem 1rem;
+    border-radius: 12px;
+    background:
+        radial-gradient(120% 90% at 18% 8%, rgb(var(--field-tint-rgb) / var(--field-tint-alpha)), transparent 60%),
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--theme-bg) 96%, var(--theme-surface-1)),
+            color-mix(in srgb, var(--theme-bg) 90%, var(--theme-surface-1)));
+    border: 1px solid color-mix(in srgb, var(--theme-border) 45%, transparent);
+    box-shadow: 0 14px 40px rgba(var(--foreground-rgb), 0.04);
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.form-group--name {
+    --field-tint-rgb: var(--primary-rgb);
+    --field-tint-alpha: 0.06;
+}
+
+.form-group--email {
+    --field-tint-rgb: var(--accent-rgb);
+    --field-tint-alpha: 0.055;
+}
+
+.form-group--inquiry {
+    --field-tint-rgb: var(--primary-rgb);
+    --field-tint-alpha: 0.075;
+}
+
+.form-group--message {
+    --field-tint-rgb: var(--accent-rgb);
+    --field-tint-alpha: 0.05;
+}
+
+:root[data-theme="dark"] .form-group {
+    --field-tint-alpha: 0.045;
+}
+
+.form-group:focus-within {
+    border-color: color-mix(in srgb, rgb(var(--field-tint-rgb)) 22%, var(--theme-border));
+    box-shadow:
+        0 18px 52px rgba(var(--foreground-rgb), 0.06),
+        0 0 0 3px rgb(var(--field-tint-rgb) / 0.05);
 }
 
 .form-label {
@@ -120,22 +165,19 @@
 .form-textarea {
     width: 100%;
     background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(var(--border-rgb), 0.3);
-    padding: 0.75rem 0;
+    border: 0;
+    padding: 0.4rem 0 0;
     font-family: var(--font-inter), sans-serif;
     font-size: 1.125rem;
     color: var(--foreground);
-    transition: border-color 0.3s ease;
+    line-height: 1.4;
     border-radius: 0;
-    /* Override iOS styling */
 }
 
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
     outline: none;
-    border-bottom-color: var(--gold-accent);
 }
 
 .form-input::placeholder,
@@ -149,14 +191,103 @@
     resize: vertical;
 }
 
-.form-select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233a4f5c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: 1em;
+.custom-select-group {
+    padding: 0 !important;
+    /* Override default form-group padding to control internals */
+    position: relative;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
 }
+
+.custom-select-group.is-open {
+    z-index: 20;
+}
+
+.custom-select-group .form-label {
+    display: block;
+    padding: 1.25rem 1.25rem 0.25rem;
+    pointer-events: none;
+}
+
+.custom-select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    border: 0;
+    padding: 0 1.25rem 1rem;
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1.125rem;
+    color: var(--foreground);
+    cursor: pointer;
+    text-align: left;
+}
+
+.custom-select-icon {
+    display: flex;
+    align-items: center;
+}
+
+.custom-select-trigger .placeholder {
+    color: var(--muted);
+    opacity: 0.5;
+}
+
+.custom-select-options-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 0.75rem);
+    z-index: 30;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 40%, transparent);
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--theme-bg) 92%, var(--theme-surface-1)),
+            color-mix(in srgb, var(--theme-bg) 88%, var(--theme-surface-1)));
+    box-shadow:
+        0 22px 64px rgba(var(--foreground-rgb), 0.10),
+        0 0 0 1px rgba(var(--foreground-rgb), 0.03);
+}
+
+.custom-select-divider {
+    height: 1px;
+    margin: 0 2rem;
+    /* Larger inset margins */
+    background-color: color-mix(in srgb, var(--theme-border) 20%, transparent);
+}
+
+.custom-select-options {
+    padding: 0.5rem 0;
+}
+
+.custom-select-item {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    background: transparent;
+    border: 0;
+    font-family: var(--font-inter), sans-serif;
+    font-size: 1rem;
+    color: var(--foreground);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.custom-select-item:hover {
+    background-color: rgba(var(--foreground-rgb), 0.04);
+    color: var(--gold-accent);
+}
+
+.custom-select-item.is-selected {
+    color: var(--gold-accent);
+    background-color: rgba(var(--gold-accent-rgb, 191, 155, 107), 0.08);
+}
+
+
 
 .form-submit {
     align-self: flex-start;

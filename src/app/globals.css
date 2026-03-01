@@ -121,6 +121,74 @@ body {
   will-change: opacity;
 }
 
+/* CTA hover: rotating conic-gradient border via @property angle animation */
+@property --cta-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes cta-conic-spin {
+  to {
+    --cta-angle: 360deg;
+  }
+}
+
+.cta-conic-border {
+  position: relative;
+  z-index: 0;
+  --cta-fill: var(--blue-slate);
+  --cta-border-w: 2px;
+  --cta-sweep: 10%;
+}
+
+.cta-conic-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+
+  border: var(--cta-border-w) solid transparent;
+  background:
+    linear-gradient(var(--cta-fill), var(--cta-fill)) padding-box,
+    conic-gradient(from var(--cta-angle),
+      transparent 0%,
+      var(--powder-petal) var(--cta-sweep),
+      transparent calc(var(--cta-sweep) * 2),
+      transparent 50%,
+      var(--gold-accent) calc(50% + var(--cta-sweep)),
+      transparent calc(50% + (var(--cta-sweep) * 2)),
+      transparent 100%) border-box;
+  background-clip: padding-box, border-box;
+
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 200ms ease;
+  filter:
+    drop-shadow(0 0 10px color-mix(in srgb, var(--powder-petal) 35%, transparent)) drop-shadow(0 0 18px color-mix(in srgb, var(--gold-accent) 28%, transparent));
+}
+
+.cta-conic-border:hover {
+  font-weight: 600;
+}
+
+.cta-conic-border:hover::before {
+  opacity: 1;
+  animation: cta-conic-spin 1.5s linear infinite;
+}
+
+.cta-conic-border:focus-visible::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-conic-border:hover::before {
+    animation: none;
+  }
+}
+
 /* GP-03: Texture & Grain Integrity */
 .texture-overlay {
   position: absolute;

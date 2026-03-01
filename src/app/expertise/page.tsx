@@ -31,7 +31,7 @@ export default function ExpertisePage() {
             <div className="expertise-container">
                 <header className="expertise-header">
                     <div className="exp-reveal">
-                        <SectionLabel number="03" text="OUR EXPERTISE" className="mb-8" />
+                        <SectionLabel number="03" text="OUR EXPERTISE" className="expertise-header__label" />
                     </div>
                     <h1 className="expertise-headline exp-reveal">
                         Precision as a <span className="highlight">Habit.</span><br />

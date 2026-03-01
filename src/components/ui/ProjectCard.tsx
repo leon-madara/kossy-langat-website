@@ -1,5 +1,12 @@
+import Image from "next/image"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import "./ProjectCard.css"
+
+const ProjectCardGridWaves = dynamic(
+    () => import("./ProjectCardGridWaves").then((mod) => mod.ProjectCardGridWaves),
+    { ssr: false },
+)
 
 export interface Project {
     slug: string
@@ -15,14 +22,30 @@ export interface Project {
 interface ProjectCardProps {
     project: Project
     className?: string
+    gridWaves?: boolean
 }
 
-export function ProjectCard({ project, className }: ProjectCardProps) {
+export function ProjectCard({ project, className, gridWaves = false }: ProjectCardProps) {
     return (
         <article className={`project-card ${className || ""}`}>
             {/* Image Placeholder */}
-            <div className="project-card-image-wrapper">
-                <div className="project-card-gradient" />
+            <div className="project-card-media">
+                {project.imageUrl ? (
+                    <Image
+                        src={project.imageUrl}
+                        alt={`${project.title} - case study preview`}
+                        fill
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                        className="project-card-media__image"
+                    />
+                ) : (
+                    <div className="project-card-media__placeholder" aria-hidden="true" />
+                )}
+
+                <div className="project-card-media__gradient" aria-hidden="true" />
+                <div className="project-card-media__grid" aria-hidden="true" />
+                {gridWaves ? <ProjectCardGridWaves /> : null}
+                <div className="texture-overlay project-card-media__texture" aria-hidden="true" />
                 <div className="project-card-tags">
                     {project.tags.map((tag) => (
                         <span key={tag} className="project-card-tag">
@@ -39,6 +62,12 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
                     {project.title}
                 </h3>
 
+                <div className="project-card-intervention">
+                    <span className="project-card-intervention-line" aria-hidden="true" />
+                    <p className="project-card-block-label">Intervention</p>
+                    <p className="project-card-intervention-text">{project.intervention}</p>
+                </div>
+
                 <div className="project-card-details">
                     <div>
                         <p className="project-card-block-label">Challenge</p>
@@ -54,7 +83,26 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
                     href={`/work/${project.slug}`}
                     className="project-card-link"
                 >
-                    View Case Study <span>→</span>
+                    <span className="project-card-link__text">View Case Study</span>
+                    <span className="project-card-link__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                            <path
+                                d="M5 12h12"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.75"
+                                strokeLinecap="round"
+                            />
+                            <path
+                                d="M13 6l6 6-6 6"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.75"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </span>
                 </Link>
             </div>
         </article>

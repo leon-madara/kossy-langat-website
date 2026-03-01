@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { SectionLabel } from "@/components/ui/SectionLabel"
+import { AboutSplitHero } from "@/components/sections/about/AboutSplitHero"
 import Image from "next/image"
 import "./AboutPage.css"
 
@@ -60,15 +61,6 @@ export default function AboutPage() {
     useEffect(() => {
         const ctx = gsap.context(() => {
             // Hero entrance — staggered fade-up
-            gsap.to(".abt-reveal-hero", {
-                y: 0,
-                opacity: 1,
-                duration: 1.2,
-                stagger: 0.18,
-                ease: "power3.out",
-                delay: 0.2
-            })
-
             // General scroll reveals
             gsap.utils.toArray<HTMLElement>(".abt-reveal-scroll").forEach((el) => {
                 gsap.to(el, {
@@ -165,25 +157,9 @@ export default function AboutPage() {
         <div ref={containerRef} className="about-page">
             <div className="texture-overlay" />
 
-            <div className="about-container">
+            <AboutSplitHero />
 
-                {/* ─── HERO ─── */}
-                <section className="about-hero">
-                    <div className="abt-reveal-hero opacity-0 translate-y-8">
-                        <SectionLabel number="01" text="THE ENGINEER" className="mb-8" />
-                    </div>
-                    <h1 className="about-hero-headline abt-reveal-hero opacity-0 translate-y-8">
-                        I don&apos;t just build structures.<br />
-                        I build <span className="highlight">alignment.</span>
-                    </h1>
-                    <p className="about-hero-sub abt-reveal-hero opacity-0 translate-y-8">
-                        Structural Engineer · General Manager · East Africa
-                    </p>
-                    <p className="about-hero-descriptor abt-reveal-hero opacity-0 translate-y-8">
-                        Navigating the intersection of rigorous structural safety, complex human dynamics,
-                        and a relentless belief that excellence has no gender.
-                    </p>
-                </section>
+            <div className="about-container">
 
                 {/* ─── ORIGIN STORY ─── */}
                 <section className="origin-section">

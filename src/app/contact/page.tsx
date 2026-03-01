@@ -2,12 +2,25 @@
 
 import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
+import { motion, AnimatePresence } from "framer-motion"
 import { SectionLabel } from "@/components/ui/SectionLabel"
+import { ChevronDown } from "lucide-react"
 import "./ContactPage.css"
+
+const INQUIRY_OPTIONS = [
+    { value: "structural", label: "Structural Engineering Consulting" },
+    { value: "eps", label: "EPS Panel implementation" },
+    { value: "speaking", label: "Speaking Engagement / Keynote" },
+    { value: "mentorship", label: "Mentorship" },
+    { value: "other", label: "Other Inquiry" }
+]
 
 export default function ContactPage() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const inquirySelectRef = useRef<HTMLDivElement>(null)
     const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle")
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const [selectedOption, setSelectedOption] = useState<{ value: string; label: string } | null>(null)
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -23,6 +36,32 @@ export default function ContactPage() {
 
         return () => ctx.revert()
     }, [])
+
+    useEffect(() => {
+        if (!isDropdownOpen) return
+
+        const handlePointerDown = (event: PointerEvent) => {
+            const inquiryEl = inquirySelectRef.current
+            if (!inquiryEl) return
+
+            const target = event.target
+            if (!(target instanceof Node)) return
+
+            if (!inquiryEl.contains(target)) setIsDropdownOpen(false)
+        }
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setIsDropdownOpen(false)
+        }
+
+        document.addEventListener("pointerdown", handlePointerDown)
+        document.addEventListener("keydown", handleKeyDown)
+
+        return () => {
+            document.removeEventListener("pointerdown", handlePointerDown)
+            document.removeEventListener("keydown", handleKeyDown)
+        }
+    }, [isDropdownOpen])
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -74,7 +113,7 @@ export default function ContactPage() {
 
                     {/* Right Column: Form */}
                     <form className="contact-form" onSubmit={handleSubmit}>
-                        <div className="form-group c-reveal">
+                        <div className="form-group form-group--name c-reveal">
                             <label htmlFor="name" className="form-label">Name</label>
                             <input
                                 type="text"
@@ -86,7 +125,7 @@ export default function ContactPage() {
                             />
                         </div>
 
-                        <div className="form-group c-reveal">
+                        <div className="form-group form-group--email c-reveal">
                             <label htmlFor="email" className="form-label">Email Address</label>
                             <input
                                 type="email"
@@ -98,19 +137,72 @@ export default function ContactPage() {
                             />
                         </div>
 
-                        <div className="form-group c-reveal">
-                            <label htmlFor="inquiryType" className="form-label">Inquiry Type</label>
-                            <select id="inquiryType" name="inquiryType" className="form-select" required>
-                                <option value="" disabled selected>Select an option...</option>
-                                <option value="structural">Structural Engineering Consulting</option>
-                                <option value="eps">EPS Panel implementation</option>
-                                <option value="speaking">Speaking Engagement / Keynote</option>
-                                <option value="mentorship">Mentorship</option>
-                                <option value="other">Other Inquiry</option>
-                            </select>
+                        <div
+                            ref={inquirySelectRef}
+                            className={`form-group form-group--inquiry c-reveal custom-select-group ${isDropdownOpen ? 'is-open' : ''}`}
+                        >
+                            <label className="form-label">Inquiry Type</label>
+
+                            <button
+                                type="button"
+                                className="custom-select-trigger"
+                                aria-haspopup="listbox"
+                                aria-expanded={isDropdownOpen}
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            >
+                                <span className={!selectedOption ? "placeholder" : ""}>
+                                    {selectedOption ? selectedOption.label : "Select an option..."}
+                                </span>
+                                <motion.div
+                                    className="custom-select-icon"
+                                    animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <ChevronDown size={18} />
+                                </motion.div>
+                            </button>
+
+                            <input
+                                type="hidden"
+                                name="inquiryType"
+                                value={selectedOption?.value || ""}
+                                required
+                            />
+
+                            <AnimatePresence>
+                                {isDropdownOpen && (
+                                    <motion.div
+                                        className="custom-select-options-wrapper"
+                                        initial={{ opacity: 0, y: -6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -6 }}
+                                        transition={{ duration: 0.18, ease: "easeOut" }}
+                                    >
+                                        <div className="custom-select-divider" />
+                                        <div className="custom-select-options" role="listbox">
+                                            {INQUIRY_OPTIONS.map((option) => (
+                                                <button
+                                                    key={option.value}
+                                                    type="button"
+                                                    className={`custom-select-item ${selectedOption?.value === option.value ? 'is-selected' : ''}`}
+                                                    role="option"
+                                                    aria-selected={selectedOption?.value === option.value}
+                                                    onClick={() => {
+                                                        setSelectedOption(option)
+                                                        setIsDropdownOpen(false)
+                                                    }}
+                                                >
+                                                    {option.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
 
-                        <div className="form-group c-reveal">
+
+                        <div className="form-group form-group--message c-reveal">
                             <label htmlFor="message" className="form-label">Message</label>
                             <textarea
                                 id="message"

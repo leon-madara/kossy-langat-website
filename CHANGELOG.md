@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2026-03-01] — About Split-Screen Reveal Hero
+
+### Added
+- **`src/components/sections/about/AboutSplitHero.tsx`**: About page split-screen hero (~55vh) with synchronized GSAP dropdown (clip-path) reveals (T→B, B→T, T→B), grayscale-to-color veil wipe, and post-reveal staggered copy.
+- **`src/components/sections/about/AboutSplitHero.css`**: Vanilla CSS grid + tactile overlays (texture + mesh gradients) for the split-screen layout.
+- **`src/components/layout/ScrollMicroPin.tsx`**: Global GSAP ScrollTrigger micro-pin system that briefly pins each `main` section at the top to guide scroll progression (desktop + subtle mobile variant).
+
+### Changed
+- **`src/app/about/page.tsx`**: Renders the split-screen hero at the top of `/about` and removes the previous text-only hero block.
+- **`src/app/about/AboutPage.css`**: Adjusts top padding so the new hero sits flush at the page start while keeping narrative sections comfortably spaced.
+- **`src/app/layout.tsx`**: Wires the global micro-pin system so it runs across routes.
+- **`src/components/sections/home/Hero.tsx`**: Refines the desktop hero handoff so the hero image holds scale while the next section rises in a catch-up + settle parallax phase.
+
 ## [2026-02-28] — Theme Tokens & Header Contrast Hardening
 
 ### Added

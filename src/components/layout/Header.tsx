@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Moon, Sun } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import "./Header.css"
@@ -114,15 +114,20 @@ export function Header() {
                     {/* Mobile Menu Toggle */}
                     <button
                         type="button"
-                        className="site-header__menu-toggle"
+                        className={cn(
+                            "site-header__menu-toggle",
+                            isMobileMenuOpen && "site-header__menu-toggle--open"
+                        )}
                         onClick={() => setMobileMenuOpenOnPath((prev) => (prev === pathname ? null : pathname))}
                         aria-label="Toggle Menu"
+                        aria-expanded={isMobileMenuOpen}
+                        aria-controls="site-header-mobile-overlay"
                     >
-                        {isMobileMenuOpen ? (
-                            <X size={24} />
-                        ) : (
-                            <Menu size={24} />
-                        )}
+                        <span className="site-header__menu-icon" aria-hidden="true">
+                            <span className="site-header__menu-line" />
+                            <span className="site-header__menu-line" />
+                            <span className="site-header__menu-line" />
+                        </span>
                     </button>
                 </div>
 
@@ -135,6 +140,7 @@ export function Header() {
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="site-header__mobile-overlay"
+                            id="site-header-mobile-overlay"
                         >
                             <div className="texture-overlay site-header__overlay-texture" aria-hidden="true" />
 

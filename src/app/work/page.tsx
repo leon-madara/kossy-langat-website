@@ -42,7 +42,7 @@ export default function WorkPage() {
                 <div className="work-grid">
                     {projects.map((project) => (
                         <div key={project.slug} className="work-reveal">
-                            <ProjectCard project={project} />
+                            <ProjectCard project={project} gridWaves />
                         </div>
                     ))}
                 </div>

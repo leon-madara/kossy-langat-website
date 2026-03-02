@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useRef } from "react"
 import { getImageProps } from "next/image"
@@ -32,7 +32,7 @@ export function Hero() {
     const overlayLeftRef = useRef<HTMLDivElement>(null)
     const overlayVignetteRef = useRef<HTMLDivElement>(null)
 
-    const heroAlt = "Kossy â€” Structural Engineer reviewing blueprints"
+    const heroAlt = "Kossy — Structural Engineer reviewing blueprints"
 
     const { props: desktopImageProps } = getImageProps({
         src: "/images/hero/6dea.png",
@@ -69,11 +69,12 @@ export function Hero() {
                 const gapSection = document.getElementById("gap-problem")
                 const gapContent = (gapSection?.lastElementChild as HTMLElement | null) ?? null
 
-                // Desktop hero: no pin — image scrolls naturally while the next section "catches up" (parallax cover)
-                const FADE_DURATION = 0.28
-                const COVER_CATCHUP = 0.34
-                const COVER_SETTLE = 0.66
+                // Animation phases as percentages of scroll (0 to 1)
+                const FADE_PHASE = 0.20      // 0% - 20%: Fade out content
+                const HOLD_PHASE = 0.30      // 20% - 50%: Hold image static (10vh equivalent)
+                const PARALLAX_PHASE = 0.50  // 50% - 100%: Image scrolls up, gap catches up
 
+                // Initialize states
                 if (imageWrapRef.current) {
                     gsap.set(imageWrapRef.current, {
                         yPercent: 0,
@@ -82,56 +83,105 @@ export function Hero() {
                     })
                 }
 
-                if (gapContent) {
-                    gsap.set(gapContent, { y: 140 })
+                // Gap section starts below with offset for parallax catch-up effect
+                if (gapSection) {
+                    gsap.set(gapSection, { y: () => window.innerHeight * 0.15 })
                 }
 
-                if (gapSection) {
-                    gsap.set(gapSection, { y: () => Math.round(window.innerHeight * 0.12) })
+                if (gapContent) {
+                    gsap.set(gapContent, { y: 60 })
                 }
 
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: section,
                         start: "top top",
-                        end: "bottom top",
-                        scrub: true,
+                        end: "+=150%", // Extended scroll distance for full animation
+                        scrub: 0.5,
+                        pin: true,
+                        anticipatePin: 1,
                         invalidateOnRefresh: true,
                     },
                 })
 
-                // Phase A — fade foreground + overlays, keep image static
+                // Phase 1: Fade out hero content (0% - 20%)
                 if (contentRef.current) {
-                    tl.to(contentRef.current, { opacity: 0, ease: "none", duration: FADE_DURATION }, 0)
+                    tl.to(contentRef.current, { 
+                        opacity: 0, 
+                        ease: "none", 
+                        duration: FADE_PHASE 
+                    }, 0)
                 }
 
                 if (overlayLeftRef.current) {
-                    tl.to(overlayLeftRef.current, { opacity: 0, ease: "none", duration: FADE_DURATION }, 0)
+                    tl.to(overlayLeftRef.current, { 
+                        opacity: 0, 
+                        ease: "none", 
+                        duration: FADE_PHASE 
+                    }, 0)
                 }
 
                 if (overlayVignetteRef.current) {
-                    tl.to(overlayVignetteRef.current, { opacity: 0, ease: "none", duration: FADE_DURATION }, 0)
+                    tl.to(overlayVignetteRef.current, { 
+                        opacity: 0, 
+                        ease: "none", 
+                        duration: FADE_PHASE 
+                    }, 0)
                 }
 
                 if (textureRef.current) {
-                    tl.to(textureRef.current, { opacity: 0, ease: "none", duration: FADE_DURATION }, 0)
+                    tl.to(textureRef.current, { 
+                        opacity: 0, 
+                        ease: "none", 
+                        duration: FADE_PHASE 
+                    }, 0)
                 }
 
+                // Phase 2: HOLD - Image stays static (20% - 50%)
+                // No animation on imageWrapRef during this phase - it holds
+
+                // Phase 3: PARALLAX - Image scrolls up while gap catches up (50% - 100%)
+                
+                // Hero image scrolls up and out of viewport
+                if (imageWrapRef.current) {
+                    tl.to(imageWrapRef.current, {
+                        yPercent: -40, // Moves up out of view
+                        scale: 1.05,
+                        ease: "power2.in",
+                        duration: PARALLAX_PHASE,
+                    }, FADE_PHASE + HOLD_PHASE)
+                }
+
+                // Gap section catches up faster (parallax cover effect)
                 if (gapSection) {
                     tl.to(
                         gapSection,
                         {
-                            y: () => -Math.round(window.innerHeight * 0.12),
+                            y: () => -window.innerHeight * 0.15,
                             ease: "power2.out",
-                            duration: COVER_CATCHUP,
+                            duration: PARALLAX_PHASE * 0.7, // Faster than image
                         },
-                        FADE_DURATION
+                        FADE_PHASE + HOLD_PHASE
                     )
-                    tl.to(gapSection, { y: 0, ease: "none", duration: COVER_SETTLE })
                 }
 
+                // Gap content settles into place
                 if (gapContent) {
-                    tl.to(gapContent, { y: 0, ease: "none", duration: COVER_CATCHUP + COVER_SETTLE }, FADE_DURATION)
+                    tl.to(
+                        gapContent, 
+                        { 
+                            y: 0, 
+                            ease: "power2.out", 
+                            duration: PARALLAX_PHASE 
+                        }, 
+                        FADE_PHASE + HOLD_PHASE
+                    )
+                }
+
+                return () => {
+                    ScrollTrigger.getAll().forEach(st => {
+                        if (st.vars.trigger === section) st.kill()
+                    })
                 }
             })
 
@@ -140,61 +190,69 @@ export function Hero() {
                     scrollTrigger: {
                         trigger: section,
                         start: "top top",
-                        end: "bottom top",
-                        scrub: true,
+                        end: "+=125%",
+                        scrub: 0.5,
+                        pin: true,
+                        anticipatePin: 1,
                         invalidateOnRefresh: true,
                     },
                 })
 
+                const FADE_PHASE = 0.25
+                const HOLD_PHASE = 0.25
+                const PARALLAX_PHASE = 0.50
+
+                // Fade out content
                 if (contentRef.current) {
                     tl.to(
                         contentRef.current,
-                        { opacity: 0, y: -110, ease: "none", duration: 0.35 },
+                        { opacity: 0, y: -60, ease: "none", duration: FADE_PHASE },
                         0
                     )
                 }
 
                 if (overlayLeftRef.current) {
-                    tl.to(overlayLeftRef.current, { opacity: 0.08, ease: "none", duration: 0.35 }, 0)
+                    tl.to(overlayLeftRef.current, { opacity: 0.08, ease: "none", duration: FADE_PHASE }, 0)
                 }
 
                 if (overlayVignetteRef.current) {
-                    tl.to(overlayVignetteRef.current, { opacity: 0, ease: "none", duration: 0.35 }, 0)
+                    tl.to(overlayVignetteRef.current, { opacity: 0, ease: "none", duration: FADE_PHASE }, 0)
                 }
 
+                // Hold phase - image stays
+
+                // Parallax - image moves up, gap catches up
                 if (imageWrapRef.current) {
                     tl.to(
                         imageWrapRef.current,
                         {
-                            yPercent: 0,
-                            scale: 1,
-                            transformOrigin: "50% 50%",
-                            ease: "none",
-                            duration: 1,
+                            yPercent: -35,
+                            scale: 1.03,
+                            ease: "power2.in",
+                            duration: PARALLAX_PHASE,
                         },
-                        0
+                        FADE_PHASE + HOLD_PHASE
                     )
                 }
 
                 const gapSection = document.getElementById("gap-problem")
-                const gapContent = (gapSection?.lastElementChild as HTMLElement | null) ?? null
-
-                if (gapSection && gapContent) {
-                    gsap.fromTo(
-                        gapContent,
-                        { y: 140 },
+                if (gapSection) {
+                    gsap.set(gapSection, { y: window.innerHeight * 0.1 })
+                    tl.to(
+                        gapSection,
                         {
-                            y: 0,
-                            ease: "none",
-                            scrollTrigger: {
-                                trigger: gapSection,
-                                start: "top bottom",
-                                end: "top 55%",
-                                scrub: true,
-                                invalidateOnRefresh: true,
-                            },
-                        }
+                            y: -window.innerHeight * 0.1,
+                            ease: "power2.out",
+                            duration: PARALLAX_PHASE * 0.7,
+                        },
+                        FADE_PHASE + HOLD_PHASE
                     )
+                }
+
+                return () => {
+                    ScrollTrigger.getAll().forEach(st => {
+                        if (st.vars.trigger === section) st.kill()
+                    })
                 }
             })
 
@@ -210,7 +268,7 @@ export function Hero() {
             id="hero"
             className="hero-section"
         >
-            {/* â”€â”€ Background Photo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* —— Background Photo ————————————————————————————— */}
             <div className="hero-bg" aria-hidden="true">
                 <div ref={imageWrapRef} className="hero-bg__image-wrap will-change-transform">
                     <picture className="hero-bg__picture">
@@ -225,7 +283,7 @@ export function Hero() {
                         />
                     </picture>
                 </div>
-                {/* Left gradient overlay â€” darkens the left so the text is legible */}
+                {/* Left gradient overlay — darkens the left so the text is legible */}
                 <div
                     ref={overlayLeftRef}
                     className="hero-bg__overlay hero-bg__overlay--left will-change-opacity"
@@ -237,7 +295,7 @@ export function Hero() {
                 />
             </div>
 
-            {/* â”€â”€ Content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* —— Content ————————————————————————————————————— */}
             <div ref={textureRef} className="texture-overlay hero-texture will-change-opacity" aria-hidden="true" />
 
             <div className="hero-content">
@@ -281,7 +339,7 @@ export function Hero() {
                         {...fadeUp(0.4)}
                         className="hero-subhead"
                     >
-                        Structural Engineer&nbsp;&nbsp;Â·&nbsp;&nbsp;General Manager&nbsp;&nbsp;Â·&nbsp;&nbsp;East Africa.
+                        Structural Engineer&nbsp;&nbsp;·&nbsp;&nbsp;General Manager&nbsp;&nbsp;·&nbsp;&nbsp;East Africa.
                     </motion.p>
 
                     {/* CTAs */}

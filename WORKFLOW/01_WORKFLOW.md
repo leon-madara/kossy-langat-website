@@ -168,3 +168,94 @@ Each block should be a single PR. This keeps diffs small, feedback tight, and ag
 | Skipping docs because "it's obvious" | It's obvious to you today, illegible to agent tomorrow |
 | Reviewing every line like a human wrote it | Bottleneck. Focus on correctness and invariants, not style |
 | Hoarding knowledge in Slack/chat | If it's not in the repo, it doesn't exist for agents |
+
+---
+
+## Codex Pre-Flight Routing Protocol
+
+Codex must classify the task before doing meaningful work. This classification determines both reasoning depth and the amount of required repo discovery.
+
+### Task Classes
+
+| Class | Typical Shape | Required Route |
+|------|---------------|----------------|
+| Simple | Single-file or tightly bounded change, low risk, no architecture decision | Low reasoning route |
+| Medium | Bounded multi-file change, moderate UI, logic, or animation work, shared-system touch | Medium reasoning route |
+| Complex | New feature, animation system, architectural change, cross-cutting refactor, or multi-session implementation | Highest reasoning route |
+
+### Discovery Rules
+
+- **Simple**: read only the immediately relevant files unless risk increases during exploration.
+- **Medium**: read `AGENTS.md` for shared UI, animation, routing, theming, docs, or feature work. Read this workflow doc when process or architecture is involved.
+- **Complex**: always read `AGENTS.md`, this workflow doc, relevant architecture and design docs, and any active feature folder before implementation begins.
+
+### Model and Route Rule
+
+If the Codex environment supports explicit model or route selection, choose the route that matches the task class. If explicit switching is not available, still follow the same reasoning-tier discipline and planning depth.
+
+Reference:
+- [Codex custom instruction template](file:///c:/Users/Leon/DevMode/kossy-langat-website/WORKFLOW/02_CODEX_CUSTOM_INSTRUCTION.md)
+
+---
+
+## Feature Continuity Folder Protocol
+
+For any new feature, animation system, multi-session build, or cross-page UI change, create or update a dedicated feature folder:
+
+`docs/exec-plans/active/<feature-slug>/`
+
+### Required Files
+
+- `README.md`
+- `plan.md`
+- `todo.md`
+- `done.md`
+- `decisions.md`
+- `handoff.md`
+- `verification.md`
+- `assets-prompts.md` when image or asset generation is involved
+
+Template:
+- [Feature-work template](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/exec-plans/_templates/feature-work/README.md)
+
+### Start Rule
+
+Before implementation on a qualifying feature:
+
+1. Create the feature folder from the template.
+2. Fill in `README.md` with scope, links, and status.
+3. Fill in `plan.md` with the execution phases.
+4. Seed `todo.md` with the immediate work queue.
+
+### Resume Rule
+
+Before resuming an existing feature, read in this order:
+
+1. `README.md`
+2. `plan.md`
+3. `todo.md`
+4. `done.md`
+5. `decisions.md`
+6. `handoff.md`
+7. `verification.md`
+8. `assets-prompts.md` if present
+
+### Update Rule
+
+During or after each working session:
+
+- record completed work in `done.md`
+- update remaining work in `todo.md`
+- capture important choices in `decisions.md`
+- record the next recommended step in `handoff.md`
+- record checks and visual verification in `verification.md`
+
+### Close Rule
+
+When the feature is complete:
+
+1. finalize `verification.md`
+2. update `CHANGELOG.md`
+3. move or archive the feature folder under `docs/exec-plans/completed/`
+
+This protocol exists so another agent can continue work without depending on chat history.

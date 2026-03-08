@@ -105,9 +105,9 @@ export function Header() {
                     <div className="site-header__cta">
                         <Link
                             href="/contact"
-                            className="site-header__cta-btn"
+                            className="site-header__cta-btn cta-conic-border"
                         >
-                            Start a Conversation
+                            Start A Conversation
                         </Link>
                     </div>
 
@@ -142,8 +142,6 @@ export function Header() {
                             className="site-header__mobile-overlay"
                             id="site-header-mobile-overlay"
                         >
-                            <div className="texture-overlay site-header__overlay-texture" aria-hidden="true" />
-
                             <nav className="site-header__mobile-nav" aria-label="Mobile">
                                 {NAV_LINKS.map((link, i) => {
                                     const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)
@@ -177,10 +175,10 @@ export function Header() {
                             >
                                 <Link
                                     href="/contact"
-                                    className="site-header__mobile-cta-btn"
+                                    className="site-header__mobile-cta-btn cta-conic-border"
                                     onClick={() => setMobileMenuOpenOnPath(null)}
                                 >
-                                    Start a Conversation
+                                    Start A Conversation
                                 </Link>
                             </motion.div>
                         </motion.div>

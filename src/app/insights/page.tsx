@@ -27,8 +27,6 @@ export default function InsightsPage() {
 
     return (
         <div ref={containerRef} className="insights-page">
-            <div className="texture-overlay" />
-
             <div className="insights-container">
                 <header className="insights-header">
                     <div className="ins-reveal">

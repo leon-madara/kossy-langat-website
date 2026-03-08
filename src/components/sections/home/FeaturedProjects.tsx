@@ -1,10 +1,11 @@
 ﻿"use client"
 
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { SplitText } from "gsap/SplitText"
+import { useGSAP } from "@gsap/react"
 import { projects } from "@/data/projects"
 import { ProjectCard } from "@/components/ui/ProjectCard"
 import { SectionLabel } from "@/components/ui/SectionLabel"
@@ -22,7 +23,7 @@ export function FeaturedProjects() {
     const railLineRef = useRef<HTMLSpanElement>(null)
     const ctaRef = useRef<HTMLAnchorElement>(null)
 
-    useEffect(() => {
+    useGSAP(() => {
         const section = sectionRef.current
         const heading = headingRef.current
         if (!section || !heading) return
@@ -32,87 +33,89 @@ export function FeaturedProjects() {
         ).matches
         if (reducedMotion) return
 
-        const isMobile = window.innerWidth <= 640
+        /* ── Phase A: Section label + SplitText word reveal ──── */
 
-        const ctx = gsap.context(() => {
-            /* ── Phase A: Section label + SplitText word reveal ──── */
+        const split = new SplitText(heading, {
+            type: "words",
+        })
 
-            const split = new SplitText(heading, {
-                type: "words",
+        const phaseA = gsap.timeline({
+            scrollTrigger: {
+                trigger: section,
+                start: "top 90%",
+                toggleActions: "play none none none",
+            },
+        })
+
+        // Label fades up first
+        if (labelRef.current) {
+            phaseA.from(labelRef.current, {
+                y: 30,
+                opacity: 0,
+                duration: 0.5,
+                ease: "power3.out",
             })
+        }
 
-            const phaseA = gsap.timeline({
+        // Words stagger in, slightly overlapping with label
+        phaseA.from(
+            split.words,
+            {
+                y: 40,
+                opacity: 0,
+                stagger: 0.08,
+                duration: 0.6,
+                ease: "power3.out",
+            },
+            "-=0.25"
+        )
+
+        /* ── Phase B + C: Scrubbed rail line + CTA (desktop only via matchMedia) */
+
+        const mm = gsap.matchMedia()
+
+        mm.add("(min-width: 641px)", () => {
+            if (!railLineRef.current || !ctaRef.current) return
+
+            const railTimeline = gsap.timeline({
                 scrollTrigger: {
                     trigger: section,
-                    start: "top 90%",
-                    toggleActions: "play none none none",
+                    start: "top 70%",
+                    end: "top 40%",
+                    scrub: 1,
+                    once: true,
                 },
             })
 
-            // Label fades up first
-            if (labelRef.current) {
-                phaseA.from(labelRef.current, {
-                    y: 30,
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power3.out",
-                })
-            }
+            // Phase B — rail line draws left → right
+            railTimeline.to(railLineRef.current, {
+                scaleX: 1,
+                duration: 1,
+                ease: "none",
+            })
 
-            // Words stagger in, slightly overlapping with label
-            phaseA.from(
-                split.words,
+            // Phase C — CTA reveals at end of rail
+            railTimeline.to(
+                ctaRef.current,
                 {
-                    y: 40,
-                    opacity: 0,
-                    stagger: 0.08,
-                    duration: 0.6,
-                    ease: "power3.out",
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.15,
+                    ease: "power2.out",
                 },
-                "-=0.25"
+                0.85
             )
+        })
 
-            /* ── Phase B + C: Scrubbed rail line + CTA (desktop only) */
-
-            if (!isMobile && railLineRef.current && ctaRef.current) {
-                const railTimeline = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 70%",
-                        end: "top 40%",
-                        scrub: 1,
-                        once: true,
-                    },
-                })
-
-                // Phase B — rail line draws left → right
-                railTimeline.to(railLineRef.current, {
-                    scaleX: 1,
-                    duration: 1,
-                    ease: "none",
-                })
-
-                // Phase C — CTA reveals at end of rail
-                railTimeline.to(
-                    ctaRef.current,
-                    {
-                        opacity: 1,
-                        scale: 1,
-                        duration: 0.15,
-                        ease: "power2.out",
-                    },
-                    0.85
-                )
-            }
-        }, sectionRef)
-
-        return () => ctx.revert()
-    }, [])
+        // Cleanup SplitText DOM modifications
+        return () => {
+            split.revert()
+        }
+    }, { scope: sectionRef })
 
     return (
         <section ref={sectionRef} id="featured-projects" className="py-24 md:py-32">
             <div className="featured-projects-grid" aria-hidden="true" />
-            <div className="texture-overlay featured-projects-texture" aria-hidden="true" />
             <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
                 <div className="flex flex-col justify-between gap-4 mb-12 md:mb-16">
                     <div className="max-w-2xl">

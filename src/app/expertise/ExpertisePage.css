@@ -132,12 +132,38 @@
 }
 
 .service-number {
+    display: inline-block;
     font-family: var(--font-inter), sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.25em;
     color: color-mix(in srgb, var(--gold-accent) 66%, var(--foreground) 34%);
     margin-bottom: 1.5rem;
+    transform-origin: left center;
+    transition:
+        transform 0.4s ease,
+        color 0.3s ease,
+        text-shadow 0.3s ease,
+        filter 0.3s ease;
+}
+
+.service-card:hover .service-number {
+    transform: scale(2);
+    color: color-mix(in srgb, var(--gold-accent) 84%, white 16%);
+    text-shadow:
+        0 0 12px rgba(var(--gold-accent-rgb), 0.45),
+        0 0 24px rgba(var(--gold-accent-rgb), 0.22);
+    filter: drop-shadow(0 0 10px rgba(var(--gold-accent-rgb), 0.28));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .service-number {
+        transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .service-card:hover .service-number {
+        transform: none;
+    }
 }
 
 .service-title {

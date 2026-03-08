@@ -76,8 +76,6 @@ export default function ContactPage() {
 
     return (
         <div ref={containerRef} className="contact-page">
-            <div className="texture-overlay" />
-
             <div className="contact-container">
                 <header className="contact-hero">
                     <div className="c-reveal">

@@ -27,8 +27,6 @@ export default function WorkPage() {
 
     return (
         <div ref={containerRef} className="work-page">
-            <div className="texture-overlay" />
-
             <div className="work-container">
                 <header className="work-header">
                     <div className="work-reveal">

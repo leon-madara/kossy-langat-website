@@ -1,0 +1,190 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "KOSSY Structural Engineer" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: KOSSY
+        - generic [ref=e6]: Structural Engineer
+      - navigation "Primary" [ref=e7]:
+        - link "Home" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "About" [ref=e9] [cursor=pointer]:
+          - /url: /about
+        - link "Expertise" [ref=e10] [cursor=pointer]:
+          - /url: /expertise
+        - link "Work" [ref=e11] [cursor=pointer]:
+          - /url: /work
+        - link "Insights" [ref=e12] [cursor=pointer]:
+          - /url: /insights
+        - link "Mentorship" [ref=e13] [cursor=pointer]:
+          - /url: /mentorship
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e15]:
+        - button "Toggle theme" [ref=e16]:
+          - img [ref=e17]
+          - img [ref=e23]
+        - link "Start A Conversation" [ref=e26] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - img "Woman engineer reviewing blueprints" [ref=e31]
+        - generic [ref=e32]:
+          - paragraph [ref=e33]: FOR YOUNG WOMEN IN ENGINEERING
+          - heading "Competence Is Protection." [level=1] [ref=e34]:
+            - text: Competence Is
+            - generic [ref=e35]: Protection.
+          - paragraph [ref=e36]: Engineering is demanding. Bias exists. Scrutiny is real. But preparation builds authority, and authority cannot be taken from you.
+      - generic [ref=e39]:
+        - img "Woman working at engineering desk" [ref=e41]
+        - generic [ref=e42]:
+          - text: THE REALITY
+          - heading "The field will test you. That is not a warning - it is a briefing." [level=2] [ref=e43]
+          - paragraph [ref=e44]: In structural engineering and construction management, you will walk onto sites where you are the only woman. You will offer technically sound solutions that are questioned not because of their merit, but because of who presented them. You will face scrutiny that your male colleagues never encounter.
+          - paragraph [ref=e45]: This is not meant to discourage you. This is meant to prepare you. Awareness is the first structural element of resilience.
+          - blockquote [ref=e46]: “When I walk onto a site, I am not there to negotiate structural physics. I am there to mandate safety. Competence gave me that right.”
+      - generic [ref=e48]:
+        - generic [ref=e51]:
+          - text: PRACTICAL ADVICE
+          - heading "Five principles I wish someone had given me on day one." [level=2] [ref=e52]
+        - generic [ref=e53]:
+          - generic [ref=e55]:
+            - article [ref=e56]:
+              - img "Woman engineer studying structural drawings and technical references at a desk" [ref=e58]
+              - generic [ref=e60]:
+                - generic: "01"
+                - generic [ref=e61]:
+                  - paragraph [ref=e62]: Technical Depth First
+                  - heading "Master Fundamentals" [level=3] [ref=e63]
+                  - paragraph [ref=e65]: Before seeking visibility, build an unshakeable technical foundation. Know your codes, your load paths, your material science. Competence is the only credential that cannot be questioned.
+            - article [ref=e66]:
+              - img "Woman engineer briefing a team on a construction site" [ref=e68]
+              - generic [ref=e70]:
+                - generic: "02"
+                - generic [ref=e71]:
+                  - paragraph [ref=e72]: Lead Through Language
+                  - heading "Speak with Clarity" [level=3] [ref=e73]
+                  - paragraph [ref=e75]: In meetings, in reports, on-site. Communication is not a soft skill - it is a structural one. A misunderstood instruction on a construction site is a safety hazard.
+            - article [ref=e76]:
+              - img "Engineer reviewing financial and technical documents across a boardroom table" [ref=e78]
+              - generic [ref=e79]:
+                - paragraph [ref=e80]: Boardroom fluency matters as much as technical fluency.
+                - generic [ref=e81]:
+                  - generic: "03"
+                  - generic [ref=e82]:
+                    - paragraph [ref=e83]: Commercial Fluency
+                    - heading "Understand Financial Language" [level=3] [ref=e84]
+                    - paragraph [ref=e86]: Budgets, lifecycle costing, ROI. Engineers who only speak in kN and MPa get sidelined. Learn the language of the boardroom to protect the integrity of the building.
+            - article [ref=e87]:
+              - img "Woman engineer training with controlled strength in a gym" [ref=e89]
+              - generic [ref=e91]:
+                - generic: "04"
+                - generic [ref=e92]:
+                  - paragraph [ref=e93]: Endurance Under Load
+                  - heading "Build Physical Resilience" [level=3] [ref=e94]
+                  - paragraph [ref=e96]: Construction is physically demanding. The gym is not optional - it is a system for endurance, mental clarity, and stress conversion. Your body supports your mind.
+            - article [ref=e97]:
+              - img "Woman engineer planning her day at an orderly desk in soft morning light" [ref=e99]
+              - generic [ref=e101]:
+                - generic: "05"
+                - generic [ref=e102]:
+                  - paragraph [ref=e103]: Systems Over Chaos
+                  - heading "Develop a Disciplined Routine" [level=3] [ref=e104]
+                  - paragraph [ref=e106]: 5:30 AM training. Structured workflows. Consistent review cycles. Discipline is not rigidity - it is freedom from chaos. It is how you remain composed when pressure builds.
+          - paragraph [ref=e114]: 03 / 05
+      - generic [ref=e116]:
+        - text: BUILD YOUR OPERATING SYSTEM
+        - heading "Resilience is not a personality trait. It is an engineered system." [level=2] [ref=e117]
+        - paragraph [ref=e118]: Just as a building requires redundancy systems to withstand unexpected loads, you need personal infrastructure to withstand the pressures of this career. These are not suggestions - they are structural requirements.
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - generic [ref=e121]: T
+            - generic [ref=e122]:
+              - heading "Technical Study Routines" [level=3] [ref=e123]
+              - paragraph [ref=e124]: Continuous learning, certification pursuit, and staying current with international standards. The industry evolves - you must evolve faster.
+          - generic [ref=e125]:
+            - generic [ref=e126]: F
+            - generic [ref=e127]:
+              - heading "Fitness Discipline" [level=3] [ref=e128]
+              - paragraph [ref=e129]: Physical endurance directly supports mental endurance. Progressive overload in the gym mirrors structural load principles. Controlled stress builds strength.
+          - generic [ref=e130]:
+            - generic [ref=e131]: "N"
+            - generic [ref=e132]:
+              - heading "Professional Networks" [level=3] [ref=e133]
+              - paragraph [ref=e134]: Find mentors. Build peer circles. Join industry associations. Isolation accelerates burnout. Connection accelerates growth.
+          - generic [ref=e135]:
+            - generic [ref=e136]: R
+            - generic [ref=e137]:
+              - heading "Continuous Refinement" [level=3] [ref=e138]
+              - paragraph [ref=e139]: Never stop sharpening the saw. Review past projects critically. Identify patterns. Extract lessons. Apply them to the next system you build.
+      - generic [ref=e141]:
+        - heading "If you are serious about engineering, I am serious about helping you." [level=2] [ref=e142]
+        - paragraph [ref=e143]: I offer structured mentorship guidance for young women navigating the early stages of their engineering careers. This is not general advice - it is a focused, disciplined engagement based on your specific challenges and goals.
+        - link "Request Mentorship" [ref=e145] [cursor=pointer]:
+          - /url: /contact?type=mentorship
+  - contentinfo [ref=e146]:
+    - generic [ref=e147]:
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - link "KOSSY" [ref=e150] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e152]: KOSSY
+          - paragraph [ref=e153]: I don't just build structures. I build alignment between the people who make them possible.
+          - link "Start A Conversation" [ref=e154] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e155]:
+          - generic [ref=e156]:
+            - heading "Capabilities" [level=3] [ref=e157]
+            - list [ref=e158]:
+              - listitem [ref=e159]:
+                - link "Structural Engineering" [ref=e160] [cursor=pointer]:
+                  - /url: /expertise#structural
+              - listitem [ref=e161]:
+                - link "EPS Systems" [ref=e162] [cursor=pointer]:
+                  - /url: /expertise#eps
+              - listitem [ref=e163]:
+                - link "Operations Management" [ref=e164] [cursor=pointer]:
+                  - /url: /expertise#operations
+              - listitem [ref=e165]:
+                - link "Cost Alignment" [ref=e166] [cursor=pointer]:
+                  - /url: /expertise#cost
+          - generic [ref=e167]:
+            - heading "Explore" [level=3] [ref=e168]
+            - list [ref=e169]:
+              - listitem [ref=e170]:
+                - link "About Kossy" [ref=e171] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e172]:
+                - link "Featured Work" [ref=e173] [cursor=pointer]:
+                  - /url: /work
+              - listitem [ref=e174]:
+                - link "Insights & Articles" [ref=e175] [cursor=pointer]:
+                  - /url: /insights
+              - listitem [ref=e176]:
+                - link "For Young Women" [ref=e177] [cursor=pointer]:
+                  - /url: /mentorship
+          - generic [ref=e178]:
+            - heading "Connect" [level=3] [ref=e179]
+            - list [ref=e180]:
+              - listitem [ref=e181]:
+                - link "LinkedIn ↗" [ref=e182] [cursor=pointer]:
+                  - /url: "#"
+                  - text: LinkedIn
+                  - generic [ref=e183]: ↗
+              - listitem [ref=e184]:
+                - link "Start a Project" [ref=e185] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e186]:
+                - link "Speaking Inquiries" [ref=e187] [cursor=pointer]:
+                  - /url: /contact?type=speaking
+      - generic [ref=e188]:
+        - paragraph [ref=e189]: © 2026 Naomi "Kossy" Lang'at Chepkoskei. All rights reserved.
+        - generic [ref=e190]:
+          - link "Privacy Policy" [ref=e191] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms of Service" [ref=e192] [cursor=pointer]:
+            - /url: /terms
+  - button "Open Next.js Dev Tools" [ref=e198] [cursor=pointer]:
+    - img [ref=e199]
+  - alert [ref=e203]

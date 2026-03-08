@@ -26,8 +26,6 @@ export default function ExpertisePage() {
 
     return (
         <div ref={containerRef} className="expertise-page">
-            <div className="texture-overlay" />
-
             <div className="expertise-container">
                 <header className="expertise-header">
                     <div className="exp-reveal">

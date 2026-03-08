@@ -1,0 +1,186 @@
+.gap-problem {
+  --gap-surface: #f5f0ee;
+  --gap-foreground: #1b2626;
+  --gap-foreground-rgb: 27, 38, 38;
+  --gap-muted: #667270;
+  --gap-muted-rgb: 102, 114, 112;
+  --gap-pad-top: clamp(6rem, 9vw, 8.5rem);
+  --gap-pad-bottom: clamp(6rem, 9vw, 8.5rem);
+  position: relative;
+  z-index: 6;
+  padding: var(--gap-pad-top) 0 var(--gap-pad-bottom);
+  background: var(--gap-surface);
+  color: var(--gap-foreground);
+  isolation: isolate;
+  overflow: visible;
+}
+
+.gap-problem__container {
+  position: relative;
+  z-index: 3;
+  width: min(1280px, calc(100% - 3rem));
+  margin: 0 auto;
+}
+
+.gap-problem__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(var(--gap-muted-rgb), 0.9);
+}
+
+.gap-problem__eyebrow-number {
+  color: rgba(var(--gap-muted-rgb), 0.92);
+}
+
+.gap-problem__eyebrow-separator {
+  color: rgba(var(--gap-muted-rgb), 0.45);
+}
+
+.gap-problem__grid {
+  display: grid;
+  gap: 3rem;
+}
+
+.gap-problem__headline {
+  max-width: 12ch;
+  margin: 0;
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.06;
+  color: var(--gap-foreground);
+}
+
+.gap-problem__headline-emphasis {
+  font-style: italic;
+  color: var(--coffee-bean);
+}
+
+.gap-problem__points {
+  display: grid;
+  gap: 2rem;
+}
+
+.gap-problem__point {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(var(--gap-foreground-rgb), 0.12);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease;
+}
+
+.gap-problem__point:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--gold-accent-rgb), 0.42);
+}
+
+.gap-problem__point-number {
+  display: block;
+  margin-bottom: 1rem;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: rgba(var(--gap-muted-rgb), 0.78);
+}
+
+.gap-problem__point-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-playfair), serif;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: var(--gap-foreground);
+  transition: color 220ms ease;
+}
+
+.gap-problem__point:hover .gap-problem__point-title {
+  color: var(--gold-accent);
+}
+
+.gap-problem__point-description {
+  margin: 0;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: rgba(var(--gap-foreground-rgb), 0.72);
+}
+
+@media (min-width: 640px) {
+  .gap-problem__points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .gap-problem__container {
+    width: min(1280px, calc(100% - 6rem));
+  }
+
+  .gap-problem__eyebrow {
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gap-problem__container {
+    width: min(1280px, calc(100% - 10rem));
+  }
+
+  .gap-problem__grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(3.5rem, 5vw, 6rem);
+    align-items: start;
+  }
+}
+
+@media (max-width: 639px) {
+  .gap-problem {
+    --gap-pad-top: 5.25rem;
+    --gap-pad-bottom: 5.75rem;
+  }
+
+  .gap-problem__headline {
+    font-size: clamp(2.2rem, 12vw, 3rem);
+  }
+
+  .gap-problem__point-title {
+    font-size: 1.2rem;
+  }
+
+  .gap-problem__point-description {
+    font-size: 0.94rem;
+  }
+}
+
+:root[data-theme="dark"] .gap-problem {
+  --gap-surface: #1a3636;
+  --gap-foreground: #f8f6f3;
+  --gap-foreground-rgb: 248, 246, 243;
+  --gap-muted: #9b9ea5;
+  --gap-muted-rgb: 155, 158, 165;
+}
+
+:root[data-theme="dark"] .gap-problem__headline-emphasis {
+  color: var(--powder-petal);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .gap-problem {
+    --gap-surface: #1a3636;
+    --gap-foreground: #f8f6f3;
+    --gap-foreground-rgb: 248, 246, 243;
+    --gap-muted: #9b9ea5;
+    --gap-muted-rgb: 155, 158, 165;
+  }
+
+  :root:not([data-theme]) .gap-problem__headline-emphasis {
+    color: var(--powder-petal);
+  }
+}

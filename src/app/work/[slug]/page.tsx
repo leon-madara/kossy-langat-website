@@ -32,8 +32,6 @@ export default function CaseStudyPage({ params }: { params: Promise<{ slug: stri
 
     return (
         <div ref={containerRef} className="case-study-page">
-            <div className="texture-overlay" />
-
             <div className="case-study-container">
                 <header className="case-study-header">
                     <Link href="/work" className="cs-reveal font-sans text-sm text-accent hover:underline mb-8 block">

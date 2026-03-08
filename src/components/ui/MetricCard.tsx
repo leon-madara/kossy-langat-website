@@ -1,3 +1,4 @@
+import type { Ref } from "react"
 import "./MetricCard.css"
 
 export interface Metric {
@@ -9,12 +10,13 @@ export interface Metric {
 interface MetricCardProps {
     metric: Metric
     className?: string
+    valueRef?: Ref<HTMLSpanElement>
 }
 
-export function MetricCard({ metric, className }: MetricCardProps) {
+export function MetricCard({ metric, className, valueRef }: MetricCardProps) {
     return (
         <div className={`metric-card ${className || ""}`}>
-            <span className="metric-value">
+            <span ref={valueRef} className="metric-value">
                 {metric.value}
             </span>
             <span className="metric-label">

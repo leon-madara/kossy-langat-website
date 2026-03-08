@@ -71,13 +71,31 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   margin-top: 0.4rem;
-  color: var(--header-link);
+  color: #323006;
   transition: color 180ms ease;
 }
 
 .site-header__brand:hover .site-header__brand-name,
 .site-header__brand:hover .site-header__brand-subtitle {
   color: var(--header-accent);
+}
+
+:root[data-theme="dark"] .site-header__brand-name {
+  color: #f4f0ee;
+}
+
+:root[data-theme="dark"] .site-header__brand-subtitle {
+  color: #e9f2f7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .site-header__brand-name {
+    color: #f4f0ee;
+  }
+
+  :root:not([data-theme]) .site-header__brand-subtitle {
+    color: #e9f2f7;
+  }
 }
 
 .site-header__nav {
@@ -243,7 +261,6 @@
   letter-spacing: 0.02em;
 
   background-color: var(--blue-slate);
-  color: rgb(248, 246, 243);
   --cta-radius: 2px;
   border-radius: var(--cta-radius);
   text-decoration: none;
@@ -387,23 +404,6 @@
   );
 }
 
-.site-header__overlay-texture {
-  opacity: 0.035;
-  mix-blend-mode: multiply;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .site-header__overlay-texture {
-    mix-blend-mode: screen;
-    opacity: 0.03;
-  }
-}
-
-:root[data-theme="dark"] .site-header__overlay-texture {
-  mix-blend-mode: screen;
-  opacity: 0.03;
-}
-
 :root[data-theme="dark"] .site-header__mobile-overlay::before {
   opacity: 0.081;
   mix-blend-mode: normal;
@@ -441,7 +441,27 @@
 }
 
 .site-header__mobile-link--active {
-  color: var(--header-accent);
+  color: #80d1f5;
+}
+
+:root[data-theme="dark"] .site-header__mobile-link {
+  color: #decfc7;
+}
+
+:root[data-theme="dark"] .site-header__mobile-link:hover,
+:root[data-theme="dark"] .site-header__mobile-link--active {
+  color: #acd3e4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .site-header__mobile-link {
+    color: #decfc7;
+  }
+
+  :root:not([data-theme]) .site-header__mobile-link:hover,
+  :root:not([data-theme]) .site-header__mobile-link--active {
+    color: #acd3e4;
+  }
 }
 
 .site-header__mobile-link:focus-visible {
@@ -469,7 +489,6 @@
   letter-spacing: 0.02em;
 
   background-color: var(--blue-slate);
-  color: var(--powder-petal);
   --cta-radius: 2px;
   border-radius: var(--cta-radius);
   text-decoration: none;

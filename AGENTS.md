@@ -1,44 +1,44 @@
-# AGENTS.md — Kossy Langat Portfolio Navigation
+# AGENTS.md - Kossy Langat Portfolio Navigation
 
-> "Efficiency is intelligent laziness." — The Kossy Way
+> "Efficiency is intelligent laziness." - The Kossy Way
 
 Welcome, agent. You are in the codebase for **Kossy | Structural Engineer & General Manager**, a premium portfolio website built for high-impact visual excellence and technical precision.
 
 ---
 
-## 🛠 Project Overview
+## Project Overview
 
-**Name:** Kossy Langat Portfolio  
-**Stack:** Next.js 15 (App Router) + TypeScript + GSAP 3 + Vanilla CSS  
+**Name:** Kossy Langat Portfolio
+**Stack:** Next.js 15 (App Router) + TypeScript + GSAP 3 + Vanilla CSS
 **Description:** A high-end, tactile portfolio for a Structural Engineer, featuring structural-inspired grids, premium animations, and deep-level case studies.
 
 ---
 
-## 📂 Directory Structure
+## Directory Structure
 
-```
+```text
 kossy-langat-website/
-├── src/
-│   ├── app/                ← Routes: Home, Work, About, Insights, Mentorship
-│   ├── components/
-│   │   ├── sections/       ← Page sections (Hero, Bento, Services, Contact)
-│   │   ├── layout/         ← Nav, Footer, Custom Cursor
-│   │   ├── ui/             ← Grainy Button, Premium Cards, Textures
-│   │   └── shared/         ← Reusable structural components
-│   ├── lib/                ← GSAP registry, formatting utils
-│   └── data/               ← Projects, expertise, and insights metadata
-├── docs/                   ← System of Record
-│   ├── design-docs/        ← Feature-specific specifications
-│   ├── exec-plans/         ← Archived and active execution plans
-│   └── reports/            ← Audit and verification reports
-├── WORKFLOW/               ← Engineering Operating Model
-├── public/                 ← Assets: textures, icons, profile shots
-└── [config files]          ← package.json, next.config.ts, tsconfig.json
+|- src/
+|  |- app/                <- Routes: Home, Work, About, Insights, Mentorship
+|  |- components/
+|  |  |- sections/        <- Page sections (Hero, Bento, Services, Contact)
+|  |  |- layout/          <- Nav, Footer, Custom Cursor
+|  |  |- ui/              <- Premium Cards and reusable UI
+|  |  `- shared/          <- Reusable structural components
+|  |- lib/                <- GSAP registry, formatting utils
+|  `- data/               <- Projects, expertise, and insights metadata
+|- docs/                  <- System of record
+|  |- design-docs/        <- Feature-specific specifications
+|  |- exec-plans/         <- Active plans, completed plans, and templates
+|  `- reports/            <- Audit and verification reports
+|- WORKFLOW/              <- Engineering operating model
+|- public/                <- Assets: textures, icons, profile shots
+`- [config files]         <- package.json, next.config.ts, tsconfig.json
 ```
 
 ---
 
-## 📜 Key Documentation (Read Before Making Changes)
+## Key Documentation (Read Before Making Changes)
 
 | Doc | Purpose |
 |-----|---------|
@@ -46,18 +46,20 @@ kossy-langat-website/
 | [ARCHITECTURE.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/ARCHITECTURE.md) | System layers and dependency flow |
 | [GOLDEN_PRINCIPLES.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/GOLDEN_PRINCIPLES.md) | Non-negotiable implementation rules |
 | [animation_strategy.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/animation_strategy.md) | GSAP standards and patterns |
+| [motion-dev.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/references/motion-dev.md) | Motion.dev (Framer Motion) full API reference |
 | [css_architecture.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/css_architecture.md) | Naming, cascade rules, and Vanilla CSS mandate |
 | [design_tokens.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/design_tokens.md) | Colors, typography, and spacing system |
 | [tech_stack.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/tech_stack.md) | Deep dive into dependencies and tool versions |
 | [01_WORKFLOW.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/WORKFLOW/01_WORKFLOW.md) | How agents must operate in this codebase |
+| [02_CODEX_CUSTOM_INSTRUCTION.md](file:///c:/Users/Leon/DevMode/kossy-langat-website/WORKFLOW/02_CODEX_CUSTOM_INSTRUCTION.md) | Copy-paste Codex routing and feature continuity instruction |
 
 ---
 
-## 🚦 Rules for Agents
+## Rules for Agents
 
 ### Must Follow
 1. **No Tailwind**: Styles must reside in `.css` files managed by `globals.css` or component-specific imports.
-2. **Texture-First Design**: Every section should feel tactile. Use `.texture-overlay` and `.mesh-gradient`.
+2. **Intentional Depth**: Use gradients, contrast, and composition deliberately, but do not add grain/noise overlays by default.
 3. **GSAP for Motion**: All non-trivial animations must use GSAP ScrollTrigger. Avoid CSS `transition` for scroll-linked effects.
 4. **Link Integrity**: Use the internal `[Link Text](file:///...)` format for all documentation cross-references.
 5. **Log Serious Changes**: Every significant architectural or feature update must be documented in `CHANGELOG.md`.
@@ -66,18 +68,18 @@ kossy-langat-website/
 ### Anti-Patterns to Avoid
 - **No Inline Styles**: Use semantic classes.
 - **No Raw DOM Manipulation**: Use React refs with GSAP.
-- **No Placeholder Assets**: Use the `generate_image` tool for demonstration assets.
+- **No Placeholder Assets**: Use the image-generation workflow for demonstration assets.
 - **No Bloated Components**: Keep page sections clean; move complex logic to `src/lib` or `src/components/shared`.
 
 ---
 
-## 🏗 Test & Build
+## Test and Build
 
 ```bash
 # Start development server
 npm run dev
 
-# Production type-check & build
+# Production type-check and build
 npm run build
 
 # Linting check
@@ -86,11 +88,69 @@ npm run lint
 
 ---
 
-## 🧭 How to Get Context
+## How to Get Context
 
-1. **Start Here** → This file
-2. **Architecture** → `docs/ARCHITECTURE.md`
-3. **Core Rules** → `docs/GOLDEN_PRINCIPLES.md`
-4. **Style Guide** → `docs/css_architecture.md`
-5. **Operating Model** → `WORKFLOW/01_WORKFLOW.md`
+1. **Start Here** -> This file
+2. **Architecture** -> `docs/ARCHITECTURE.md`
+3. **Core Rules** -> `docs/GOLDEN_PRINCIPLES.md`
+4. **Style Guide** -> `docs/css_architecture.md`
+5. **Animation Library** -> `docs/references/motion-dev.md`
+6. **Operating Model** -> `WORKFLOW/01_WORKFLOW.md`
 
+---
+
+## Codex Task Routing and Feature Continuity
+
+### Pre-Flight Task Classification
+
+Before meaningful work begins, Codex must classify the request as one of:
+
+- **Simple**: single-file or tightly bounded task, low risk, no architecture decision, minimal discovery needed
+- **Medium**: bounded multi-file task, moderate UI, logic, or animation change, shared-system touch, or ongoing feature work
+- **Complex**: new feature, animation system, architectural change, cross-cutting refactor, multi-session effort, or any task that depends on design docs and workflow context
+
+### Reasoning Route Rule
+
+Codex must use the lowest safe reasoning tier available for the classified task:
+
+- **Simple** -> low reasoning route
+- **Medium** -> medium reasoning route
+- **Complex** -> highest reasoning route
+
+If the Codex environment supports explicit model or route selection, choose the matching route. If it does not, still follow the same reasoning discipline and planning depth.
+
+### Discovery Rule
+
+- **Simple tasks**: inspect only the immediately relevant files unless risk increases
+- **Medium tasks**: read `AGENTS.md` when touching shared UI, animation, routing, theming, docs, or feature work; read `WORKFLOW/01_WORKFLOW.md` when process or architecture is involved
+- **Complex tasks**: always read `AGENTS.md`, `WORKFLOW/01_WORKFLOW.md`, relevant docs, and any active feature folder before implementation starts
+
+### Feature Continuity Rule
+
+For any new feature, animation system, multi-session build, or cross-page UI change, create or update:
+
+`docs/exec-plans/active/<feature-slug>/`
+
+Required files:
+- `README.md`
+- `plan.md`
+- `todo.md`
+- `done.md`
+- `decisions.md`
+- `handoff.md`
+- `verification.md`
+- `assets-prompts.md` when image or asset generation is involved
+
+Use the template at [feature-work template](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/exec-plans/_templates/feature-work/README.md).
+
+### Session-End Update Rule
+
+Before ending work on an active feature, Codex must update:
+
+- `todo.md` with remaining tasks
+- `done.md` with completed work
+- `decisions.md` with decisions made or reversed
+- `handoff.md` with the next recommended step
+- `verification.md` with checks run and outstanding gaps
+
+When a feature is complete, move or archive it under `docs/exec-plans/completed/` and update `CHANGELOG.md`.

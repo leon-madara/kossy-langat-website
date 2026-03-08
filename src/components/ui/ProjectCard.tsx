@@ -45,7 +45,6 @@ export function ProjectCard({ project, className, gridWaves = false }: ProjectCa
                 <div className="project-card-media__gradient" aria-hidden="true" />
                 <div className="project-card-media__grid" aria-hidden="true" />
                 {gridWaves ? <ProjectCardGridWaves /> : null}
-                <div className="texture-overlay project-card-media__texture" aria-hidden="true" />
                 <div className="project-card-tags">
                     {project.tags.map((tag) => (
                         <span key={tag} className="project-card-tag">

@@ -122,11 +122,6 @@
     pointer-events: none;
 }
 
-.texture-overlay.project-card-media__texture {
-    z-index: 2;
-    opacity: 0.06;
-}
-
 .project-card-tags {
     position: absolute;
     bottom: 0.875rem;

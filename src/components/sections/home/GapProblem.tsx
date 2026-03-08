@@ -1,5 +1,7 @@
-import { SectionLabel } from "@/components/ui/SectionLabel"
+"use client"
+
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal"
+import "./GapProblem.css"
 
 const GAP_POINTS = [
     {
@@ -26,40 +28,41 @@ const GAP_POINTS = [
 
 export function GapProblem() {
     return (
-        <section id="gap-problem" className="relative py-24 md:py-32 bg-[#1A3636] overflow-hidden">
-            {/* Subtle Texture Overlay */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/textures/grid-pattern.svg')] bg-repeat" />
-
-            <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+        <section
+            id="gap-problem"
+            className="gap-problem"
+            data-micro-pin="off"
+        >
+            <div className="gap-problem__container">
                 <AnimatedReveal direction="up">
-                    <SectionLabel number="02.0" text="THE GAP" className="mb-8" />
+                    <div className="gap-problem__eyebrow">
+                        <span className="gap-problem__eyebrow-number">03.0</span>
+                        <span className="gap-problem__eyebrow-separator" aria-hidden="true">
+                            /
+                        </span>
+                        <span className="gap-problem__eyebrow-text">THE GAP</span>
+                    </div>
                 </AnimatedReveal>
 
-                <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+                <div className="gap-problem__grid">
                     <AnimatedReveal direction="up" delay={0.1}>
-                        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.1] max-w-xl">
-                            Most projects fail in the <span className="italic text-powder-petal">spaces</span> between people.
+                        <h2 className="gap-problem__headline">
+                            Most projects fail in the <span className="gap-problem__headline-emphasis">spaces</span> between people.
                         </h2>
                     </AnimatedReveal>
 
-                    <div className="grid sm:grid-cols-2 gap-x-12 gap-y-16">
+                    <div className="gap-problem__points">
                         {GAP_POINTS.map((point, index) => (
                             <AnimatedReveal
                                 key={point.title}
                                 direction="up"
                                 delay={0.2 + index * 0.1}
                             >
-                                <div className="group">
-                                    <span className="block font-sans text-xs font-semibold text-powder-petal/40 mb-4 tracking-widest">
-                                        {point.number}
-                                    </span>
-                                    <h3 className="font-serif text-xl text-white mb-3 group-hover:text-gold-accent transition-colors duration-300">
-                                        {point.title}
-                                    </h3>
-                                    <p className="font-sans text-sm leading-relaxed text-[#DECFC7]/70">
-                                        {point.description}
-                                    </p>
-                                </div>
+                                <article className="gap-problem__point">
+                                    <span className="gap-problem__point-number">{point.number}</span>
+                                    <h3 className="gap-problem__point-title">{point.title}</h3>
+                                    <p className="gap-problem__point-description">{point.description}</p>
+                                </article>
                             </AnimatedReveal>
                         ))}
                     </div>

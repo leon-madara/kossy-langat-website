@@ -44,9 +44,9 @@ export function Footer() {
 
                         <Link
                             href="/contact"
-                            className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-primary transition-all bg-background rounded-sm hover:bg-background/90"
+                            className="footer-cta inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all bg-background rounded-sm hover:bg-background/90 cta-conic-border"
                         >
-                            Start a Conversation
+                            Start A Conversation
                         </Link>
                     </div>
 

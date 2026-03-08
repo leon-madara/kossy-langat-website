@@ -35,7 +35,6 @@ The project follows a standard Next.js App Router structure, layered by concern:
 | `src/components/sections/` | View (Section) | Large UI modules |
 | `src/components/ui/` | View (Atomic) | Base components |
 | `src/lib/gsap/` | Logic (Animation) | GSAP engine config |
-| `public/textures/` | Asset | visual overlays and grain |
 
 ---
 

@@ -21,7 +21,7 @@ kossy-langat-website/
 │   ├── components/
 │   │   ├── sections/       ← Page sections (Hero, Bento, Services, Contact)
 │   │   ├── layout/         ← Nav, Footer, Custom Cursor
-│   │   ├── ui/             ← Grainy Button, Premium Cards, Textures
+│   │   ├── ui/             ← Premium Cards and reusable UI
 │   │   └── shared/         ← Reusable structural components
 │   ├── lib/                ← GSAP registry, formatting utils
 │   └── data/               ← Projects, expertise, and insights metadata
@@ -54,7 +54,7 @@ kossy-langat-website/
 
 ### Must Follow
 1. **No Tailwind**: Styles must reside in `.css` files managed by `globals.css` or component-specific imports.
-2. **Texture-First Design**: Every section should feel tactile. Use `.texture-overlay` and `.mesh-gradient`.
+2. **Intentional Depth**: Use gradients, contrast, and composition deliberately, but do not add grain/noise overlays by default.
 3. **GSAP for Motion**: All non-trivial animations must use GSAP ScrollTrigger. Avoid CSS `transition` for scroll-linked effects.
 4. **Link Integrity**: Use the internal `[Link Text](file:///...)` format for all documentation cross-references.
 5. **Lint Before Commit**: Run `npm run lint` and `npm run build` to ensure type safety.

@@ -1,4 +1,5 @@
 .hero-section {
+  --hero-alignment-color: #decfc7;
   position: relative;
   min-height: 100vh;
   width: 100%;
@@ -34,52 +35,19 @@
   object-position: center;
 }
 
-.hero-bg__overlay {
+.hero-bg__blurred-overlay {
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-bg__blurred-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(17, 26, 26, 0.36) 0%, rgba(17, 26, 26, 0.075) 100%);
   z-index: 2;
-}
-
-.hero-bg__overlay--left {
-  background-image: linear-gradient(to right,
-      rgba(26, 46, 46, 0.1) 0%,
-      rgba(26, 46, 46, 0.08) 40%,
-      rgba(26, 46, 46, 0.04) 65%,
-      rgba(26, 46, 46, 0) 100%);
-}
-
-.hero-bg__overlay--vignette {
-  background-image: linear-gradient(to top, rgba(26, 46, 46, 0.1) 0%, transparent 35%);
-}
-
-@media (max-width: 767px) {
-  .hero-bg__overlay--left {
-    background-image: none;
-    background-color: rgba(26, 46, 46, 0.3);
-  }
-
-  .hero-bg__overlay--vignette {
-    background-image: none;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-bg__overlay--left {
-    background-image: linear-gradient(to right,
-        rgba(17, 26, 26, 0.216) 0%,
-        rgba(17, 26, 26, 0.1728) 40%,
-        rgba(17, 26, 26, 0.0864) 65%,
-        rgba(17, 26, 26, 0) 100%);
-  }
-
-  .hero-bg__overlay--vignette {
-    background-image: linear-gradient(to top, rgba(17, 26, 26, 0.216) 0%, transparent 35%);
-  }
-}
-
-.texture-overlay.hero-texture {
-  z-index: 3;
+  pointer-events: none;
 }
 
 .hero-content {
@@ -128,6 +96,11 @@
 .hero-eyebrow__index {
   font-size: 1.125rem;
   font-weight: 800;
+  color: var(--hero-alignment-color);
+}
+
+.hero-eyebrow__sep {
+  color: var(--hero-alignment-color);
 }
 
 .hero-eyebrow__role {
@@ -162,25 +135,27 @@
 
 .hero-muted--structures {
   font-size: 1.1em;
+  font-weight: 800;
+  color: #000000;
 }
 
 .hero-highlight {
-  color: #decfc7;
+  color: var(--hero-alignment-color);
   font-weight: 600;
   font-style: italic;
 }
 
 @media (min-width: 768px) {
+  .hero-section {
+    --hero-alignment-color: #2d3f45;
+  }
+
   .hero-headline {
     color: #ffffff;
   }
 
   .hero-muted {
     color: #000000;
-  }
-
-  .hero-highlight {
-    color: #2d3f45;
   }
 }
 
@@ -259,24 +234,28 @@
 
 .hero-cta--primary {
   background-color: var(--blue-slate);
-  color: var(--powder-petal);
-  border: 1px solid transparent;
+  color: #ffffff;
+  border: 2px solid var(--blue-slate);
 }
 
 .hero-cta--primary:hover {
-  filter: brightness(1.02);
+  background-color: #ffffff;
+  color: var(--blue-slate);
+  border-color: var(--blue-slate);
+  transform: translateY(-1px);
 }
 
 .hero-cta--secondary {
   background-color: rgba(72, 97, 107, 0.2);
-  color: #48616B;
+  color: #000000;
   border: 2px solid #323006;
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
 
 .hero-cta--secondary:hover {
-  background-color: rgba(72, 97, 107, 0.28);
+  background-color: #000000;
+  color: #ffffff;
   transform: translateY(-1px);
 }
 

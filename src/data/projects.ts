@@ -6,6 +6,7 @@ export const projects: Project[] = [
         title: "Applewood Hospital",
         location: "Nairobi, Kenya",
         tags: ["Structural", "Healthcare", "Operations"],
+        imageUrl: "https://images.unsplash.com/photo-1764885518098-781b23d50e7f?auto=format&fit=crop&w=1200&q=80",
         challenge:
             "A funding misalignment between the developer and contractor threatened structural safety mid-project.",
         intervention:
@@ -18,6 +19,7 @@ export const projects: Project[] = [
         title: "Kiambu Residential Complex",
         location: "Kiambu, Kenya",
         tags: ["Residential", "EPS Systems", "Cost Alignment"],
+        imageUrl: "https://images.unsplash.com/photo-1758448511487-15f69dd6107b?auto=format&fit=crop&w=1200&q=80",
         challenge:
             "Structural budget was depleted by 30% due to poor resource allocation and an inadequate lead engineer.",
         intervention:
@@ -30,6 +32,7 @@ export const projects: Project[] = [
         title: "ABC Logistics Hub",
         location: "Mombasa, Kenya",
         tags: ["Industrial", "Operations", "Port Logistics"],
+        imageUrl: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
         challenge:
             "Strategic coordination failures between on-site workers, port authorities, and management led to severe delays and increased costs.",
         intervention:

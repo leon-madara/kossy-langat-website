@@ -102,14 +102,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hero,
-#gap-problem {
+#hero {
   color: var(--powder-petal);
-}
-
-#gap-problem {
-  --muted: var(--cool-steel);
-  --muted-rgb: 155, 158, 165;
 }
 
 /* Utilities for GSAP / Framer Motion */
@@ -128,6 +122,18 @@ body {
   inherits: false;
 }
 
+@property --cta-fill {
+  syntax: "<color>";
+  initial-value: #48616B;
+  inherits: false;
+}
+
+@property --cta-border-w {
+  syntax: "<length>";
+  initial-value: 2px;
+  inherits: false;
+}
+
 @keyframes cta-conic-spin {
   to {
     --cta-angle: 360deg;
@@ -137,15 +143,22 @@ body {
 .cta-conic-border {
   position: relative;
   z-index: 0;
-  --cta-fill: var(--blue-slate);
+  --cta-fill: #48616B;
   --cta-border-w: 2px;
   --cta-sweep: 10%;
+  border: var(--cta-border-w) solid transparent;
+  color: #ffffff;
+  margin: 0px;
+  transition: 
+    color 200ms ease, 
+    border-radius 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    margin 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cta-conic-border::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: calc(-1 * var(--cta-border-w));
   border-radius: inherit;
   pointer-events: none;
   z-index: -1;
@@ -155,32 +168,55 @@ body {
     linear-gradient(var(--cta-fill), var(--cta-fill)) padding-box,
     conic-gradient(from var(--cta-angle),
       transparent 0%,
-      var(--powder-petal) var(--cta-sweep),
+      #ffffff var(--cta-sweep),
       transparent calc(var(--cta-sweep) * 2),
       transparent 50%,
-      var(--gold-accent) calc(50% + var(--cta-sweep)),
+      #ffffff calc(50% + var(--cta-sweep)),
       transparent calc(50% + (var(--cta-sweep) * 2)),
       transparent 100%) border-box;
   background-clip: padding-box, border-box;
 
   opacity: 0;
   will-change: opacity;
-  transition: opacity 200ms ease;
+  transition: 
+    opacity 200ms ease, 
+    background 300ms ease,
+    inset 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-width 300ms cubic-bezier(0.22, 1, 0.36, 1);
   filter:
-    drop-shadow(0 0 10px color-mix(in srgb, var(--powder-petal) 35%, transparent)) drop-shadow(0 0 18px color-mix(in srgb, var(--gold-accent) 28%, transparent));
-}
-
-.cta-conic-border:hover {
-  font-weight: 600;
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.35)) drop-shadow(0 0 18px rgba(255, 255, 255, 0.28));
 }
 
 .cta-conic-border:hover::before {
   opacity: 1;
-  animation: cta-conic-spin 1.5s linear infinite;
+  animation: cta-conic-spin 3s linear infinite;
+}
+
+@media (min-width: 768px) {
+  .cta-conic-border:hover {
+    color: #e9f2f7;
+    --cta-fill: #323006;
+    --cta-border-w: 3px;
+    margin: -1px;
+  }
 }
 
 .cta-conic-border:focus-visible::before {
   opacity: 1;
+}
+
+:root[data-theme="light"] .footer-cta.cta-conic-border:not(:hover) {
+  color: #1E2929;
+}
+
+:root:not([data-theme="dark"]) .footer-cta.cta-conic-border:not(:hover) {
+  color: #1E2929;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .footer-cta.cta-conic-border:not(:hover) {
+    color: #ffffff;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -189,25 +225,3 @@ body {
   }
 }
 
-/* GP-03: Texture & Grain Integrity */
-.texture-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  z-index: 1;
-}
-
-:root[data-theme="dark"] .texture-overlay {
-  mix-blend-mode: screen;
-  opacity: 0.03;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .texture-overlay {
-    mix-blend-mode: screen;
-    opacity: 0.03;
-  }
-}

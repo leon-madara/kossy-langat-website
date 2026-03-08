@@ -18,11 +18,11 @@ Each principle is a **law**, not a guideline. Violations must be remediated imme
 **Enforced by:** Architecture lint / manual review.  
 **Remediation:** Convert utility classes to semantic CSS classes in the corresponding stylesheet.
 
-### GP-03: Texture & Grain Integrity
-**Rule:** Every major section must maintain the "premium tactile" feel through texture overlays and grains.  
-**Why:** The site's aesthetic identity depends on depth and texture. Flat designs feel "unfinished" by project standards.  
-**Enforced by:** Presence of `.texture-overlay` or equivalent in section containers.  
-**Remediation:** Apply the global texture utility to the section's background layer.
+### GP-03: Deliberate Surface Treatment
+**Rule:** Use depth treatments only when they improve readability or composition. Do not add grain/noise overlays by default.  
+**Why:** Forced texture can degrade clarity and make imagery feel dirty instead of intentional.  
+**Enforced by:** Review of visual layers in the section itself.  
+**Remediation:** Remove decorative noise layers and keep only the gradients, masks, and overlays that materially help the composition.
 
 ### GP-04: Boundary Validation
 **Rule:** Any external data (Form inputs, CMS data, API results) must be validated before entering the View layer.  

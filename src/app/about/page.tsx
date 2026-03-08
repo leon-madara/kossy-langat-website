@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState, type FocusEvent, type KeyboardEvent } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { SectionLabel } from "@/components/ui/SectionLabel"
@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const GYM_IMAGES = [
     {
-        src: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80",
+        src: "/images/about/gym2.jpeg",
         alt: "Early morning training discipline",
         caption: "5:30 AM — Before the site wakes up"
     },
@@ -22,7 +22,7 @@ const GYM_IMAGES = [
         caption: "Controlled stress builds strength"
     },
     {
-        src: "https://images.unsplash.com/photo-1549476464-37392f717541?w=600&q=80",
+        src: "/images/about/gym3.jpeg",
         alt: "Weight training and endurance",
         caption: "Progressive overload — same principle, different domain"
     },
@@ -30,6 +30,61 @@ const GYM_IMAGES = [
         src: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",
         alt: "Engineer staying sharp",
         caption: "Physical discipline mirrors structural discipline"
+    }
+]
+
+const GYM_CARD_DETAILS = [
+    {
+        number: "01",
+        eyebrow: "05:30 AM Ritual",
+        title: "Before the Site Wakes",
+        subtitle: "Discipline starts before the first briefing, call, or concrete pour.",
+        specs: [
+            { label: "Window", value: "Mon-Fri, 5:30 AM" },
+            { label: "Mode", value: "Lift + conditioning" },
+            { label: "Focus", value: "Consistency over mood" },
+            { label: "Carryover", value: "Sharper site starts" },
+        ],
+        badges: ["Rain or shine", "Before deadlines", "Foundation"]
+    },
+    {
+        number: "02",
+        eyebrow: "Controlled Stress",
+        title: "Strength Under Control",
+        subtitle: "The body adapts to measured pressure the same way engineered systems do.",
+        specs: [
+            { label: "Method", value: "Compound lifts" },
+            { label: "Principle", value: "Load with precision" },
+            { label: "Response", value: "Recover, then return" },
+            { label: "Carryover", value: "Calmer leadership" },
+        ],
+        badges: ["Composure", "Output", "Structure"]
+    },
+    {
+        number: "03",
+        eyebrow: "Progressive Load",
+        title: "Load, Recover, Repeat",
+        subtitle: "Progressive overload is engineering logic translated into physical practice.",
+        specs: [
+            { label: "Principle", value: "Stress + recovery" },
+            { label: "Tempo", value: "Incremental gains" },
+            { label: "Mindset", value: "Repeat without drama" },
+            { label: "Carryover", value: "Long-project endurance" },
+        ],
+        badges: ["Adaptation", "Endurance", "Precision"]
+    },
+    {
+        number: "04",
+        eyebrow: "Reset System",
+        title: "Clarity Through Effort",
+        subtitle: "Physical discipline turns pressure into motion and returns the mind lighter.",
+        specs: [
+            { label: "Effect", value: "Mental clarity" },
+            { label: "Result", value: "Emotional regulation" },
+            { label: "Standard", value: "Consistency under load" },
+            { label: "Carryover", value: "Sharper stakeholder work" },
+        ],
+        badges: ["Reset", "Resilience", "Resolve"]
     }
 ]
 
@@ -57,6 +112,33 @@ const PARALLAX_RIGHT = [
 
 export default function AboutPage() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const [activeGymCard, setActiveGymCard] = useState<number | null>(null)
+    const [gymAccordionEnabled, setGymAccordionEnabled] = useState(false)
+    const [gymAccordionCanHover, setGymAccordionCanHover] = useState(false)
+
+    useEffect(() => {
+        const viewportQuery = window.matchMedia("(min-width: 768px)")
+        const hoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)")
+
+        const syncGymAccordion = () => {
+            const isEnabled = viewportQuery.matches
+            const canHover = hoverQuery.matches
+
+            setGymAccordionEnabled(isEnabled)
+            setGymAccordionCanHover(isEnabled && canHover)
+            setActiveGymCard(isEnabled && !canHover ? 0 : null)
+        }
+
+        syncGymAccordion()
+
+        viewportQuery.addEventListener("change", syncGymAccordion)
+        hoverQuery.addEventListener("change", syncGymAccordion)
+
+        return () => {
+            viewportQuery.removeEventListener("change", syncGymAccordion)
+            hoverQuery.removeEventListener("change", syncGymAccordion)
+        }
+    }, [])
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -153,10 +235,46 @@ export default function AboutPage() {
         return () => ctx.revert()
     }, [])
 
+    const handleGymCardPointerEnter = (index: number) => {
+        if (!gymAccordionEnabled || !gymAccordionCanHover) return
+        setActiveGymCard(index)
+    }
+
+    const handleGymGridPointerLeave = () => {
+        if (!gymAccordionEnabled || !gymAccordionCanHover) return
+        setActiveGymCard(null)
+    }
+
+    const handleGymCardFocus = (index: number) => {
+        if (!gymAccordionEnabled) return
+        setActiveGymCard(index)
+    }
+
+    const handleGymGridBlur = (event: FocusEvent<HTMLDivElement>) => {
+        if (!gymAccordionEnabled || !gymAccordionCanHover) return
+
+        const nextTarget = event.relatedTarget as Node | null
+        if (nextTarget && event.currentTarget.contains(nextTarget)) return
+
+        setActiveGymCard(null)
+    }
+
+    const handleGymCardClick = (index: number) => {
+        if (!gymAccordionEnabled || gymAccordionCanHover) return
+        setActiveGymCard(index)
+    }
+
+    const handleGymCardKeyDown = (event: KeyboardEvent<HTMLElement>, index: number) => {
+        if (!gymAccordionEnabled) return
+
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault()
+            setActiveGymCard(index)
+        }
+    }
+
     return (
         <div ref={containerRef} className="about-page">
-            <div className="texture-overlay" />
-
             <AboutSplitHero />
 
             <div className="about-container">
@@ -255,23 +373,71 @@ export default function AboutPage() {
                         </p>
                     </div>
 
-                    <div className="gym-grid">
-                        {GYM_IMAGES.map((img, i) => (
-                            <div className="gym-card" key={i}>
-                                <div className="gym-card-image-wrap">
-                                    <Image
-                                        src={img.src}
-                                        alt={img.alt}
-                                        fill
-                                        className="gym-card-img"
-                                        sizes="(max-width: 768px) 100vw, 25vw"
-                                        unoptimized
-                                    />
-                                    <div className="gym-card-overlay" />
-                                </div>
-                                <div className="gym-card-caption">{img.caption}</div>
-                            </div>
-                        ))}
+                    <div
+                        className="gym-grid"
+                        onPointerLeave={handleGymGridPointerLeave}
+                        onBlur={handleGymGridBlur}
+                    >
+                        {GYM_IMAGES.map((img, i) => {
+                            const detail = GYM_CARD_DETAILS[i]
+                            const isActive = activeGymCard === i
+
+                            return (
+                                <article
+                                    className={[
+                                        "gym-card",
+                                        gymAccordionEnabled ? "gym-card-interactive" : "",
+                                        isActive ? "active" : "",
+                                        gymAccordionEnabled && activeGymCard !== null && !isActive ? "inactive" : "",
+                                    ].filter(Boolean).join(" ")}
+                                    key={detail.number}
+                                    onPointerEnter={() => handleGymCardPointerEnter(i)}
+                                    onFocus={() => handleGymCardFocus(i)}
+                                    onClick={() => handleGymCardClick(i)}
+                                    onKeyDown={(event) => handleGymCardKeyDown(event, i)}
+                                    role={gymAccordionEnabled ? "button" : undefined}
+                                    tabIndex={gymAccordionEnabled ? 0 : undefined}
+                                    aria-pressed={gymAccordionEnabled ? isActive : undefined}
+                                    aria-label={gymAccordionEnabled ? `${detail.title}. ${detail.subtitle}` : undefined}
+                                >
+                                    <div className="gym-card-image-wrap">
+                                        <Image
+                                            src={img.src}
+                                            alt={img.alt}
+                                            fill
+                                            className="gym-card-img"
+                                            sizes="(max-width: 767px) 50vw, 40vw"
+                                            unoptimized
+                                        />
+                                        <div className="gym-card-overlay" />
+                                        <div className="gym-card-content">
+                                            <div className="gym-card-number">{detail.number}</div>
+                                            <div className="gym-card-eyebrow">{detail.eyebrow}</div>
+                                            <h3 className="gym-card-title">{detail.title}</h3>
+                                            <p className="gym-card-subtitle">{detail.subtitle}</p>
+                                            <div className="gym-card-specs">
+                                                {detail.specs.map((spec) => (
+                                                    <div className="gym-card-spec-row" key={`${detail.number}-${spec.label}`}>
+                                                        <span className="gym-card-spec-label">{spec.label}</span>
+                                                        <span className="gym-card-spec-value">{spec.value}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="gym-card-badges">
+                                                {detail.badges.map((badge) => (
+                                                    <div className="gym-card-badge" key={`${detail.number}-${badge}`}>
+                                                        <div className="gym-card-badge-icon" />
+                                                        <span>{badge}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <span className="gym-card-add-button" aria-hidden="true" />
+                                    </div>
+                                    <div className="gym-card-caption">{img.caption}</div>
+                                </article>
+                            )
+                        })}
                     </div>
 
                     {/* Engineering parallel — two-col layout */}
@@ -349,7 +515,7 @@ export default function AboutPage() {
                         <div className="inspiration-image-col abt-reveal-scroll opacity-0 translate-y-8">
                             <div className="inspiration-image-frame">
                                 <Image
-                                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80"
+                                    src="/images/about/Kossi-Blur.jpeg"
                                     alt="Professional woman in engineering"
                                     fill
                                     className="inspiration-img"

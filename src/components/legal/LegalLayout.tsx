@@ -99,7 +99,6 @@ export function LegalLayout({ title, lastUpdated, sections }: LegalLayoutProps) 
             <main ref={containerRef} className="legal-page">
                 {/* Ambient background effect */}
                 <div className="legal-ambient-glow" />
-                <div className="texture-overlay" />
 
                 <div className="legal-container">
 

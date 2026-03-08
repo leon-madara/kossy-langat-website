@@ -32,8 +32,6 @@ export default function InsightDetailPage({ params }: { params: Promise<{ slug: 
 
     return (
         <article ref={containerRef} className="insight-detail-page">
-            <div className="texture-overlay" />
-
             <div className="insight-detail-container">
                 <Link href="/insights" className="ins-detail-reveal font-sans text-sm text-accent hover:underline mb-12 block">
                     ← Back to Insights

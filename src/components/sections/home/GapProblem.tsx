@@ -1,7 +1,14 @@
 "use client"
 
+import { useEffect, useRef } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal"
 import "./GapProblem.css"
+
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger)
+}
 
 const GAP_POINTS = [
     {
@@ -27,8 +34,45 @@ const GAP_POINTS = [
 ]
 
 export function GapProblem() {
+    const sectionRef = useRef<HTMLElement>(null)
+
+    useEffect(() => {
+        const section = sectionRef.current
+        if (!section) return
+
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        if (reducedMotion) {
+            gsap.set(section, { y: 0 })
+            return
+        }
+
+        const ctx = gsap.context(() => {
+            // Self-contained parallax entrance: offset → settle
+            gsap.set(section, { y: window.innerHeight * 0.15, backfaceVisibility: "hidden" })
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    end: "top 30%",
+                    scrub: 0.6,
+                    invalidateOnRefresh: true,
+                },
+            })
+
+            // Parallax settle: section moves into place
+            tl.to(section, {
+                y: 0,
+                ease: "power2.out",
+                duration: 1,
+            }, 0)
+        }, section)
+
+        return () => ctx.revert()
+    }, [])
     return (
         <section
+            ref={sectionRef}
             id="gap-problem"
             className="gap-problem"
             data-micro-pin="off"

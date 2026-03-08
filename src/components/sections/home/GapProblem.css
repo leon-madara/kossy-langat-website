@@ -13,6 +13,7 @@
   color: var(--gap-foreground);
   isolation: isolate;
   overflow: visible;
+  will-change: transform;
 }
 
 .gap-problem__container {
@@ -73,6 +74,7 @@
   transition:
     transform 220ms ease,
     border-color 220ms ease;
+  will-change: transform, opacity;
 }
 
 .gap-problem__point:hover {

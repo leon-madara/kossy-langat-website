@@ -49,7 +49,7 @@ export function AnimatedReveal({
             className={cn("will-change-transform", className)}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once, margin: "-80px" }}
+            viewport={{ once, margin: "-150px" }}
             transition={{ delay }}
             variants={variants}
         >

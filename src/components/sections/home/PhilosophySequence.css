@@ -108,6 +108,10 @@
   color: rgba(var(--philosophy-overlay-muted-rgb), 0.9);
 }
 
+.philosophy-sequence__eyebrow--phone {
+  display: none;
+}
+
 .philosophy-sequence__eyebrow-number {
   color: rgba(var(--philosophy-overlay-muted-rgb), 0.92);
 }
@@ -200,7 +204,128 @@
   text-shadow: none;
 }
 
-@media (max-width: 1023px) {
+.philosophy-sequence__loader--frame {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .philosophy-sequence {
+    min-height: 100svh;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(5.5rem, 12vh, 6.5rem) 1rem 1.5rem;
+  }
+
+  .philosophy-sequence--static {
+    min-height: auto;
+    height: auto;
+  }
+
+  .philosophy-sequence__loader--section {
+    display: none;
+  }
+
+  .philosophy-sequence__eyebrow--phone {
+    display: flex;
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    color: rgba(var(--philosophy-muted-rgb), 0.84);
+  }
+
+  .philosophy-sequence__stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .philosophy-sequence__canvas-wrap {
+    flex: 0 0 auto;
+    height: clamp(22rem, 50svh, 30rem);
+    min-height: 0;
+    border: 1px solid rgba(var(--philosophy-foreground-rgb), 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    background: rgba(30, 41, 41, 0.02);
+  }
+
+  .philosophy-sequence__loader--frame {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    left: auto;
+    transform: none;
+    display: block;
+  }
+
+  .philosophy-sequence__mobile-scrim {
+    opacity: 0;
+  }
+
+  .philosophy-sequence__text-overlay {
+    flex: 1 1 auto;
+    min-height: clamp(7rem, 18svh, 10rem);
+    height: auto;
+    justify-content: flex-start;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .philosophy-sequence__text-overlay .philosophy-sequence__eyebrow {
+    display: none;
+  }
+
+  .philosophy-sequence__text-track {
+    flex: 1 1 auto;
+    min-height: clamp(7rem, 18svh, 10rem);
+    align-items: flex-start;
+  }
+
+  .philosophy-sequence__line {
+    align-items: flex-start;
+    max-width: none;
+    font-size: clamp(1.75rem, 7vw, 2.45rem);
+    line-height: 0.88;
+    text-shadow: none;
+    transform: translateY(4%);
+  }
+
+  .philosophy-sequence__line.is-active {
+    transform: translateY(0);
+  }
+
+  .philosophy-sequence__line.is-past {
+    transform: translateY(-4%);
+  }
+
+  .philosophy-sequence--static .philosophy-sequence__stage {
+    flex: 0 0 auto;
+    min-height: auto;
+  }
+
+  .philosophy-sequence--static .philosophy-sequence__canvas-wrap {
+    height: clamp(22rem, 50svh, 30rem);
+  }
+
+  .philosophy-sequence--static .philosophy-sequence__text-overlay,
+  .philosophy-sequence--static .philosophy-sequence__text-track {
+    min-height: 0;
+  }
+
+  .philosophy-sequence--static .philosophy-sequence__line--static {
+    max-width: none;
+    font-size: clamp(1.4rem, 5.6vw, 2.1rem);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
   .philosophy-sequence__stage {
     grid-template-columns: 1fr;
     gap: 0;
@@ -308,6 +433,7 @@
 @media (prefers-reduced-motion: reduce) {
   .philosophy-sequence {
     min-height: auto;
+    height: auto;
   }
 
   .philosophy-sequence__stage {
@@ -345,7 +471,41 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) and (max-width: 1023px) {
+@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
+  .philosophy-sequence {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(5.5rem, 12vh, 6.5rem) 1rem 1.5rem;
+  }
+
+  .philosophy-sequence__stage {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .philosophy-sequence__canvas-wrap {
+    height: clamp(22rem, 50svh, 30rem);
+  }
+
+  .philosophy-sequence__text-overlay {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .philosophy-sequence__text-track {
+    min-height: 0;
+  }
+
+  .philosophy-sequence__line {
+    max-width: none;
+    font-size: clamp(1.4rem, 5.6vw, 2.1rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 768px) and (max-width: 1023px) {
   .philosophy-sequence__stage {
     padding: 0;
   }
@@ -398,7 +558,7 @@
   }
 }
 
-@media (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   :root[data-theme="light"] .philosophy-sequence {
     --philosophy-overlay-foreground: #1E2929;
     --philosophy-overlay-foreground-rgb: 30, 41, 41;
@@ -406,7 +566,7 @@
   }
 }
 
-@media (prefers-color-scheme: light) and (max-width: 1023px) {
+@media (prefers-color-scheme: light) and (min-width: 768px) and (max-width: 1023px) {
   :root:not([data-theme]) .philosophy-sequence {
     --philosophy-overlay-foreground: #1E2929;
     --philosophy-overlay-foreground-rgb: 30, 41, 41;

@@ -46,6 +46,17 @@
 | 2026-03-09 | Playwright final-hold pacing check | pass | At desktop `1440x1200`, the last line became active around `scrollY=4680`; Philosophy still held through `scrollY=5040` with `gapTop=1200`, and Gap first entered at about `scrollY=5060`, which matches the intended extra `10vh` release delay |
 | 2026-03-09 | `npm run build` (final-hold tuning) | pass | Production build succeeds after adding the dedicated final hold segment |
 | 2026-03-09 | `npm run lint` (final-hold tuning) | pass with warnings | Same 2 unrelated warnings in `src/app/layout.tsx` and `src/app/mentorship/page.tsx`; no feature-specific lint errors |
+| 2026-03-09 | `npm run lint` (phone-only layout recomposition) | pass with warnings | Same 2 unrelated warnings in `src/app/layout.tsx` and `src/app/mentorship/page.tsx`; no `PhilosophySequence` or worker lint errors |
+| 2026-03-09 | `npm run build` (phone-only layout recomposition) | pass | Production build succeeds after the phone-only breakpoint split, new fit-mode path, and mobile layout changes |
+| 2026-03-09 | Runtime phone breakpoint probe (`390x844`) | pass | Section resolves to `display:flex` with a visible phone eyebrow above the frame, `scrimOpacity=0`, `canvasBorder=1px`, and the text block starts below the image (`canvasBottom=559.27`, `textTop=575.27`) |
+| 2026-03-09 | Runtime large-phone probe (`430x932`) | pass | Phone-only stacked layout scales cleanly on a taller viewport; eyebrow, framed image, and text block remain vertically separated with no overlap |
+| 2026-03-09 | Runtime phone dark-theme probe (`390x844`) | pass | Phone eyebrow stays visible and the mobile layout structure is unchanged when `data-theme=\"dark\"` is applied; no overlay eyebrow leaks back in |
+| 2026-03-09 | Runtime phone reduced-motion probe (`390x844`) | pass | Reduced-motion now mirrors the phone stacked layout; all lines resolve to `position: relative` / `opacity: 1` below the framed image |
+| 2026-03-09 | Runtime tablet breakpoint probe (`768x1024`) | pass | Tablet keeps the original overlay treatment: stage remains grid, overlay eyebrow is visible, scrim opacity stays `1`, and the canvas remains full-bleed with no border or shadow |
+| 2026-03-09 | Runtime tablet regression probe (`820x1180`) | pass | Tablet still uses the unchanged full-bleed overlay path (`canvasBorder=0px`, `canvasShadow=none`, overlay eyebrow visible) |
+| 2026-03-09 | Runtime desktop regression probe (`1440x945`) | pass | Desktop remains on the two-column side-rail composition with the overlay eyebrow in the right rail and no phone-only eyebrow visible |
+| 2026-03-09 | Delayed-image phone loader-placement probe | pass | With philosophy-frame requests delayed by ~120ms, the phone loader stayed visible inside the framed image (`loaderRect` fully within `canvasRect`) instead of colliding with the eyebrow strip |
+| 2026-03-09 | Phone final-line hold boundary probe (`390x844`) | pass | The final line first appeared at `scrollY=3355` with Gap still below the viewport (`gapTop=1078`); after another `140px` of scroll the final line still held (`gapTop=938`), and Gap entered only later at `scrollY=3635` |
 
 ## Review Findings (Code-Level)
 
@@ -56,10 +67,13 @@
 - `src/components/sections/home/PhilosophySequence.tsx`: Phase 3 now initializes on the first loaded frame, keeps a section-local loader while remaining assets settle, and redraws toward the requested frame using a backward-first nearest-loaded fallback.
 - `src/components/sections/home/PhilosophySequence.tsx`: pin ownership now initializes before the first frame is ready, so slow image startup no longer leaves a transient unpinned gap between Hero release and Philosophy takeover.
 - `src/components/sections/home/PhilosophySequence.tsx`: the frame scrub now completes within the original narrative range and a no-op tail segment preserves the final frame/line for an extra `10vh` before release.
+- `src/components/sections/home/PhilosophySequence.tsx`: phone-only markup now includes a dedicated eyebrow strip above the stage, a frame-local loader instance, and a `PHONE_BREAKPOINT`-driven fit-mode path for the renderer.
+- `src/components/sections/home/PhilosophySequence.css`: under-`1024px` behavior is now split so only phones use the stacked eyebrow/image/copy composition; tablet keeps the existing overlay rules.
+- `public/workers/philosophy-worker.js`: worker resize messages now accept `fitMode`, allowing phone rendering to use `contain` while tablet/desktop remain on `cover`.
 - `src/components/sections/home/GapProblem.tsx` and `.css`: Gap is static again with no local GSAP settle; the Framer Motion wrappers used for its reveals now carry the actual opacity hint instead of the inner article.
 - `src/components/sections/home/PhilosophySequence.tsx`: frame tween still uses explicit duration and normalized timeline positions for text cues, now split across explicit desktop/mobile `gsap.matchMedia()` branches.
 - `src/components/sections/home/PhilosophySequence.tsx`: resize path still resets transform and redraws the current frame with DPR-capped scaling.
-- `src/components/sections/home/PhilosophySequence.css` and `.tsx`: desktop side-rail structure remains intact, mobile still uses lower-third overlay placement, and light-theme mobile overlay tokens now keep copy readable against the scrim.
+- `src/components/sections/home/PhilosophySequence.css` and `.tsx`: desktop side-rail structure remains intact, tablet still uses the lower-third overlay path, and phone now uses a contained framed image with full-width copy below.
 - `src/components/sections/home/PhilosophySequence.tsx` and `.css`: reduced-motion and total frame-load failure paths now degrade to a readable static narrative instead of leaving the section dependent on the pinned sequence path.
 
 ## Manual Review
@@ -77,13 +91,18 @@
 - Verified on 2026-03-08 that mobile light-theme Philosophy now resolves to light overlay copy (`rgb(248, 246, 243)`) over the dark lower-third scrim.
 - Verified on 2026-03-09 that, at the Hero -> Philosophy boundary, Gap remains fully below the viewport through the first sampled post-boundary animation frame in both normal-load and delayed-image runs.
 - Verified on 2026-03-09 that the final Philosophy line remains active through the added end-hold and that Gap does not begin entering until after the extra `10vh` release delay.
+- Verified on 2026-03-09 that phone viewports under `768px` now render as a stacked composition with the eyebrow above the image, the image framed with a border, and the active line block below the image.
+- Verified on 2026-03-09 that tablet viewports at both `768px` and `820px` still use the unchanged overlay treatment with a full-bleed canvas and visible overlay eyebrow.
+- Verified on 2026-03-09 that desktop remains on the side-rail composition with no phone-only eyebrow visible.
+- Verified on 2026-03-09 that reduced-motion on phone mirrors the new stacked layout and exposes all lines in normal flow below the framed image.
+- Verified on 2026-03-09 that delayed image loading keeps the phone loader inside the image frame rather than the metadata strip.
 - Browser console showed no runtime errors during philosophy-section validation; one unrelated Next image warning from the hero blur asset remains.
 - Verified on 2026-03-08 in emulated reduced-motion mode that Philosophy degrades to a static non-pinned narrative with all 7 lines visible.
 
 ## Remaining Verification
 
-- Implement and validate the chosen Philosophy-owned exit settle against the static Gap section before shipping.
-- Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the Gap settle lands.
-- Re-test desktop, mobile, reduced-motion, and slow-load behavior after the Phase 4 and Phase 5 integration passes.
+- Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the phone-only recomposition.
+- Run at least one real-device phone pass outside emulation before signoff.
+- Re-test desktop, mobile, reduced-motion, and slow-load behavior after any follow-up tuning passes.
 - Re-check desktop eyebrow clearance once the transition into Gap is finalized.
-- Defer user signoff until the structural rewrite and readability fixes are complete.
+- Defer final signoff until the real-device phone review and full-flow integration pass are complete.

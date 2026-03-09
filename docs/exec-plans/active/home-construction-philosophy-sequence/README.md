@@ -1,15 +1,15 @@
 # Home Construction Philosophy Sequence
 
 Status: Active rewrite implementation
-Last updated: 2026-03-08
-Branch: `codex/mentorship-horizontal-scroll`
+Last updated: 2026-03-09
+Branch: `codex/mobile-philosophy-layout-exploration`
 
 ## Overview
 
 This feature introduces a pinned, scroll-driven home-page sequence that scrubs through 192 construction frames while narrative lines appear in staged windows.
 
-The section now exists in the app and is integrated between Hero and GapProblem. Current work is focused on rewriting the animation ownership model for `Hero -> Philosophy -> Gap` so those sections no longer interfere with each other.
-The Hero and Philosophy rebuild phases are now complete. Current work is focused on the Philosophy-owned exit settle for the transition into the static Gap section, plus full-flow integration checks.
+The section now exists in the app and is integrated between Hero and GapProblem. The ownership rewrite across `Hero -> Philosophy -> Gap` is now stable, and the latest work moved the phone layout away from the old lower-third overlay into a stacked composition.
+The Hero and Philosophy rebuild phases are complete. Current work is focused on phone-only visual review and any follow-up tuning after the new under-`768px` eyebrow/image/copy layout shipped.
 
 ## Related Docs
 
@@ -44,20 +44,25 @@ Implemented:
 - Hero no longer animates its next sibling and now releases into normal document flow.
 - Hero now keeps the image fixed while the copy fades out and the blurred asset scrubs into the clear asset, with no lift or darkening pass.
 - Philosophy now initializes on the first successfully loaded frame instead of waiting for all 192 frames before pinning.
+- Philosophy now claims its pin immediately on mount, so frame readiness no longer controls the Hero -> Philosophy handoff.
 - Canvas sequence keeps loading in place behind a section-local progress badge, and frame drawing falls back to the nearest loaded frame until the requested frame arrives.
 - Philosophy now uses explicit desktop/mobile `gsap.matchMedia()` branches for its pinned narrative.
 - 192 frame assets present in `public/images/philosophy/`.
- - Pin distance now uses an explicit `250vh` ScrollTrigger range.
+- Pin distance now uses an explicit `250vh` ScrollTrigger range plus a dedicated `10vh` final hold before release.
 - Text choreography no longer mixes CSS base transforms with GSAP `y` motion, and Phase 3 keeps Philosophy as the only `pin: true` owner in this page region.
-- Mobile uses cover-mode framing, lower-third copy, single-line swaps, and dedicated overlay foreground tokens so light theme remains readable over the dark scrim.
+- Phone-only (`<768px`) layout now uses a separate eyebrow strip above the image, a framed contained canvas stage, and a full-width copy block below the image.
+- Tablet (`768px-1023px`) keeps the existing full-bleed overlay treatment, and desktop side-rail behavior remains unchanged.
+- Phone rendering now switches the frame scaler to `contain` mode while tablet/desktop stay on `cover`.
+- Phone-only loader placement now sits in the framed image area instead of the top-center metadata zone.
+- Phone-only scrim is disabled because the copy no longer overlays the image.
 - Reduced-motion and total frame-load failure paths both degrade to readable static narrative layouts.
 - `PhilosophySequence` now explicitly opts out of the global micro-pin system.
 - `npm run lint` and `npm run build` pass.
 
 Open items:
-- Gap still needs its settle implementation, but the chosen architecture is to keep Gap static and let Philosophy own any exit settle instead of adding document-level scroll snap.
-- The full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow still needs its post-Phase-3 integration pass after the Gap settle lands.
-- Desktop eyebrow clearance under the fixed header remains secondary after the ownership rewrite.
+- Re-run a real-device phone review to confirm the new stacked layout feels comfortable on short and tall phones outside emulation.
+- The full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow still needs a final integration pass after the mobile recomposition.
+- Desktop eyebrow clearance under the fixed header remains secondary to the current phone-layout review.
 
 ## Success Criteria
 
@@ -67,5 +72,6 @@ Open items:
 - Hero, Philosophy, and Gap each own only their own motion.
 - Gap remains readable without becoming another GSAP section.
 - Desktop layout reads as intentional side-rail (not accidental overlap).
-- Mobile/reduced-motion fallbacks remain readable and robust.
+- Phone layout reads clearly without overlay collisions, while tablet and desktop remain unchanged.
+- Reduced-motion and load-failure fallbacks remain readable and robust.
 - Lint/build remain clean except for pre-existing unrelated warnings.

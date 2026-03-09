@@ -2,6 +2,10 @@
 
 ## Completed Work
 
+- 2026-03-09 - Reworked `PhilosophySequence` for phone-only (`<768px`) stacked composition with a dedicated eyebrow strip above the image, a framed contained canvas, and a full-width copy block below the image.
+- 2026-03-09 - Added phone-aware renderer fit selection (`contain` on phones, `cover` on tablet/desktop) across both the main-thread fallback renderer and the OffscreenCanvas worker.
+- 2026-03-09 - Split the old under-`1024px` CSS path so tablet keeps the existing overlay treatment while phone-only layout, loader placement, scrim removal, and reduced-motion fallback use their own breakpoint rules.
+- 2026-03-09 - Verified the phone-only recomposition across 390x844, 430x932, reduced-motion phone, 768x1024 tablet, 820x1180 tablet, 1440x945 desktop, and a delayed-image loader-placement probe.
 - 2026-03-09 - Added a dedicated `10vh` end-hold to `PhilosophySequence` so the final frame and closing line dwell briefly before the release into Gap without stretching the earlier narrative beats.
 - 2026-03-09 - Decoupled Philosophy pin ownership from frame readiness so the section now claims its pin immediately while the loader and first-frame readiness gate only canvas rendering/text sync.
 - 2026-03-09 - Removed Gap-local GSAP from `GapProblem`, restored the section to static document flow, and moved the actual opacity hint onto the Framer Motion reveal wrappers used in Gap.

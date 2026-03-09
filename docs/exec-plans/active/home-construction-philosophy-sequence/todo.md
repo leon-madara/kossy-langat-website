@@ -2,14 +2,14 @@
 
 ## Now
 
-- [ ] Implement the chosen Philosophy-owned exit settle now that Philosophy claims the pin immediately and Gap is static again.
-- [ ] Continue the rewrite in phase order through Phase 4 and Phase 5.
+- [ ] Review the new phone-only philosophy layout on real devices, especially shorter phones, and confirm the eyebrow/image/copy spacing feels intentional outside emulation.
+- [ ] Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the phone-only layout recomposition.
 
 ## Next
 
-- [ ] Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the exit-settle pass lands.
-- [ ] Re-test slow-load behavior after the exit-settle and integration pass.
-- [ ] Re-check desktop eyebrow clearance after the structural fixes are complete.
+- [ ] Re-run the slow-load phone check if the loader copy or placement gets tuned further.
+- [ ] Re-check desktop eyebrow clearance after the mobile review closes.
+- [ ] Decide whether the phone text block needs typography or line-break tuning on the final quote.
 
 ## Later
 
@@ -19,4 +19,4 @@
 
 ## Blockers
 
-- No active blockers after the Phase 3 rebuild checkpoint.
+- No active blockers after the phone-only layout recomposition checkpoint.

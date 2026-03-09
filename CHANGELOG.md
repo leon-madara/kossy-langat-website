@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-03-09] - Philosophy Phone-Only Layout Recomposition
+
+### Changed
+- **`src/components/sections/home/PhilosophySequence.tsx`**: Adds a phone-only eyebrow strip above the stage, a frame-local mobile loader, and a `PHONE_BREAKPOINT`-driven fit-mode path so phone rendering can use a contained framed presentation while tablet and desktop keep their existing choreography.
+- **`src/components/sections/home/PhilosophySequence.css`**: Splits the old under-`1024px` rules into explicit phone (`<768px`) and tablet (`768px-1023px`) breakpoints, giving phones a stacked eyebrow/image/copy composition while keeping tablet overlay and desktop side-rail layouts intact.
+- **`public/workers/philosophy-worker.js`**: Extends the resize contract with `fitMode` so the OffscreenCanvas renderer matches the main-thread fallback across phone contain mode and tablet/desktop cover mode.
+- **`docs/exec-plans/active/home-construction-philosophy-sequence/README.md`**, **`plan.md`**, **`todo.md`**, **`done.md`**, **`decisions.md`**, **`handoff.md`**, and **`verification.md`**: Updates the active feature continuity record to reflect the shipped phone-only layout, new breakpoint rules, and runtime verification results.
+
 ## [2026-03-08] - Removed Global Grain Overlay System
 
 ### Changed

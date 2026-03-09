@@ -19,7 +19,7 @@ let currentFrame = -1;
 let drawConfig = null;
 
 // ── Helpers ───────────────────────────────────────────────────────────
-function recalcDrawConfig(width, height, dpr) {
+function recalcDrawConfig(width, height, dpr, fitMode) {
     if (!canvas) return;
 
     canvas.width = width * dpr;
@@ -33,7 +33,8 @@ function recalcDrawConfig(width, height, dpr) {
 
     const ref = bitmapCache.find((b) => b !== null);
     if (ref) {
-        const scale = Math.max(width / ref.width, height / ref.height);
+        const scaleResolver = fitMode === "contain" ? Math.min : Math.max;
+        const scale = scaleResolver(width / ref.width, height / ref.height);
         const dw = ref.width * scale;
         const dh = ref.height * scale;
         drawConfig = {
@@ -132,7 +133,7 @@ self.onmessage = function (event) {
         }
 
         case "resize": {
-            recalcDrawConfig(msg.width, msg.height, msg.dpr);
+            recalcDrawConfig(msg.width, msg.height, msg.dpr, msg.fitMode || "cover");
             break;
         }
 

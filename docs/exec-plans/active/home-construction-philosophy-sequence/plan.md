@@ -2,7 +2,7 @@
 
 Status: Active rewrite implementation
 Feature slug: `home-construction-philosophy-sequence`
-Branch: `codex/mentorship-horizontal-scroll`
+Branch: `codex/mobile-philosophy-layout-exploration`
 Related docs:
 - [Feature overview](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/exec-plans/active/home-construction-philosophy-sequence/README.md)
 - [Design note](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/design-docs/home-construction-philosophy-sequence/README.md)
@@ -13,7 +13,7 @@ Related docs:
 Rewrite the animation structure across `Hero`, `PhilosophySequence`, and `GapProblem` so the three sections are intentionally disconnected in animation ownership:
 - `Hero` is an independent intro with only hero-owned motion.
 - `PhilosophySequence` is the only pinned GSAP narrative in this page region.
-- `GapProblem` is a static reading section with a subtle top-settle behavior and no local GSAP animation.
+- `GapProblem` is a static reading section with no local GSAP animation.
 
 ## Non-Goals
 
@@ -29,6 +29,7 @@ Rewrite the animation structure across `Hero`, `PhilosophySequence`, and `GapPro
 - Gap enters naturally after Philosophy unpins and remains readable without becoming another motion stage.
 - The chosen soft-settle behavior for Gap feels subtle and does not trap the reader.
 - Desktop and mobile behavior are defined explicitly rather than inherited from sibling coupling.
+- Phone-only layout changes remain isolated below `768px`, while tablet and desktop stay visually unchanged.
 - `FeaturedProjects` still works as expected after the upstream rewrite.
 - `npm run lint` and `npm run build` continue to pass.
 
@@ -87,13 +88,13 @@ Implementation shape:
 
 Target behavior:
 - No local GSAP animation.
-- Normal scroll section that "settles" just enough at the top to let the headline read.
+- Normal scroll section that releases naturally after Philosophy.
 - Once the reader continues, the section passes naturally into `FeaturedProjects`.
 
 Implementation shape:
 - Remove Gap from any inherited local or cross-section GSAP choreography.
 - Keep document-level scroll snap out of this flow because there is no local scroll container in the page region.
-- If a settle is still needed after the Hero and Philosophy rebuilds, move it to the end state of Philosophy rather than adding GSAP to Gap itself.
+- Keep the release assist in Philosophy ownership only; do not add GSAP to Gap itself.
 
 ## Phases
 
@@ -130,16 +131,29 @@ Deliverable:
 - Stable pinned philosophy sequence with clean entry and release.
 - Status: checkpoint completed on 2026-03-08.
 
-### Phase 4 - Add Gap Soft-Settle
+### Phase 4 - Stabilize Philosophy Release Boundary
 
-- Implement the lightest possible non-GSAP readability assist for Gap.
-- Validate that the section settles gently without feeling sticky or forced.
-- Ensure the transition into `FeaturedProjects` remains natural.
+- Make Philosophy claim its pin before frame readiness so the Hero -> Philosophy handoff cannot leak Gap for a frame on slower loads.
+- Keep Gap static and remove any leftover local GSAP settle behavior.
+- Add a dedicated final hold so the last frame and final line dwell before release.
 
 Deliverable:
-- Static Gap section with a subtle reading-friendly settle.
+- Stable Hero -> Philosophy -> Gap release boundary with one motion owner.
+- Status: checkpoint completed on 2026-03-09.
 
-### Phase 5 - Integration and Cleanup
+### Phase 5 - Recompose Phone-Only Philosophy Layout
+
+- Split the old under-`1024px` layout into phone (`<768px`) and tablet (`768px-1023px`) behavior.
+- Move the eyebrow into a dedicated phone-only strip above the image.
+- Change phone rendering from full-bleed cover framing to a contained framed image with full-width copy below.
+- Keep tablet and desktop visually unchanged.
+- Mirror the new phone composition in reduced-motion and load-failure fallback states.
+
+Deliverable:
+- Phone-only stacked mobile composition with contained image, separate eyebrow strip, and below-image copy.
+- Status: checkpoint completed on 2026-03-09.
+
+### Phase 6 - Integration and Cleanup
 
 - Re-test `Hero -> Philosophy -> Gap -> FeaturedProjects` as one continuous flow.
 - Remove obsolete assumptions from docs and code comments.
@@ -148,7 +162,7 @@ Deliverable:
 Deliverable:
 - Stable home flow with independent animation ownership.
 
-### Phase 6 - Verification and Signoff
+### Phase 7 - Verification and Signoff
 
 - Desktop browser pass.
 - Mobile browser pass.
@@ -162,4 +176,4 @@ Deliverable:
 
 ## Immediate Next Step
 
-- Execute Phase 4 next: add the chosen Philosophy-owned exit settle while keeping Gap static and free of local GSAP.
+- Run a final real-device review of the new phone-only layout and then re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow as one integrated sequence.

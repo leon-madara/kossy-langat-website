@@ -11,9 +11,11 @@ const FRAME_PATH = "/images/philosophy/frame-"
 const PIN_NARRATIVE_SCROLL_DISTANCE_VH = 250
 const FINAL_HOLD_SCROLL_DISTANCE_VH = 10
 const PIN_SCROLL_DISTANCE_VH = PIN_NARRATIVE_SCROLL_DISTANCE_VH + FINAL_HOLD_SCROLL_DISTANCE_VH
+const PHONE_BREAKPOINT = 768
 const DESKTOP_BREAKPOINT = 1024
 const TIMELINE_DURATION = 1
 const FRAME_PROGRESS_DURATION = PIN_NARRATIVE_SCROLL_DISTANCE_VH / PIN_SCROLL_DISTANCE_VH
+type FitMode = "cover" | "contain"
 
 const TEXT_SEQUENCE = [
   { text: "Good design does not begin with walls.", frameStart: 1, frameEnd: 24, color: "#48616b" },
@@ -45,6 +47,10 @@ function getFrameUrls(): string[] {
     urls.push(`${FRAME_PATH}${String(i + 1).padStart(3, "0")}.jpg`)
   }
   return urls
+}
+
+function getFitMode(viewportWidth: number): FitMode {
+  return viewportWidth < PHONE_BREAKPOINT ? "contain" : "cover"
 }
 
 // ── Fallback: main-thread canvas rendering ────────────────────────────
@@ -92,7 +98,7 @@ function createMainThreadRenderer(canvas: HTMLCanvasElement) {
       }
     },
 
-    resize(width: number, height: number, dpr: number) {
+    resize(width: number, height: number, dpr: number, fitMode: FitMode) {
       canvas.width = width * dpr
       canvas.height = height * dpr
       canvas.style.width = `${width}px`
@@ -103,7 +109,8 @@ function createMainThreadRenderer(canvas: HTMLCanvasElement) {
 
       const ref = images.find((img) => img && img.naturalWidth > 0)
       if (ref) {
-        const scale = Math.max(width / ref.naturalWidth, height / ref.naturalHeight)
+        const scaleResolver = fitMode === "contain" ? Math.min : Math.max
+        const scale = scaleResolver(width / ref.naturalWidth, height / ref.naturalHeight)
         const dw = ref.naturalWidth * scale
         const dh = ref.naturalHeight * scale
         drawConfig = { cw: width, ch: height, dw, dh, ox: (width - dw) / 2, oy: (height - dh) / 2 }
@@ -269,11 +276,12 @@ export function PhilosophySequence() {
     const width = Math.max(1, Math.round(bounds.width))
     const height = Math.max(1, Math.round(bounds.height))
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const fitMode = getFitMode(window.innerWidth)
 
     if (usingWorkerRef.current && workerRef.current) {
-      workerRef.current.postMessage({ type: "resize", width, height, dpr })
+      workerRef.current.postMessage({ type: "resize", width, height, dpr, fitMode })
     } else if (fallbackRef.current) {
-      fallbackRef.current.resize(width, height, dpr)
+      fallbackRef.current.resize(width, height, dpr, fitMode)
     }
   }, [])
 
@@ -418,6 +426,7 @@ export function PhilosophySequence() {
   )
 
   const isStaticFallback = loadFailed
+  const loaderLabel = `Loading sequence... ${loadProgress}%`
 
   return (
     <section
@@ -428,13 +437,24 @@ export function PhilosophySequence() {
       aria-busy={!allFramesSettled}
     >
       {!allFramesSettled && (
-        <div className="philosophy-sequence__loader" aria-live="polite">
-          <p className="philosophy-sequence__loader-text">Loading sequence... {loadProgress}%</p>
+        <div className="philosophy-sequence__loader philosophy-sequence__loader--section" aria-live="polite">
+          <p className="philosophy-sequence__loader-text">{loaderLabel}</p>
         </div>
       )}
 
+      <div className="philosophy-sequence__eyebrow philosophy-sequence__eyebrow--phone" aria-hidden="true">
+        <span className="philosophy-sequence__eyebrow-number">02.0</span>
+        <span className="philosophy-sequence__eyebrow-separator">/</span>
+        <span>THE PHILOSOPHY</span>
+      </div>
+
       <div className="philosophy-sequence__stage">
         <div ref={canvasWrapRef} className="philosophy-sequence__canvas-wrap">
+          {!allFramesSettled && (
+            <div className="philosophy-sequence__loader philosophy-sequence__loader--frame" aria-live="polite">
+              <p className="philosophy-sequence__loader-text">{loaderLabel}</p>
+            </div>
+          )}
           <canvas
             ref={canvasRef}
             className="philosophy-sequence__canvas"

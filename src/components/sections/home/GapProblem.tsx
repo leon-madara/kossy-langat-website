@@ -1,14 +1,7 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal"
 import "./GapProblem.css"
-
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger)
-}
 
 const GAP_POINTS = [
     {
@@ -34,51 +27,14 @@ const GAP_POINTS = [
 ]
 
 export function GapProblem() {
-    const sectionRef = useRef<HTMLElement>(null)
-
-    useEffect(() => {
-        const section = sectionRef.current
-        if (!section) return
-
-        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        if (reducedMotion) {
-            gsap.set(section, { y: 0 })
-            return
-        }
-
-        const ctx = gsap.context(() => {
-            // Self-contained parallax entrance: offset → settle
-            gsap.set(section, { y: window.innerHeight * 0.15, backfaceVisibility: "hidden" })
-
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top 80%",
-                    end: "top 30%",
-                    scrub: 0.6,
-                    invalidateOnRefresh: true,
-                },
-            })
-
-            // Parallax settle: section moves into place
-            tl.to(section, {
-                y: 0,
-                ease: "power2.out",
-                duration: 1,
-            }, 0)
-        }, section)
-
-        return () => ctx.revert()
-    }, [])
     return (
         <section
-            ref={sectionRef}
             id="gap-problem"
             className="gap-problem"
             data-micro-pin="off"
         >
             <div className="gap-problem__container">
-                <AnimatedReveal direction="up">
+                <AnimatedReveal direction="up" className="will-change-opacity">
                     <div className="gap-problem__eyebrow">
                         <span className="gap-problem__eyebrow-number">03.0</span>
                         <span className="gap-problem__eyebrow-separator" aria-hidden="true">
@@ -89,7 +45,7 @@ export function GapProblem() {
                 </AnimatedReveal>
 
                 <div className="gap-problem__grid">
-                    <AnimatedReveal direction="up" delay={0.1}>
+                    <AnimatedReveal direction="up" delay={0.1} className="will-change-opacity">
                         <h2 className="gap-problem__headline">
                             Most projects fail in the <span className="gap-problem__headline-emphasis">spaces</span> between people.
                         </h2>
@@ -101,6 +57,7 @@ export function GapProblem() {
                                 key={point.title}
                                 direction="up"
                                 delay={0.2 + index * 0.1}
+                                className="will-change-opacity"
                             >
                                 <article className="gap-problem__point">
                                     <span className="gap-problem__point-number">{point.number}</span>

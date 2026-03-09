@@ -2,6 +2,10 @@
 
 ## Completed Work
 
+- 2026-03-09 - Added a dedicated `10vh` end-hold to `PhilosophySequence` so the final frame and closing line dwell briefly before the release into Gap without stretching the earlier narrative beats.
+- 2026-03-09 - Decoupled Philosophy pin ownership from frame readiness so the section now claims its pin immediately while the loader and first-frame readiness gate only canvas rendering/text sync.
+- 2026-03-09 - Removed Gap-local GSAP from `GapProblem`, restored the section to static document flow, and moved the actual opacity hint onto the Framer Motion reveal wrappers used in Gap.
+- 2026-03-09 - Ran a delayed-image Hero -> Philosophy boundary probe and confirmed there is no sampled frame where Gap becomes visible before Philosophy pin takeover.
 - 2026-03-08 - Restored the intended Hero scroll behavior: the image stays fixed, the copy fades out, and the blurred asset transitions into the clear asset without reintroducing image lift or darkening.
 - 2026-03-08 - Rebuilt `PhilosophySequence` as the only pinned narrative in the Hero -> Philosophy -> Gap flow using explicit desktop/mobile `gsap.matchMedia()` branches.
 - 2026-03-08 - Changed Philosophy preload/init so the section can pin on the first usable frame, keep loading remaining assets in place, and redraw toward the requested frame with nearest-frame fallback.

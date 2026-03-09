@@ -2,14 +2,13 @@
 
 ## Now
 
-- [ ] Implement the chosen Philosophy-owned exit settle without adding Gap-local GSAP.
+- [ ] Implement the chosen Philosophy-owned exit settle now that Philosophy claims the pin immediately and Gap is static again.
 - [ ] Continue the rewrite in phase order through Phase 4 and Phase 5.
 
 ## Next
 
-- [ ] Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the latest Hero blur-only adjustment.
-- [ ] Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the Philosophy changes land.
-- [ ] Re-test slow-load behavior after the pinned-sequence rebuild and Gap integration pass.
+- [ ] Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the exit-settle pass lands.
+- [ ] Re-test slow-load behavior after the exit-settle and integration pass.
 - [ ] Re-check desktop eyebrow clearance after the structural fixes are complete.
 
 ## Later

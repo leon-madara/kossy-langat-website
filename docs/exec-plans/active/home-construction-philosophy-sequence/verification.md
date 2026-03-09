@@ -39,6 +39,13 @@
 | 2026-03-08 | Playwright Hero fixed-image fade pass | pass | Mid-scroll Hero check shows `imageTransform` remains `matrix(1, 0, 0, 1, 0, 0)`, `contentOpacity` drops to `0.7906`, and blur opacity drops to `0.7573`; deeper in the pin, content drops to `0.0685` and blur drops to `0.0906`, confirming the clear-image hold while the image stays fixed |
 | 2026-03-08 | `npm run lint` (hero fixed-image fade adjustment) | pass with warnings | Same 2 unrelated warnings in `src/app/layout.tsx` and `src/app/mentorship/page.tsx`; no Hero-specific errors |
 | 2026-03-08 | `npm run build` (hero fixed-image fade adjustment) | pass | Production build succeeds after restoring the Hero content fade alongside the blur-to-clear reveal |
+| 2026-03-09 | Playwright Hero -> Philosophy boundary probe (normal load) | pass | At the pin boundary (`scrollY=1543`), Philosophy was still relative with `top=0` while Gap stayed fully below the viewport (`gapTop=3308`, `gapVisiblePx=0`); by the next animation frame after crossing, Philosophy was pinned and Gap was still invisible |
+| 2026-03-09 | Playwright Hero -> Philosophy boundary probe (delayed philosophy frames) | pass | Delaying `**/images/philosophy/*.jpg` by ~1.5s did not reproduce the sampled single-frame Gap flash; Philosophy stayed `aria-busy=true` with the loader visible, and Gap remained out of view until the normal far-end unpin handoff |
+| 2026-03-09 | `npm run build` (immediate-pin boundary fix) | pass | Production build succeeds after decoupling pin ownership from frame readiness and removing Gap-local GSAP |
+| 2026-03-09 | `npm run lint` (post-cleanup) | pass with warnings | Same 2 unrelated warnings in `src/app/layout.tsx` and `src/app/mentorship/page.tsx`; no feature-specific lint errors |
+| 2026-03-09 | Playwright final-hold pacing check | pass | At desktop `1440x1200`, the last line became active around `scrollY=4680`; Philosophy still held through `scrollY=5040` with `gapTop=1200`, and Gap first entered at about `scrollY=5060`, which matches the intended extra `10vh` release delay |
+| 2026-03-09 | `npm run build` (final-hold tuning) | pass | Production build succeeds after adding the dedicated final hold segment |
+| 2026-03-09 | `npm run lint` (final-hold tuning) | pass with warnings | Same 2 unrelated warnings in `src/app/layout.tsx` and `src/app/mentorship/page.tsx`; no feature-specific lint errors |
 
 ## Review Findings (Code-Level)
 
@@ -47,6 +54,9 @@
 - `src/components/sections/home/PhilosophySequence.tsx`: `data-micro-pin="off"` now opts the section out of the global micro-pin system while preserving its own local `pin: true` ScrollTrigger.
 - `src/components/sections/home/GapProblem.css` and `src/app/globals.css`: no local scroll container or existing scroll-snap setup exists for this page region, so Gap settle will be handled by the Philosophy exit instead of document-level snap rules.
 - `src/components/sections/home/PhilosophySequence.tsx`: Phase 3 now initializes on the first loaded frame, keeps a section-local loader while remaining assets settle, and redraws toward the requested frame using a backward-first nearest-loaded fallback.
+- `src/components/sections/home/PhilosophySequence.tsx`: pin ownership now initializes before the first frame is ready, so slow image startup no longer leaves a transient unpinned gap between Hero release and Philosophy takeover.
+- `src/components/sections/home/PhilosophySequence.tsx`: the frame scrub now completes within the original narrative range and a no-op tail segment preserves the final frame/line for an extra `10vh` before release.
+- `src/components/sections/home/GapProblem.tsx` and `.css`: Gap is static again with no local GSAP settle; the Framer Motion wrappers used for its reveals now carry the actual opacity hint instead of the inner article.
 - `src/components/sections/home/PhilosophySequence.tsx`: frame tween still uses explicit duration and normalized timeline positions for text cues, now split across explicit desktop/mobile `gsap.matchMedia()` branches.
 - `src/components/sections/home/PhilosophySequence.tsx`: resize path still resets transform and redraws the current frame with DPR-capped scaling.
 - `src/components/sections/home/PhilosophySequence.css` and `.tsx`: desktop side-rail structure remains intact, mobile still uses lower-third overlay placement, and light-theme mobile overlay tokens now keep copy readable against the scrim.
@@ -65,6 +75,8 @@
 - Verified on 2026-03-08 that Philosophy now mounts inside a plain `.pin-spacer` before all 192 frames settle, with the loader active as a non-blocking in-section badge.
 - Verified on 2026-03-08 that desktop Philosophy advances cleanly through the narrative while staying pinned at the viewport top.
 - Verified on 2026-03-08 that mobile light-theme Philosophy now resolves to light overlay copy (`rgb(248, 246, 243)`) over the dark lower-third scrim.
+- Verified on 2026-03-09 that, at the Hero -> Philosophy boundary, Gap remains fully below the viewport through the first sampled post-boundary animation frame in both normal-load and delayed-image runs.
+- Verified on 2026-03-09 that the final Philosophy line remains active through the added end-hold and that Gap does not begin entering until after the extra `10vh` release delay.
 - Browser console showed no runtime errors during philosophy-section validation; one unrelated Next image warning from the hero blur asset remains.
 - Verified on 2026-03-08 in emulated reduced-motion mode that Philosophy degrades to a static non-pinned narrative with all 7 lines visible.
 

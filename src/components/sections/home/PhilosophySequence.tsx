@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
@@ -8,9 +8,12 @@ import "./PhilosophySequence.css"
 
 const FRAME_COUNT = 192
 const FRAME_PATH = "/images/philosophy/frame-"
-const PIN_SCROLL_DISTANCE_VH = 250
+const PIN_NARRATIVE_SCROLL_DISTANCE_VH = 250
+const FINAL_HOLD_SCROLL_DISTANCE_VH = 10
+const PIN_SCROLL_DISTANCE_VH = PIN_NARRATIVE_SCROLL_DISTANCE_VH + FINAL_HOLD_SCROLL_DISTANCE_VH
 const DESKTOP_BREAKPOINT = 1024
 const TIMELINE_DURATION = 1
+const FRAME_PROGRESS_DURATION = PIN_NARRATIVE_SCROLL_DISTANCE_VH / PIN_SCROLL_DISTANCE_VH
 
 const TEXT_SEQUENCE = [
   { text: "Good design does not begin with walls.", frameStart: 1, frameEnd: 24, color: "#48616b" },
@@ -36,199 +39,302 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP, ScrollTrigger)
 }
 
-function getFrameSrc(index: number) {
-  return `${FRAME_PATH}${String(index + 1).padStart(3, "0")}.jpg`
+function getFrameUrls(): string[] {
+  const urls: string[] = []
+  for (let i = 0; i < FRAME_COUNT; i++) {
+    urls.push(`${FRAME_PATH}${String(i + 1).padStart(3, "0")}.jpg`)
+  }
+  return urls
 }
 
+// ── Fallback: main-thread canvas rendering ────────────────────────────
+// Used when OffscreenCanvas is not supported
+function createMainThreadRenderer(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext("2d")
+  if (!ctx) return null
 
+  const images: (HTMLImageElement | null)[] = Array.from({ length: FRAME_COUNT }, () => null)
+  const loaded: boolean[] = Array.from({ length: FRAME_COUNT }, () => false)
+  let currentFrame = -1
+  let drawConfig: { cw: number; ch: number; dw: number; dh: number; ox: number; oy: number } | null = null
+
+  return {
+    loadFrames(
+      urls: string[],
+      onProgress: (percent: number) => void,
+      onReady: () => void,
+      onSettled: (successCount: number) => void
+    ) {
+      let settled = 0
+      let success = 0
+      let readySent = false
+
+      for (let i = 0; i < urls.length; i++) {
+        const img = new Image()
+        images[i] = img
+        img.src = urls[i]
+        img
+          .decode()
+          .then(() => {
+            loaded[i] = true
+            success++
+            if (!readySent) {
+              readySent = true
+              onReady()
+            }
+          })
+          .catch(() => { /* skip */ })
+          .finally(() => {
+            settled++
+            if (settled % 16 === 0) onProgress(Math.round((settled / FRAME_COUNT) * 100))
+            if (settled === FRAME_COUNT) onSettled(success)
+          })
+      }
+    },
+
+    resize(width: number, height: number, dpr: number) {
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.scale(dpr, dpr)
+
+      const ref = images.find((img) => img && img.naturalWidth > 0)
+      if (ref) {
+        const scale = Math.max(width / ref.naturalWidth, height / ref.naturalHeight)
+        const dw = ref.naturalWidth * scale
+        const dh = ref.naturalHeight * scale
+        drawConfig = { cw: width, ch: height, dw, dh, ox: (width - dw) / 2, oy: (height - dh) / 2 }
+      }
+
+      if (currentFrame >= 0 && loaded[currentFrame]) {
+        const f = currentFrame
+        currentFrame = -1
+        this.render(f)
+      }
+    },
+
+    render(frame: number) {
+      const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(frame)))
+      if (!loaded[clamped]) return
+      if (currentFrame === clamped) return
+      const img = images[clamped]
+      if (!img || !drawConfig) return
+      ctx.clearRect(0, 0, drawConfig.cw, drawConfig.ch)
+      ctx.drawImage(img, drawConfig.ox, drawConfig.oy, drawConfig.dw, drawConfig.dh)
+      currentFrame = clamped
+    },
+
+    dispose() {
+      for (let i = 0; i < images.length; i++) {
+        const img = images[i]
+        if (img) { img.onload = null; img.onerror = null }
+        images[i] = null
+      }
+    },
+  }
+}
 
 export function PhilosophySequence() {
   const sectionRef = useRef<HTMLElement>(null)
   const canvasWrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const textLinesRef = useRef<Array<HTMLParagraphElement | null>>([])
-  const imagesRef = useRef<(HTMLImageElement | null)[]>(
-    Array.from({ length: FRAME_COUNT }, () => null)
-  )
-  const loadedFramesRef = useRef<boolean[]>(
-    Array.from({ length: FRAME_COUNT }, () => false)
-  )
-  const currentFrameRef = useRef(-1)
+  const workerRef = useRef<Worker | null>(null)
+  const fallbackRef = useRef<ReturnType<typeof createMainThreadRenderer> | null>(null)
   const activeIndexRef = useRef(0)
+  const playheadFrameRef = useRef(0)
+  const stageReadyRef = useRef(false)
+  const usingWorkerRef = useRef(false)
 
   const [stageReady, setStageReady] = useState(false)
   const [allFramesSettled, setAllFramesSettled] = useState(false)
   const [loadProgress, setLoadProgress] = useState(0)
   const [loadFailed, setLoadFailed] = useState(false)
 
-  // ── Frame pre-loading ──────────────────────────────────────────────
   useEffect(() => {
-    let isCancelled = false
-    let settledCount = 0
-    let successfulLoads = 0
-    let hasMarkedReady = false
+    stageReadyRef.current = stageReady
+  }, [stageReady])
 
-    imagesRef.current = Array.from({ length: FRAME_COUNT }, () => null)
-    loadedFramesRef.current = Array.from({ length: FRAME_COUNT }, () => false)
-    currentFrameRef.current = -1
+  // ── Text class toggling (shared by both paths) ──────────────────────
+  const updateTextClasses = useCallback((frameNumber: number) => {
+    const newActiveIndex = TEXT_SEQUENCE.findIndex(
+      (line) => frameNumber >= line.frameStart && frameNumber <= line.frameEnd
+    )
+    if (newActiveIndex !== -1 && newActiveIndex !== activeIndexRef.current) {
+      const lines = textLinesRef.current
+      for (let i = 0; i < lines.length; i++) {
+        const el = lines[i]
+        if (!el) continue
+        el.classList.remove("is-active", "is-past")
+        if (i < newActiveIndex) {
+          el.classList.add("is-past")
+        }
+      }
+      lines[newActiveIndex]?.classList.add("is-active")
+      activeIndexRef.current = newActiveIndex
+    }
+  }, [])
 
-    for (let index = 0; index < FRAME_COUNT; index += 1) {
-      const image = new Image()
-      imagesRef.current[index] = image
+  // ── Worker / Fallback initialization ────────────────────────────────
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-      const finalize = (didLoad: boolean) => {
-        if (didLoad) {
-          loadedFramesRef.current[index] = true
-          successfulLoads += 1
+    const urls = getFrameUrls()
+    const supportsOffscreen = typeof canvas.transferControlToOffscreen === "function"
 
-          if (!hasMarkedReady && !isCancelled) {
-            hasMarkedReady = true
-            setStageReady(true)
+    if (supportsOffscreen) {
+      // ── Worker path ───────────────────────────────────────────────
+      try {
+        // Create worker from public/ — bypasses Turbopack blob URL issues
+        const worker = new Worker("/workers/philosophy-worker.js")
+
+        // Only transfer canvas AFTER worker is successfully created
+        const offscreen = canvas.transferControlToOffscreen()
+
+        worker.postMessage({ type: "init", canvas: offscreen }, [offscreen])
+        worker.postMessage({ type: "load-frames", urls })
+
+        worker.onmessage = (event: MessageEvent) => {
+          const { type, ...data } = event.data
+          switch (type) {
+            case "ready":
+              setStageReady(true)
+              break
+            case "progress":
+              setLoadProgress(data.percent)
+              break
+            case "all-settled":
+              setAllFramesSettled(true)
+              setLoadProgress(100)
+              setLoadFailed(data.successCount === 0)
+              break
           }
         }
 
-        settledCount += 1
-
-        if (!isCancelled && settledCount % 16 === 0) {
-          setLoadProgress(Math.round((settledCount / FRAME_COUNT) * 100))
-        }
-
-        if (!isCancelled && settledCount === FRAME_COUNT) {
+        worker.onerror = () => {
+          // Worker failed to load — can't recover canvas, show static fallback
           setAllFramesSettled(true)
-          setLoadProgress(100)
-          setLoadFailed(successfulLoads === 0)
+          setLoadFailed(true)
         }
-      }
 
-      image.src = getFrameSrc(index)
-      image
-        .decode()
-        .then(() => {
-          if (!isCancelled) finalize(true)
-        })
-        .catch(() => {
-          if (!isCancelled) finalize(false)
-        })
+        workerRef.current = worker
+        usingWorkerRef.current = true
+      } catch {
+        // Worker creation failed before canvas transfer — safe to fallback
+        usingWorkerRef.current = false
+      }
+    }
+
+    if (!usingWorkerRef.current) {
+      // ── Fallback path (main-thread rendering) ─────────────────────
+      const renderer = createMainThreadRenderer(canvas)
+      if (renderer) {
+        renderer.loadFrames(
+          urls,
+          (percent) => setLoadProgress(percent),
+          () => setStageReady(true),
+          (successCount) => {
+            setAllFramesSettled(true)
+            setLoadProgress(100)
+            setLoadFailed(successCount === 0)
+          }
+        )
+        fallbackRef.current = renderer
+      }
     }
 
     return () => {
-      isCancelled = true
-      imagesRef.current.forEach((image) => {
-        if (!image) return
-        image.onload = null
-        image.onerror = null
-      })
+      if (workerRef.current) {
+        workerRef.current.postMessage({ type: "dispose" })
+        workerRef.current.terminate()
+        workerRef.current = null
+      }
+      if (fallbackRef.current) {
+        fallbackRef.current.dispose()
+        fallbackRef.current = null
+      }
     }
   }, [])
+
+  // ── Resize helper ───────────────────────────────────────────────────
+  const postResize = useCallback(() => {
+    const canvasWrap = canvasWrapRef.current
+    if (!canvasWrap) return
+
+    const bounds = canvasWrap.getBoundingClientRect()
+    const width = Math.max(1, Math.round(bounds.width))
+    const height = Math.max(1, Math.round(bounds.height))
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+
+    if (usingWorkerRef.current && workerRef.current) {
+      workerRef.current.postMessage({ type: "resize", width, height, dpr })
+    } else if (fallbackRef.current) {
+      fallbackRef.current.resize(width, height, dpr)
+    }
+  }, [])
+
+  // ── Render helper ───────────────────────────────────────────────────
+  const syncStage = useCallback(
+    (frame: number) => {
+      const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(frame)))
+      playheadFrameRef.current = clamped
+
+      if (!stageReadyRef.current) {
+        return
+      }
+
+      if (usingWorkerRef.current && workerRef.current) {
+        workerRef.current.postMessage({ type: "render", frame: clamped })
+      } else if (fallbackRef.current) {
+        fallbackRef.current.render(clamped)
+      }
+
+      // Text class toggle stays on main thread (direct DOM, no React)
+      updateTextClasses(clamped + 1)
+    },
+    [updateTextClasses]
+  )
+
+  useEffect(() => {
+    if (!stageReady || loadFailed) {
+      return
+    }
+
+    postResize()
+    syncStage(
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? FRAME_COUNT - 1
+        : playheadFrameRef.current
+    )
+  }, [stageReady, loadFailed, postResize, syncStage])
 
   // ── GSAP scroll animation ──────────────────────────────────────────
   useGSAP(
     () => {
       const section = sectionRef.current
-      const canvas = canvasRef.current
       const canvasWrap = canvasWrapRef.current
 
-      if (!stageReady || loadFailed || !section || !canvas || !canvasWrap) {
+      if (loadFailed || !section || !canvasWrap) {
         return
-      }
-
-      const context = canvas.getContext("2d")
-      if (!context) return
-
-
-      // ── Canvas Math Cache ──────────────────────────────────────
-      // We calculate scaling/offsets ONCE per resize, not 60x a second
-      let drawConfig: { cw: number; ch: number; dw: number; dh: number; ox: number; oy: number } | null = null
-
-      // ── Canvas rendering ───────────────────────────────────────
-      const renderFrame = (targetFrame: number, force = false) => {
-        const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(targetFrame)))
-
-        // If the target frame isn't loaded, hold the current frame (no jumping)
-        if (!loadedFramesRef.current[clamped]) return
-        if (!force && currentFrameRef.current === clamped) return
-
-        const image = imagesRef.current[clamped]
-        if (!image || !drawConfig) return
-
-        context.clearRect(0, 0, drawConfig.cw, drawConfig.ch)
-        context.drawImage(image, drawConfig.ox, drawConfig.oy, drawConfig.dw, drawConfig.dh)
-        currentFrameRef.current = clamped
-
-        // Update active text index via direct DOM manipulation (no React re-render)
-        const frameNumber = clamped + 1
-        const newActiveIndex = TEXT_SEQUENCE.findIndex(
-          (line) => frameNumber >= line.frameStart && frameNumber <= line.frameEnd
-        )
-        if (newActiveIndex !== -1 && newActiveIndex !== activeIndexRef.current) {
-          const lines = textLinesRef.current
-          // Remove classes from all lines
-          for (let i = 0; i < lines.length; i++) {
-            const el = lines[i]
-            if (!el) continue
-            el.classList.remove("is-active", "is-past")
-            if (i < newActiveIndex) {
-              el.classList.add("is-past")
-            }
-          }
-          // Set new active
-          lines[newActiveIndex]?.classList.add("is-active")
-          activeIndexRef.current = newActiveIndex
-        }
-      }
-
-      // ── Canvas sizing ──────────────────────────────────────────
-      const setCanvasSize = () => {
-        const bounds = canvasWrap.getBoundingClientRect()
-        const width = Math.max(1, Math.round(bounds.width))
-        const height = Math.max(1, Math.round(bounds.height))
-        const dpr = Math.min(window.devicePixelRatio || 1, 2)
-
-        canvas.width = width * dpr
-        canvas.height = height * dpr
-        canvas.style.width = `${width}px`
-        canvas.style.height = `${height}px`
-
-        context.setTransform(1, 0, 0, 1, 0, 0)
-        context.scale(dpr, dpr)
-
-        // Cache math geometry using the first available image
-        const referenceImage = imagesRef.current.find((img) => img && img.naturalWidth > 0)
-        if (referenceImage) {
-          const scale = Math.max(width / referenceImage.naturalWidth, height / referenceImage.naturalHeight)
-          const drawWidth = referenceImage.naturalWidth * scale
-          const drawHeight = referenceImage.naturalHeight * scale
-          drawConfig = {
-            cw: width,
-            ch: height,
-            dw: drawWidth,
-            dh: drawHeight,
-            ox: (width - drawWidth) / 2,
-            oy: (height - drawHeight) / 2,
-          }
-        }
-
-        // Force a render of the *current* frame to apply the new size
-        const currentFrame = Math.max(0, currentFrameRef.current)
-        if (loadedFramesRef.current[currentFrame]) {
-          currentFrameRef.current = -1 // Force redraw
-          renderFrame(currentFrame, true)
-        }
       }
 
       // ── Reduced motion: static display ─────────────────────────
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        setCanvasSize()
-        renderFrame(FRAME_COUNT - 1, true)
+        postResize()
+        syncStage(FRAME_COUNT - 1)
         return
       }
 
       // ── Responsive setup ───────────────────────────────────────
       const mm = gsap.matchMedia()
-      setCanvasSize()
+      postResize()
 
       const handleResize = () => {
-        setCanvasSize()
+        postResize()
         ScrollTrigger.refresh()
       }
 
@@ -250,18 +356,22 @@ export function PhilosophySequence() {
           },
         })
 
-        // Frame playhead — GSAP drives the frame index, canvas renders it
         timeline.to(
           playhead,
           {
             frame: FRAME_COUNT - 1,
-            duration: TIMELINE_DURATION,
+            duration: FRAME_PROGRESS_DURATION,
             ease: "none",
             snap: "frame",
-            onUpdate: () => renderFrame(Math.round(playhead.frame)),
+            onUpdate: () => syncStage(playhead.frame),
           },
           0
         )
+
+        // Hold the finished frame and final line briefly before release.
+        timeline.set({}, {}, TIMELINE_DURATION)
+
+        syncStage(playhead.frame)
       })
 
       // ── Mobile timeline ────────────────────────────────────────
@@ -284,13 +394,18 @@ export function PhilosophySequence() {
           playhead,
           {
             frame: FRAME_COUNT - 1,
-            duration: TIMELINE_DURATION,
+            duration: FRAME_PROGRESS_DURATION,
             ease: "none",
             snap: "frame",
-            onUpdate: () => renderFrame(Math.round(playhead.frame)),
+            onUpdate: () => syncStage(playhead.frame),
           },
           0
         )
+
+        // Hold the finished frame and final line briefly before release.
+        timeline.set({}, {}, TIMELINE_DURATION)
+
+        syncStage(playhead.frame)
       })
 
       // ── Cleanup ────────────────────────────────────────────────
@@ -299,7 +414,7 @@ export function PhilosophySequence() {
         mm.revert()
       }
     },
-    { dependencies: [stageReady, loadFailed], scope: sectionRef }
+    { dependencies: [loadFailed, postResize, syncStage], scope: sectionRef }
   )
 
   const isStaticFallback = loadFailed

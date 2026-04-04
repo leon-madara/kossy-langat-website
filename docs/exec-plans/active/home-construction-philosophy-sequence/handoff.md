@@ -3,47 +3,44 @@
 ## Current State
 
 - Section is implemented and routed on the home page.
-- Frames exist and load from `public/images/philosophy/`.
+- Desktop/tablet frames exist and load from `public/images/philosophy/`.
+- Phone portrait frames now exist and load from `public/images/philosophy/mobile/`.
 - Hero no longer animates the next section during its pinned intro.
 - Hero now keeps the image fixed while the copy fades and the blurred asset clears during its local pin.
 - `PhilosophySequence` now opts out of the global micro-pin flow, so it is the only long-form pin owner in this page region.
 - Philosophy now claims its pin immediately on mount, keeps a section-local loader while remaining frames settle, and waits only on first-frame readiness before syncing canvas/text rendering to the current scroll position.
 - Philosophy now includes a dedicated `10vh` end-hold, so the final frame and last line remain pinned briefly before the section releases into Gap.
-- Timeline normalization fix is implemented (frame tween spans the full timeline).
-- Canvas resize scaling fix is implemented.
-- Desktop side-rail markup/CSS refactor is implemented.
-- Pin distance is explicitly tuned to `250vh`.
-- Desktop text jitter/overlap is fixed by consolidating text property ownership under GSAP and explicit breakpoint timelines.
-- Gap is static again with no local GSAP settle; the reveal wrappers now carry the actual opacity hint for Framer Motion.
-- Mobile uses cover-mode framing, lower-third copy placement, discrete line swaps, and dedicated light-theme overlay tokens.
+- Philosophy now selects a phone-only portrait frame family below `768px` and keeps the original landscape family for tablet and desktop.
+- Text timing now uses normalized progress windows so both the `192`-frame and `240`-frame sequences stay aligned.
+- Worker and fallback frame loads now use tokens so stale variant requests cannot overwrite the active sequence.
+- Breakpoint switching now preserves normalized progress without re-running the full `useGSAP` setup, which fixed the `260vh` pin-spacer accumulation seen during `767 -> 768 -> 767` transitions.
+- Mobile on this branch intentionally keeps the immersive cover-mode layout, lower-third copy placement, and light-theme overlay tokens.
 - Reduced-motion and no-frame failure cases now degrade to readable static narrative flow.
-- Runtime browser validation passed on desktop, mobile light theme, reduced-motion, and the post-Phase-1 DOM ownership checks.
-- Runtime boundary probing on 2026-03-09 did not reproduce a sampled single-frame Gap flash before Philosophy pin takeover, including under delayed philosophy-frame loading.
+- Runtime validation now passes for phone portrait loading, tablet/desktop landscape loading, reduced-motion fallback, breakpoint crossing, delayed mobile-frame loading, and the existing final hold.
 - `npm run lint` and `npm run build` pass.
-- Feature remains in active rewrite mode because the Gap exit settle and full-flow integration pass are still unresolved.
+- This branch is ready for comparison review against the stacked mobile-layout alternative.
 
 ## Next Recommended Step
 
-Start Phase 4 from the new stable boundary and updated pacing: add the chosen Philosophy-owned exit settle on top of the immediate-pin startup and final `10vh` hold, then run the full `Hero -> Philosophy -> Gap -> FeaturedProjects` integration pass.
+Compare this immersive portrait-frame branch against `codex/mobile-philosophy-layout-exploration` and decide which mobile direction should advance. If this branch wins, limit follow-up work to targeted phone-only polish instead of a layout rewrite.
 
 ## Files to Read First
 
 - [Feature overview](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/exec-plans/active/home-construction-philosophy-sequence/README.md)
 - [Feature plan](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/exec-plans/active/home-construction-philosophy-sequence/plan.md)
 - [Current component](file:///c:/Users/Leon/DevMode/kossy-langat-website/src/components/sections/home/PhilosophySequence.tsx)
+- [Worker implementation](file:///c:/Users/Leon/DevMode/kossy-langat-website/public/workers/philosophy-worker.js)
 - [Current styles](file:///c:/Users/Leon/DevMode/kossy-langat-website/src/components/sections/home/PhilosophySequence.css)
 - [Verification log](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/exec-plans/active/home-construction-philosophy-sequence/verification.md)
 
 ## Files Expected to Change Next
 
 - `src/components/sections/home/PhilosophySequence.tsx`
-- `src/components/sections/home/GapProblem.tsx`
-- `src/components/sections/home/GapProblem.css`
+- `src/components/sections/home/PhilosophySequence.css`
+- `docs/exec-plans/active/home-construction-philosophy-sequence/*`
 
 ## Risks and Open Questions
 
-- The chosen Philosophy-owned exit settle still needs implementation and real-device validation against the static Gap section.
-- Re-test the full upstream flow after the immediate-pin startup change to make sure the handoff pacing still feels intentional.
-- The full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow still needs its post-Phase-3 integration pass.
-- Desktop eyebrow clearance remains a secondary concern after the structural pin and readability fixes.
-- Further animation changes should preserve the single-owner model for transforms and opacity to avoid reintroducing jitter.
+- Reduced-motion still downloads the active frame family before presenting static content; revisit only if that cost becomes material.
+- If future breakpoint logic changes, keep `gsap.matchMedia()` as the sole timeline owner or the pin spacer can regress.
+- Real-device comparison against the stacked-layout branch is still needed before choosing the final mobile direction.

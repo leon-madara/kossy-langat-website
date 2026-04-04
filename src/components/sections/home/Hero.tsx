@@ -25,6 +25,7 @@ export function Hero() {
     const formulaRef = useRef<HTMLDivElement>(null)
 
     const heroAlt = "Kossy - Structural Engineer reviewing blueprints"
+    const primaryCtaLabel = "Start A Conversation"
 
     const { props: desktopImageProps } = getImageProps({
         src: "/images/hero/6dea.png",
@@ -199,8 +200,23 @@ export function Hero() {
                             <Link
                                 href="/contact"
                                 className="hero-cta hero-cta--primary"
+                                aria-label={primaryCtaLabel}
                             >
-                                Start A Conversation
+                                <span className="hero-cta__measure" aria-hidden="true">
+                                    {primaryCtaLabel}
+                                </span>
+                                <span className="hero-cta__flip" aria-hidden="true">
+                                    <span className="hero-cta__face hero-cta__face--front">
+                                        <span className="hero-cta__label hero-cta__label--front">
+                                            {primaryCtaLabel}
+                                        </span>
+                                    </span>
+                                    <span className="hero-cta__face hero-cta__face--bottom">
+                                        <span className="hero-cta__label hero-cta__label--bottom">
+                                            {primaryCtaLabel}
+                                        </span>
+                                    </span>
+                                </span>
                             </Link>
                             <Link
                                 href="/work"

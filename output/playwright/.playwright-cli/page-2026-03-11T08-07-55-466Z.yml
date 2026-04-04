@@ -1,0 +1,291 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "KOSSY Structural Engineer" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: KOSSY
+        - generic [ref=e6]: Structural Engineer
+      - navigation "Primary" [ref=e7]:
+        - link "Home" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "About" [ref=e9] [cursor=pointer]:
+          - /url: /about
+        - link "Expertise" [ref=e10] [cursor=pointer]:
+          - /url: /expertise
+        - link "Work" [ref=e11] [cursor=pointer]:
+          - /url: /work
+        - link "Insights" [ref=e12] [cursor=pointer]:
+          - /url: /insights
+        - link "Mentorship" [ref=e13] [cursor=pointer]:
+          - /url: /mentorship
+        - link "Contact" [ref=e14] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e15]:
+        - button "Toggle theme" [ref=e16]:
+          - img [ref=e17]
+          - img [ref=e23]
+        - link "Start A Conversation" [ref=e26] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - img [ref=e32]
+      - generic [ref=e36]:
+        - paragraph [ref=e37]: 01.0 / THE ORCHESTRATOR
+        - heading "I don’t just build STRUCTURES. I build alignment between the people who make them possible." [level=1] [ref=e38]:
+          - generic [ref=e39]: I don’t just build
+          - generic [ref=e40]: STRUCTURES.
+          - generic [ref=e41]: I build alignment between the people who make them possible.
+        - paragraph [ref=e42]: Structural Engineer · General Manager · East Africa.
+        - generic [ref=e43]:
+          - link "Start A Conversation" [ref=e44] [cursor=pointer]:
+            - /url: /contact
+            - generic:
+              - generic:
+                - generic: Start A Conversation
+              - generic:
+                - generic: Start A Conversation
+          - link "See How I Work" [ref=e45] [cursor=pointer]:
+            - /url: /work
+        - list "Core formula" [ref=e47]:
+          - listitem [ref=e48]:
+            - text: +
+            - generic [ref=e49]: Engineering excellence
+          - listitem [ref=e50]:
+            - text: +
+            - generic [ref=e51]: Business pragmatism
+          - listitem [ref=e52]:
+            - text: +
+            - generic [ref=e53]: Worker welfare
+    - generic [ref=e55]:
+      - img "Construction sequence showing structure coming together" [ref=e57]
+      - generic:
+        - generic:
+          - generic: "02.0"
+          - generic: /
+          - generic: THE PHILOSOPHY
+        - generic:
+          - paragraph: Good design does not begin with walls.
+          - paragraph: It begins with structure.
+          - paragraph: With alignment.
+          - paragraph: With logic.
+          - paragraph: With systems that hold.
+          - paragraph: And with the right leadership, what was only a framework becomes something real.
+          - paragraph: That space between people and design - that's where I live.
+    - generic [ref=e59]:
+      - generic [ref=e61]:
+        - generic [ref=e62]: "03.0"
+        - generic [ref=e63]: /
+        - generic [ref=e64]: THE GAP
+      - generic [ref=e65]:
+        - heading "Most projects fail in the spaces between people." [level=2] [ref=e67]
+        - generic [ref=e68]:
+          - article [ref=e70]:
+            - generic [ref=e71]: "01"
+            - heading "Technical vs. Executive" [level=3] [ref=e72]
+            - paragraph [ref=e73]: Bridging the gap between engineering precision and management decision-making.
+          - article [ref=e75]:
+            - generic [ref=e76]: "02"
+            - heading "Integrity vs. Instant Gain" [level=3] [ref=e77]
+            - paragraph [ref=e78]: Protecting long-term structural truth against short-term budget shortcuts.
+          - article [ref=e80]:
+            - generic [ref=e81]: "03"
+            - heading "Human Welfare vs. Pure Metrics" [level=3] [ref=e82]
+            - paragraph [ref=e83]: Aligning workforce morale with peak project performance.
+          - article [ref=e85]:
+            - generic [ref=e86]: "04"
+            - heading "Vision vs. Feasibility" [level=3] [ref=e87]
+            - paragraph [ref=e88]: Anchoring client expectations in structural reality.
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - generic [ref=e94]:
+            - generic [ref=e95]: "03.0"
+            - generic [ref=e96]: /
+            - generic [ref=e97]: FEATURED WORK
+          - heading "Execution over abstraction." [level=2] [ref=e98]:
+            - generic [ref=e300]: Execution
+            - generic [ref=e301]: over
+            - generic [ref=e303]: abstraction
+            - generic [ref=e304]: .
+        - link "View all case studies" [ref=e100] [cursor=pointer]:
+          - /url: /work
+          - generic [ref=e101]: View all case studies
+      - generic [ref=e104]:
+        - article [ref=e106]:
+          - generic [ref=e107]:
+            - img "Applewood Hospital - case study preview" [ref=e108]
+            - generic [ref=e110]:
+              - generic [ref=e111]: Structural
+              - generic [ref=e112]: Healthcare
+              - generic [ref=e113]: Operations
+          - generic [ref=e114]:
+            - paragraph [ref=e115]: Nairobi, Kenya
+            - heading "Applewood Hospital" [level=3] [ref=e116]
+            - generic [ref=e117]:
+              - paragraph [ref=e118]: Intervention
+              - paragraph [ref=e119]: Mediated between stakeholders to realign the budget, revised the structural plan, and maintained safety compliance without stopping progress.
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - paragraph [ref=e122]: Challenge
+                - paragraph [ref=e123]: A funding misalignment between the developer and contractor threatened structural safety mid-project.
+              - generic [ref=e124]:
+                - paragraph [ref=e125]: Result
+                - paragraph [ref=e126]: Project delivered on time with zero structural failures and full regulatory compliance.
+            - link "View Case Study" [ref=e127] [cursor=pointer]:
+              - /url: /work/applewood-hospital
+              - generic [ref=e128]: View Case Study
+        - article [ref=e132]:
+          - generic [ref=e133]:
+            - img "Kiambu Residential Complex - case study preview" [ref=e134]
+            - generic [ref=e136]:
+              - generic [ref=e137]: Residential
+              - generic [ref=e138]: EPS Systems
+              - generic [ref=e139]: Cost Alignment
+          - generic [ref=e140]:
+            - paragraph [ref=e141]: Kiambu, Kenya
+            - heading "Kiambu Residential Complex" [level=3] [ref=e142]
+            - generic [ref=e143]:
+              - paragraph [ref=e144]: Intervention
+              - paragraph [ref=e145]: Introduced EPS panel systems to reduce material costs, restructured the construction timeline, and assumed technical oversight.
+            - generic [ref=e146]:
+              - generic [ref=e147]:
+                - paragraph [ref=e148]: Challenge
+                - paragraph [ref=e149]: Structural budget was depleted by 30% due to poor resource allocation and an inadequate lead engineer.
+              - generic [ref=e150]:
+                - paragraph [ref=e151]: Result
+                - paragraph [ref=e152]: Recovered 22% of the lost budget through material optimisation, completing the complex within a revised feasible scope.
+            - link "View Case Study" [ref=e153] [cursor=pointer]:
+              - /url: /work/kiambu-residential-complex
+              - generic [ref=e154]: View Case Study
+        - article [ref=e158]:
+          - generic [ref=e159]:
+            - img "ABC Logistics Hub - case study preview" [ref=e160]
+            - generic [ref=e162]:
+              - generic [ref=e163]: Industrial
+              - generic [ref=e164]: Operations
+              - generic [ref=e165]: Port Logistics
+          - generic [ref=e166]:
+            - paragraph [ref=e167]: Mombasa, Kenya
+            - heading "ABC Logistics Hub" [level=3] [ref=e168]
+            - generic [ref=e169]:
+              - paragraph [ref=e170]: Intervention
+              - paragraph [ref=e171]: Implemented a structured communication protocol, co-ordinated directly with port logistics, and restructured workforce scheduling.
+            - generic [ref=e172]:
+              - generic [ref=e173]:
+                - paragraph [ref=e174]: Challenge
+                - paragraph [ref=e175]: Strategic coordination failures between on-site workers, port authorities, and management led to severe delays and increased costs.
+              - generic [ref=e176]:
+                - paragraph [ref=e177]: Result
+                - paragraph [ref=e178]: Reduced operational delays by 40%, restoring client confidence and bringing the project to profitable completion.
+            - link "View Case Study" [ref=e179] [cursor=pointer]:
+              - /url: /work/abc-logistics-hub
+              - generic [ref=e180]: View Case Study
+    - generic [ref=e184]:
+      - generic [ref=e186]:
+        - generic [ref=e187]: "04.0"
+        - generic [ref=e188]: /
+        - generic [ref=e189]: IMPACT
+      - heading "Quantifiable integrity. Measurable results." [level=2] [ref=e191]
+      - generic [ref=e192]:
+        - generic [ref=e194]:
+          - generic [ref=e195]: 0M+
+          - generic [ref=e196]: KES Saved
+          - generic [ref=e197]: Through material optimisation and stakeholder realignment across multiple projects.
+        - generic [ref=e199]:
+          - generic [ref=e200]: 0+
+          - generic [ref=e201]: Projects Aligned
+          - generic [ref=e202]: Successfully co-ordinated between engineers, management, and workforce.
+        - generic [ref=e204]:
+          - generic [ref=e205]: 0+
+          - generic [ref=e206]: Workers Empowered
+          - generic [ref=e207]: Field staff supported with clarity, structure, and dignified conditions.
+        - generic [ref=e209]:
+          - generic [ref=e210]: "0"
+          - generic [ref=e211]: Structural Failures
+          - generic [ref=e212]: Every structure delivered meets or exceeds its required safety standards.
+    - generic [ref=e214]:
+      - generic [ref=e215]:
+        - generic [ref=e217]:
+          - generic [ref=e218]: "05.0"
+          - generic [ref=e219]: /
+          - generic [ref=e220]: REPRESENTATION
+        - heading "Representation is structural." [level=2] [ref=e222]
+        - paragraph [ref=e224]: Being the only woman at the table or on-site isn't about being an exception. It's about being the standard for how engineering, management, and humans intersect to build the future.
+      - generic [ref=e225]:
+        - generic [ref=e227]:
+          - generic [ref=e228]: The Reality
+          - heading "Scarcity is a metric, not a limit." [level=3] [ref=e229]
+          - paragraph [ref=e230]: In an industry where women represent less than 15% of the structural workforce, presence becomes a strategic asset.
+        - generic [ref=e232]:
+          - generic [ref=e233]: The Objective
+          - heading "Visible competence is the ultimate authority." [level=3] [ref=e234]
+          - paragraph [ref=e235]: Authority isn't found in titles, but in the structural alignment of the teams we lead and the buildings we deliver.
+        - generic [ref=e237]:
+          - generic [ref=e238]: The Mission
+          - heading "Excellence as the baseline." [level=3] [ref=e239]
+          - paragraph [ref=e240]: Every project is an opportunity to prove that technical mastery and human coordination are the same discipline.
+  - contentinfo [ref=e241]:
+    - generic [ref=e242]:
+      - generic [ref=e243]:
+        - generic [ref=e244]:
+          - link "KOSSY" [ref=e245] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e247]: KOSSY
+          - paragraph [ref=e248]: I don't just build structures. I build alignment between the people who make them possible.
+          - link "Start A Conversation" [ref=e249] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e250]:
+          - generic [ref=e251]:
+            - heading "Capabilities" [level=3] [ref=e252]
+            - list [ref=e253]:
+              - listitem [ref=e254]:
+                - link "Structural Engineering" [ref=e255] [cursor=pointer]:
+                  - /url: /expertise#structural
+              - listitem [ref=e256]:
+                - link "EPS Systems" [ref=e257] [cursor=pointer]:
+                  - /url: /expertise#eps
+              - listitem [ref=e258]:
+                - link "Operations Management" [ref=e259] [cursor=pointer]:
+                  - /url: /expertise#operations
+              - listitem [ref=e260]:
+                - link "Cost Alignment" [ref=e261] [cursor=pointer]:
+                  - /url: /expertise#cost
+          - generic [ref=e262]:
+            - heading "Explore" [level=3] [ref=e263]
+            - list [ref=e264]:
+              - listitem [ref=e265]:
+                - link "About Kossy" [ref=e266] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e267]:
+                - link "Featured Work" [ref=e268] [cursor=pointer]:
+                  - /url: /work
+              - listitem [ref=e269]:
+                - link "Insights & Articles" [ref=e270] [cursor=pointer]:
+                  - /url: /insights
+              - listitem [ref=e271]:
+                - link "For Young Women" [ref=e272] [cursor=pointer]:
+                  - /url: /mentorship
+          - generic [ref=e273]:
+            - heading "Connect" [level=3] [ref=e274]
+            - list [ref=e275]:
+              - listitem [ref=e276]:
+                - link "LinkedIn ↗" [ref=e277] [cursor=pointer]:
+                  - /url: "#"
+                  - text: LinkedIn
+                  - generic [ref=e278]: ↗
+              - listitem [ref=e279]:
+                - link "Start a Project" [ref=e280] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e281]:
+                - link "Speaking Inquiries" [ref=e282] [cursor=pointer]:
+                  - /url: /contact?type=speaking
+      - generic [ref=e283]:
+        - paragraph [ref=e284]: © 2026 Naomi "Kossy" Lang'at Chepkoskei. All rights reserved.
+        - generic [ref=e285]:
+          - link "Privacy Policy" [ref=e286] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms of Service" [ref=e287] [cursor=pointer]:
+            - /url: /terms
+  - button "Open Next.js Dev Tools" [ref=e293] [cursor=pointer]:
+    - img [ref=e294]
+  - alert [ref=e306]

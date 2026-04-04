@@ -1,0 +1,2 @@
+[    2129ms] [WARNING] Image with src "/images/hero/6dea-blur.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative. @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[  220205ms] [WARNING] Image with src "/images/hero/6dea-blur.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative. @ http://127.0.0.1:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297

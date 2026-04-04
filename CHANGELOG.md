@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-03-09] - Home Construction Philosophy Sequence Phone Portrait Mobile Variant
+
+### Added
+- **`public/images/philosophy/mobile/frame-001.jpg` through `frame-240.jpg`**: Adds the dedicated portrait philosophy frame set for phone viewports.
+
+### Changed
+- **`src/components/sections/home/PhilosophySequence.tsx`**: Refactors the philosophy renderer around explicit landscape and phone portrait sequence variants, converts text timing to shared progress cues, preserves normalized progress across breakpoint changes, and avoids full `useGSAP` reinitialization during variant swaps so pin spacing remains stable.
+- **`public/workers/philosophy-worker.js`**: Adds per-load token handling and bitmap disposal safeguards so stale frame requests from an old breakpoint variant cannot overwrite the active sequence.
+- **`docs/exec-plans/active/home-construction-philosophy-sequence/README.md`**, **`plan.md`**, **`todo.md`**, **`done.md`**, **`decisions.md`**, **`handoff.md`**, and **`verification.md`**: Reorients the active feature record around the immersive mobile comparison branch, the portrait-frame asset swap, the breakpoint-switch fix, and the latest verification results.
+
 ## [2026-03-08] - Removed Global Grain Overlay System
 
 ### Changed

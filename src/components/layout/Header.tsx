@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, type MouseEvent } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -26,6 +26,11 @@ export function Header() {
     const [mobileMenuOpenOnPath, setMobileMenuOpenOnPath] = useState<string | null>(null)
     const pathname = usePathname()
     const isMobileMenuOpen = mobileMenuOpenOnPath === pathname
+
+    const scrollToPageTop = () => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        window.scrollTo({ top: 0, left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" })
+    }
 
     // Handle scroll effect
     useEffect(() => {
@@ -55,6 +60,15 @@ export function Header() {
         }
     }
 
+    const handleHomeLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
+        setMobileMenuOpenOnPath(null)
+
+        if (pathname === "/") {
+            event.preventDefault()
+            scrollToPageTop()
+        }
+    }
+
     return (
         <header
             className={cn(
@@ -64,7 +78,7 @@ export function Header() {
         >
             <div className="site-header__inner">
                 {/* Logo Mark */}
-                <Link href="/" className="site-header__brand">
+                <Link href="/" scroll className="site-header__brand" onClick={handleHomeLinkClick}>
                     <span className="site-header__brand-name">KOSSY</span>
                     <span className="site-header__brand-subtitle">Structural Engineer</span>
                 </Link>
@@ -82,6 +96,7 @@ export function Header() {
                                     "site-header__link",
                                     isActive && "site-header__link--active"
                                 )}
+                                onClick={link.href === "/" ? handleHomeLinkClick : undefined}
                             >
                                 {link.name}
                             </Link>
@@ -158,7 +173,7 @@ export function Header() {
                                                 "site-header__mobile-link",
                                                 isActive && "site-header__mobile-link--active"
                                             )}
-                                            onClick={() => setMobileMenuOpenOnPath(null)}
+                                            onClick={link.href === "/" ? handleHomeLinkClick : () => setMobileMenuOpenOnPath(null)}
                                         >
                                             {link.name}
                                         </Link>

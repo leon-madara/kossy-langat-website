@@ -31,7 +31,7 @@ const ADVICE_ITEMS: AdviceItem[] = [
         strapline: "Technical Depth First",
         title: "Master Fundamentals",
         text: "Before seeking visibility, build an unshakeable technical foundation. Know your codes, your load paths, your material science. Competence is the only credential that cannot be questioned.",
-        image: "/images/mentorship/horizontalScroll1.png",
+        image: "/images/mentorship/horizontalCartoon1a.png",
         imageAlt: "Woman engineer studying structural drawings and technical references at a desk",
         layout: "split-right",
         numberSide: "right",

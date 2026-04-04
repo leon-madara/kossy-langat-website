@@ -2,6 +2,12 @@
 
 ## Completed Work
 
+- 2026-03-09 - Added a phone-only portrait frame family under `public/images/philosophy/mobile/`, normalized to `frame-001.jpg` through `frame-240.jpg` for runtime use.
+- 2026-03-09 - Refactored `PhilosophySequence` to select a phone portrait variant below `768px` while keeping the existing landscape sequence for tablet and desktop.
+- 2026-03-09 - Converted philosophy text activation to shared progress windows so the `192`-frame landscape sequence and `240`-frame portrait sequence stay editorially aligned.
+- 2026-03-09 - Hardened both the worker path and the main-thread fallback against stale frame loads by introducing per-load tokens for sequence swaps.
+- 2026-03-09 - Fixed breakpoint switching so `767 -> 768 -> 767` preserves normalized progress without re-running the full `useGSAP` setup or compounding the philosophy pin spacer.
+- 2026-03-09 - Re-verified phone/tablet/desktop asset selection, reduced-motion fallback, delayed mobile-frame loading, breakpoint switching, and the existing final hold on this immersive mobile branch.
 - 2026-03-09 - Added a dedicated `10vh` end-hold to `PhilosophySequence` so the final frame and closing line dwell briefly before the release into Gap without stretching the earlier narrative beats.
 - 2026-03-09 - Decoupled Philosophy pin ownership from frame readiness so the section now claims its pin immediately while the loader and first-frame readiness gate only canvas rendering/text sync.
 - 2026-03-09 - Removed Gap-local GSAP from `GapProblem`, restored the section to static document flow, and moved the actual opacity hint onto the Framer Motion reveal wrappers used in Gap.

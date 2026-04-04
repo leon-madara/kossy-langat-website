@@ -2,21 +2,21 @@
 
 ## Now
 
-- [ ] Implement the chosen Philosophy-owned exit settle now that Philosophy claims the pin immediately and Gap is static again.
-- [ ] Continue the rewrite in phase order through Phase 4 and Phase 5.
+- [ ] Review this immersive portrait-frame branch side by side with `codex/mobile-philosophy-layout-exploration`.
+- [ ] Decide whether the current full-page mobile layout is now sufficient with the portrait assets, or whether the stacked layout should replace it.
 
 ## Next
 
-- [ ] Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the exit-settle pass lands.
-- [ ] Re-test slow-load behavior after the exit-settle and integration pass.
-- [ ] Re-check desktop eyebrow clearance after the structural fixes are complete.
+- [ ] If this branch wins the comparison, decide whether any smaller phone-only framing tweaks are still needed after real device review.
+- [ ] If the stacked branch wins, port only the selected ideas back into the mainline philosophy work.
+- [ ] Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow on the chosen branch before signoff.
 
 ## Later
 
-- [ ] Decide whether to introduce SplitText word-level emphasis on selected lines.
-- [ ] Decide whether to add structural-grid highlight effects tied to key frame beats.
-- [ ] Explore progressive frame loading if payload/performance becomes a concern.
+- [ ] Decide whether reduced-motion should skip frame-family loading entirely and jump straight to static content.
+- [ ] Decide whether to add aspect-ratio gating beyond `<768px` if small landscape devices need different behavior.
+- [ ] Explore progressive frame loading if payload or memory pressure becomes a concern.
 
 ## Blockers
 
-- No active blockers after the Phase 3 rebuild checkpoint.
+- No active blockers.

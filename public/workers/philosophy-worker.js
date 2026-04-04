@@ -17,6 +17,13 @@ let loadedFlags = [];
 let frameCount = 0;
 let currentFrame = -1;
 let drawConfig = null;
+let loadToken = 0;
+
+function disposeBitmaps() {
+    for (let j = 0; j < bitmapCache.length; j++) {
+        if (bitmapCache[j]) bitmapCache[j].close();
+    }
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────
 function recalcDrawConfig(width, height, dpr) {
@@ -79,10 +86,15 @@ self.onmessage = function (event) {
 
         case "load-frames": {
             const urls = msg.urls;
-            frameCount = urls.length;
+            const token = msg.token;
+            loadToken = token;
 
+            disposeBitmaps();
+            frameCount = urls.length;
             bitmapCache = new Array(frameCount).fill(null);
             loadedFlags = new Array(frameCount).fill(false);
+            currentFrame = -1;
+            drawConfig = null;
 
             let settledCount = 0;
             let successCount = 0;
@@ -98,24 +110,32 @@ self.onmessage = function (event) {
                         return createImageBitmap(blob);
                     })
                     .then(function (bitmap) {
+                        if (loadToken !== token) {
+                            bitmap.close();
+                            return;
+                        }
+
                         bitmapCache[i] = bitmap;
                         loadedFlags[i] = true;
                         successCount++;
 
                         if (!hasPostedReady) {
                             hasPostedReady = true;
-                            self.postMessage({ type: "ready" });
+                            self.postMessage({ type: "ready", token: token });
                         }
                     })
                     .catch(function () {
                         // Frame failed — skip silently
                     })
                     .finally(function () {
+                        if (loadToken !== token) return;
+
                         settledCount++;
 
                         if (settledCount % 16 === 0) {
                             self.postMessage({
                                 type: "progress",
+                                token: token,
                                 percent: Math.round((settledCount / frameCount) * 100),
                             });
                         }
@@ -123,6 +143,7 @@ self.onmessage = function (event) {
                         if (settledCount === frameCount) {
                             self.postMessage({
                                 type: "all-settled",
+                                token: token,
                                 successCount: successCount,
                             });
                         }
@@ -142,9 +163,8 @@ self.onmessage = function (event) {
         }
 
         case "dispose": {
-            for (let j = 0; j < bitmapCache.length; j++) {
-                if (bitmapCache[j]) bitmapCache[j].close();
-            }
+            loadToken += 1;
+            disposeBitmaps();
             bitmapCache = [];
             loadedFlags = [];
             canvas = null;

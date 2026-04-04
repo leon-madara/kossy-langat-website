@@ -6,16 +6,48 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 import "./PhilosophySequence.css"
 
-const FRAME_COUNT = 192
-const FRAME_PATH = "/images/philosophy/frame-"
+type SequenceVariantId = "landscape" | "phonePortrait"
+
+type SequenceVariant = {
+  id: SequenceVariantId
+  frameCount: number
+  framePath: string
+}
+
+type TextSequenceDefinition = {
+  text: string
+  frameStart: number
+  frameEnd: number
+  color: string
+}
+
+type TextCue = {
+  text: string
+  color: string
+  startProgress: number
+  endProgress: number
+}
+
+const PHONE_BREAKPOINT = 768
+const DESKTOP_BREAKPOINT = 1024
+const LANDSCAPE_SEQUENCE: SequenceVariant = {
+  id: "landscape",
+  frameCount: 192,
+  framePath: "/images/philosophy/frame-",
+}
+const PHONE_SEQUENCE: SequenceVariant = {
+  id: "phonePortrait",
+  frameCount: 240,
+  framePath: "/images/philosophy/mobile/frame-",
+}
+const BASELINE_FRAME_COUNT = LANDSCAPE_SEQUENCE.frameCount
 const PIN_NARRATIVE_SCROLL_DISTANCE_VH = 250
 const FINAL_HOLD_SCROLL_DISTANCE_VH = 10
 const PIN_SCROLL_DISTANCE_VH = PIN_NARRATIVE_SCROLL_DISTANCE_VH + FINAL_HOLD_SCROLL_DISTANCE_VH
-const DESKTOP_BREAKPOINT = 1024
 const TIMELINE_DURATION = 1
 const FRAME_PROGRESS_DURATION = PIN_NARRATIVE_SCROLL_DISTANCE_VH / PIN_SCROLL_DISTANCE_VH
 
-const TEXT_SEQUENCE = [
+const TEXT_SEQUENCE_DEFINITIONS: TextSequenceDefinition[] = [
   { text: "Good design does not begin with walls.", frameStart: 1, frameEnd: 24, color: "#48616b" },
   { text: "It begins with structure.", frameStart: 25, frameEnd: 48, color: "#323006" },
   { text: "With alignment.", frameStart: 49, frameEnd: 72, color: "#685a54" },
@@ -35,36 +67,99 @@ const TEXT_SEQUENCE = [
   },
 ]
 
+const TEXT_SEQUENCE: TextCue[] = TEXT_SEQUENCE_DEFINITIONS.map((line) => ({
+  text: line.text,
+  color: line.color,
+  startProgress: (line.frameStart - 1) / BASELINE_FRAME_COUNT,
+  endProgress: line.frameEnd / BASELINE_FRAME_COUNT,
+}))
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP, ScrollTrigger)
 }
 
-function getFrameUrls(): string[] {
+function clampProgress(progress: number): number {
+  return Math.max(0, Math.min(1, progress))
+}
+
+function clampFrame(frame: number, frameCount: number): number {
+  if (frameCount <= 1) return 0
+  return Math.max(0, Math.min(frameCount - 1, Math.round(frame)))
+}
+
+function getSequenceProgress(frame: number, frameCount: number): number {
+  if (frameCount <= 1) return 0
+  return clampFrame(frame, frameCount) / (frameCount - 1)
+}
+
+function getCueProgress(frame: number, frameCount: number): number {
+  if (frameCount <= 0) return 0
+  return (clampFrame(frame, frameCount) + 1) / frameCount
+}
+
+function progressToFrame(progress: number, frameCount: number): number {
+  if (frameCount <= 1) return 0
+  return clampProgress(progress) * (frameCount - 1)
+}
+
+function getSequenceVariant(viewportWidth: number): SequenceVariant {
+  return viewportWidth < PHONE_BREAKPOINT ? PHONE_SEQUENCE : LANDSCAPE_SEQUENCE
+}
+
+function getVariantById(id: SequenceVariantId): SequenceVariant {
+  return id === PHONE_SEQUENCE.id ? PHONE_SEQUENCE : LANDSCAPE_SEQUENCE
+}
+
+function getFrameUrls(variant: SequenceVariant): string[] {
   const urls: string[] = []
-  for (let i = 0; i < FRAME_COUNT; i++) {
-    urls.push(`${FRAME_PATH}${String(i + 1).padStart(3, "0")}.jpg`)
+  for (let i = 0; i < variant.frameCount; i++) {
+    urls.push(`${variant.framePath}${String(i + 1).padStart(3, "0")}.jpg`)
   }
   return urls
 }
 
-// ── Fallback: main-thread canvas rendering ────────────────────────────
-// Used when OffscreenCanvas is not supported
 function createMainThreadRenderer(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d")
   if (!ctx) return null
 
-  const images: (HTMLImageElement | null)[] = Array.from({ length: FRAME_COUNT }, () => null)
-  const loaded: boolean[] = Array.from({ length: FRAME_COUNT }, () => false)
+  let images: (HTMLImageElement | null)[] = []
+  let loaded: boolean[] = []
+  let frameCount = 0
   let currentFrame = -1
   let drawConfig: { cw: number; ch: number; dw: number; dh: number; ox: number; oy: number } | null = null
+  let activeToken = 0
+
+  const resetSequence = () => {
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i]
+      if (img) {
+        img.onload = null
+        img.onerror = null
+      }
+      images[i] = null
+    }
+    images = []
+    loaded = []
+    frameCount = 0
+    currentFrame = -1
+    drawConfig = null
+  }
 
   return {
     loadFrames(
       urls: string[],
+      token: number,
       onProgress: (percent: number) => void,
       onReady: () => void,
       onSettled: (successCount: number) => void
     ) {
+      activeToken = token
+      resetSequence()
+
+      frameCount = urls.length
+      images = Array.from({ length: frameCount }, () => null)
+      loaded = Array.from({ length: frameCount }, () => false)
+
       let settled = 0
       let success = 0
       let readySent = false
@@ -76,6 +171,7 @@ function createMainThreadRenderer(canvas: HTMLCanvasElement) {
         img
           .decode()
           .then(() => {
+            if (activeToken !== token) return
             loaded[i] = true
             success++
             if (!readySent) {
@@ -85,9 +181,10 @@ function createMainThreadRenderer(canvas: HTMLCanvasElement) {
           })
           .catch(() => { /* skip */ })
           .finally(() => {
+            if (activeToken !== token) return
             settled++
-            if (settled % 16 === 0) onProgress(Math.round((settled / FRAME_COUNT) * 100))
-            if (settled === FRAME_COUNT) onSettled(success)
+            if (settled % 16 === 0) onProgress(Math.round((settled / frameCount) * 100))
+            if (settled === frameCount) onSettled(success)
           })
       }
     },
@@ -110,14 +207,15 @@ function createMainThreadRenderer(canvas: HTMLCanvasElement) {
       }
 
       if (currentFrame >= 0 && loaded[currentFrame]) {
-        const f = currentFrame
+        const frame = currentFrame
         currentFrame = -1
-        this.render(f)
+        this.render(frame)
       }
     },
 
     render(frame: number) {
-      const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(frame)))
+      if (frameCount === 0) return
+      const clamped = clampFrame(frame, frameCount)
       if (!loaded[clamped]) return
       if (currentFrame === clamped) return
       const img = images[clamped]
@@ -128,24 +226,28 @@ function createMainThreadRenderer(canvas: HTMLCanvasElement) {
     },
 
     dispose() {
-      for (let i = 0; i < images.length; i++) {
-        const img = images[i]
-        if (img) { img.onload = null; img.onerror = null }
-        images[i] = null
-      }
+      activeToken += 1
+      resetSequence()
     },
   }
 }
 
 export function PhilosophySequence() {
+  const initialVariantId = typeof window !== "undefined"
+    ? getSequenceVariant(window.innerWidth).id
+    : LANDSCAPE_SEQUENCE.id
+
   const sectionRef = useRef<HTMLElement>(null)
   const canvasWrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const textLinesRef = useRef<Array<HTMLParagraphElement | null>>([])
   const workerRef = useRef<Worker | null>(null)
   const fallbackRef = useRef<ReturnType<typeof createMainThreadRenderer> | null>(null)
+  const activeVariantRef = useRef<SequenceVariant>(getVariantById(initialVariantId))
   const activeIndexRef = useRef(0)
   const playheadFrameRef = useRef(0)
+  const pendingProgressRef = useRef(0)
+  const loadTokenRef = useRef(0)
   const stageReadyRef = useRef(false)
   const usingWorkerRef = useRef(false)
 
@@ -158,12 +260,16 @@ export function PhilosophySequence() {
     stageReadyRef.current = stageReady
   }, [stageReady])
 
-  // ── Text class toggling (shared by both paths) ──────────────────────
-  const updateTextClasses = useCallback((frameNumber: number) => {
-    const newActiveIndex = TEXT_SEQUENCE.findIndex(
-      (line) => frameNumber >= line.frameStart && frameNumber <= line.frameEnd
+  const updateTextClasses = useCallback((cueProgress: number) => {
+    let newActiveIndex = TEXT_SEQUENCE.findIndex(
+      (line) => cueProgress > line.startProgress && cueProgress <= line.endProgress
     )
-    if (newActiveIndex !== -1 && newActiveIndex !== activeIndexRef.current) {
+
+    if (newActiveIndex === -1) {
+      newActiveIndex = cueProgress >= 1 ? TEXT_SEQUENCE.length - 1 : 0
+    }
+
+    if (newActiveIndex !== activeIndexRef.current) {
       const lines = textLinesRef.current
       for (let i = 0; i < lines.length; i++) {
         const el = lines[i]
@@ -178,28 +284,30 @@ export function PhilosophySequence() {
     }
   }, [])
 
-  // ── Worker / Fallback initialization ────────────────────────────────
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const urls = getFrameUrls()
-    const supportsOffscreen = typeof canvas.transferControlToOffscreen === "function"
+    let transferredToOffscreen = false
+    const supportsOffscreen =
+      process.env.NODE_ENV === "production" &&
+      typeof Worker !== "undefined" &&
+      typeof canvas.transferControlToOffscreen === "function"
 
     if (supportsOffscreen) {
-      // ── Worker path ───────────────────────────────────────────────
       try {
-        // Create worker from public/ — bypasses Turbopack blob URL issues
         const worker = new Worker("/workers/philosophy-worker.js")
-
-        // Only transfer canvas AFTER worker is successfully created
         const offscreen = canvas.transferControlToOffscreen()
+        transferredToOffscreen = true
 
         worker.postMessage({ type: "init", canvas: offscreen }, [offscreen])
-        worker.postMessage({ type: "load-frames", urls })
 
         worker.onmessage = (event: MessageEvent) => {
-          const { type, ...data } = event.data
+          const { type, token, ...data } = event.data
+          if (typeof token === "number" && token !== loadTokenRef.current) {
+            return
+          }
+
           switch (type) {
             case "ready":
               setStageReady(true)
@@ -216,7 +324,6 @@ export function PhilosophySequence() {
         }
 
         worker.onerror = () => {
-          // Worker failed to load — can't recover canvas, show static fallback
           setAllFramesSettled(true)
           setLoadFailed(true)
         }
@@ -224,30 +331,20 @@ export function PhilosophySequence() {
         workerRef.current = worker
         usingWorkerRef.current = true
       } catch {
-        // Worker creation failed before canvas transfer — safe to fallback
         usingWorkerRef.current = false
       }
     }
 
     if (!usingWorkerRef.current) {
-      // ── Fallback path (main-thread rendering) ─────────────────────
-      const renderer = createMainThreadRenderer(canvas)
-      if (renderer) {
-        renderer.loadFrames(
-          urls,
-          (percent) => setLoadProgress(percent),
-          () => setStageReady(true),
-          (successCount) => {
-            setAllFramesSettled(true)
-            setLoadProgress(100)
-            setLoadFailed(successCount === 0)
-          }
-        )
-        fallbackRef.current = renderer
+      // React replays effects in development; keep the local fallback path safe there.
+      if (!transferredToOffscreen) {
+        fallbackRef.current = createMainThreadRenderer(canvas)
       }
     }
 
     return () => {
+      loadTokenRef.current += 1
+
       if (workerRef.current) {
         workerRef.current.postMessage({ type: "dispose" })
         workerRef.current.terminate()
@@ -260,7 +357,87 @@ export function PhilosophySequence() {
     }
   }, [])
 
-  // ── Resize helper ───────────────────────────────────────────────────
+  const loadVariantFrames = useCallback((variant: SequenceVariant) => {
+    const urls = getFrameUrls(variant)
+    const token = loadTokenRef.current + 1
+    loadTokenRef.current = token
+
+    setStageReady(false)
+    setAllFramesSettled(false)
+    setLoadProgress(0)
+    setLoadFailed(false)
+
+    if (usingWorkerRef.current && workerRef.current) {
+      workerRef.current.postMessage({ type: "load-frames", urls, token })
+      return
+    }
+
+    if (fallbackRef.current) {
+      fallbackRef.current.loadFrames(
+        urls,
+        token,
+        (percent) => {
+          if (loadTokenRef.current === token) {
+            setLoadProgress(percent)
+          }
+        },
+        () => {
+          if (loadTokenRef.current === token) {
+            setStageReady(true)
+          }
+        },
+        (successCount) => {
+          if (loadTokenRef.current !== token) return
+          setAllFramesSettled(true)
+          setLoadProgress(100)
+          setLoadFailed(successCount === 0)
+        }
+      )
+      return
+    }
+
+    setAllFramesSettled(true)
+    setLoadFailed(true)
+  }, [])
+
+  useEffect(() => {
+    const frameRequest = window.requestAnimationFrame(() => {
+      loadVariantFrames(activeVariantRef.current)
+    })
+
+    return () => window.cancelAnimationFrame(frameRequest)
+  }, [loadVariantFrames])
+
+  const applySequenceVariant = useCallback(
+    (nextVariantId: SequenceVariantId) => {
+      const nextVariant = getVariantById(nextVariantId)
+      const previousVariant = activeVariantRef.current
+      const preservedProgress = getSequenceProgress(playheadFrameRef.current, previousVariant.frameCount)
+
+      pendingProgressRef.current = preservedProgress
+      activeVariantRef.current = nextVariant
+      playheadFrameRef.current = progressToFrame(preservedProgress, nextVariant.frameCount)
+      activeIndexRef.current = -1
+
+      loadVariantFrames(nextVariant)
+    },
+    [loadVariantFrames]
+  )
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const handleVariantResize = () => {
+      const nextVariantId = getSequenceVariant(window.innerWidth).id
+      if (nextVariantId !== activeVariantRef.current.id) {
+        applySequenceVariant(nextVariantId)
+      }
+    }
+
+    window.addEventListener("resize", handleVariantResize)
+    return () => window.removeEventListener("resize", handleVariantResize)
+  }, [applySequenceVariant])
+
   const postResize = useCallback(() => {
     const canvasWrap = canvasWrapRef.current
     if (!canvasWrap) return
@@ -277,11 +454,13 @@ export function PhilosophySequence() {
     }
   }, [])
 
-  // ── Render helper ───────────────────────────────────────────────────
   const syncStage = useCallback(
     (frame: number) => {
-      const clamped = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(frame)))
+      const variant = activeVariantRef.current
+      const clamped = clampFrame(frame, variant.frameCount)
+
       playheadFrameRef.current = clamped
+      pendingProgressRef.current = getSequenceProgress(clamped, variant.frameCount)
 
       if (!stageReadyRef.current) {
         return
@@ -293,8 +472,7 @@ export function PhilosophySequence() {
         fallbackRef.current.render(clamped)
       }
 
-      // Text class toggle stays on main thread (direct DOM, no React)
-      updateTextClasses(clamped + 1)
+      updateTextClasses(getCueProgress(clamped, variant.frameCount))
     },
     [updateTextClasses]
   )
@@ -304,15 +482,15 @@ export function PhilosophySequence() {
       return
     }
 
+    const frameCount = activeVariantRef.current.frameCount
     postResize()
     syncStage(
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? FRAME_COUNT - 1
+        ? frameCount - 1
         : playheadFrameRef.current
     )
   }, [stageReady, loadFailed, postResize, syncStage])
 
-  // ── GSAP scroll animation ──────────────────────────────────────────
   useGSAP(
     () => {
       const section = sectionRef.current
@@ -322,14 +500,12 @@ export function PhilosophySequence() {
         return
       }
 
-      // ── Reduced motion: static display ─────────────────────────
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         postResize()
-        syncStage(FRAME_COUNT - 1)
+        syncStage(activeVariantRef.current.frameCount - 1)
         return
       }
 
-      // ── Responsive setup ───────────────────────────────────────
       const mm = gsap.matchMedia()
       postResize()
 
@@ -338,77 +514,51 @@ export function PhilosophySequence() {
         ScrollTrigger.refresh()
       }
 
+      const setupTimeline = (frameCount: number, scrub: number) => {
+        const playhead = { frame: progressToFrame(pendingProgressRef.current, frameCount) }
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: () => `+=${window.innerHeight * (PIN_SCROLL_DISTANCE_VH / 100)}`,
+            pin: true,
+            pinSpacing: true,
+            scrub,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        timeline.to(
+          playhead,
+          {
+            frame: frameCount - 1,
+            duration: FRAME_PROGRESS_DURATION,
+            ease: "none",
+            snap: "frame",
+            onUpdate: () => syncStage(playhead.frame),
+          },
+          0
+        )
+
+        timeline.set({}, {}, TIMELINE_DURATION)
+        syncStage(playhead.frame)
+      }
+
       window.addEventListener("resize", handleResize)
 
-      // ── Desktop timeline ───────────────────────────────────────
       mm.add(`(min-width: ${DESKTOP_BREAKPOINT}px)`, () => {
-        const playhead = { frame: 0 }
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: () => `+=${window.innerHeight * (PIN_SCROLL_DISTANCE_VH / 100)}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: 0.55,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-
-        timeline.to(
-          playhead,
-          {
-            frame: FRAME_COUNT - 1,
-            duration: FRAME_PROGRESS_DURATION,
-            ease: "none",
-            snap: "frame",
-            onUpdate: () => syncStage(playhead.frame),
-          },
-          0
-        )
-
-        // Hold the finished frame and final line briefly before release.
-        timeline.set({}, {}, TIMELINE_DURATION)
-
-        syncStage(playhead.frame)
+        setupTimeline(LANDSCAPE_SEQUENCE.frameCount, 0.55)
       })
 
-      // ── Mobile timeline ────────────────────────────────────────
-      mm.add(`(max-width: ${DESKTOP_BREAKPOINT - 1}px)`, () => {
-        const playhead = { frame: 0 }
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: () => `+=${window.innerHeight * (PIN_SCROLL_DISTANCE_VH / 100)}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: 0.45,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-
-        timeline.to(
-          playhead,
-          {
-            frame: FRAME_COUNT - 1,
-            duration: FRAME_PROGRESS_DURATION,
-            ease: "none",
-            snap: "frame",
-            onUpdate: () => syncStage(playhead.frame),
-          },
-          0
-        )
-
-        // Hold the finished frame and final line briefly before release.
-        timeline.set({}, {}, TIMELINE_DURATION)
-
-        syncStage(playhead.frame)
+      mm.add(`(min-width: ${PHONE_BREAKPOINT}px) and (max-width: ${DESKTOP_BREAKPOINT - 1}px)`, () => {
+        setupTimeline(LANDSCAPE_SEQUENCE.frameCount, 0.45)
       })
 
-      // ── Cleanup ────────────────────────────────────────────────
+      mm.add(`(max-width: ${PHONE_BREAKPOINT - 1}px)`, () => {
+        setupTimeline(PHONE_SEQUENCE.frameCount, 0.45)
+      })
+
       return () => {
         window.removeEventListener("resize", handleResize)
         mm.revert()
@@ -452,8 +602,7 @@ export function PhilosophySequence() {
           </div>
 
           <div
-            className={`philosophy-sequence__text-track${isStaticFallback ? " philosophy-sequence__text-track--static" : ""
-              }`}
+            className={`philosophy-sequence__text-track${isStaticFallback ? " philosophy-sequence__text-track--static" : ""}`}
           >
             {TEXT_SEQUENCE.map((line, index) => (
               <p
@@ -464,10 +613,10 @@ export function PhilosophySequence() {
                 className={[
                   "philosophy-sequence__line",
                   isStaticFallback ? "philosophy-sequence__line--static" : "",
-                  index === 0 ? "is-active" : ""
+                  index === 0 ? "is-active" : "",
                 ].filter(Boolean).join(" ")}
-                data-frame-start={line.frameStart}
-                data-frame-end={line.frameEnd}
+                data-progress-start={line.startProgress}
+                data-progress-end={line.endProgress}
                 style={{ color: line.color }}
               >
                 {line.text}

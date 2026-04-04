@@ -2,6 +2,11 @@
 
 ## Accepted
 
+- 2026-03-09 - Decision: solve the current branch's mobile crop issue with a phone-only portrait frame family instead of zoom hacks on the landscape sequence. Why: the source problem is aspect-ratio mismatch (`16:9` desktop frames inside a tall phone viewport), so the cleanest fix is to use phone-native assets. Impact: phones below `768px` now load a dedicated `240`-frame portrait sequence while tablet and desktop keep the original landscape set.
+- 2026-03-09 - Decision: keep the current immersive mobile layout on this branch and compare it against the stacked mobile-layout branch rather than redesigning both at once. Why: this isolates asset-fit improvements from layout changes and makes the branch comparison meaningful. Impact: the phone experience here keeps the existing full-height stage, cover rendering, lower-third copy, and final hold.
+- 2026-03-09 - Decision: express philosophy copy timing as shared progress windows derived from the landscape editorial windows. Why: the phone portrait sequence has `240` frames instead of `192`, so hardcoded frame windows would drift. Impact: both frame families now land the same copy beats at equivalent normalized progress.
+- 2026-03-09 - Decision: preserve normalized progress across breakpoint changes without re-running the full `useGSAP` setup. Why: forcing a full GSAP rebuild on every sequence-variant change compounded the pin spacer by another `260vh` on `767 -> 768 -> 767`. Impact: `gsap.matchMedia()` remains the timeline owner, while variant swapping only updates refs and frame loading.
+- 2026-03-09 - Decision: ignore stale worker and fallback frame loads with per-load tokens. Why: breakpoint changes can invalidate a previous asset family while its requests are still settling. Impact: old frames no longer overwrite the active variant or emit stale ready/progress events after a swap.
 - 2026-03-09 - Decision: add the requested extra dwell time as a dedicated final hold segment instead of stretching the whole pinned narrative. Why: the user wants more time to read the last line and study the last frame, not slower pacing across every beat. Impact: the main frame scrub still uses the original `250vh` pacing, and only the release into Gap is delayed by an extra `10vh`.
 - 2026-03-09 - Decision: Philosophy pin ownership must not wait on frame readiness. Why: when the pin registered only after the first frame became renderable, the Hero -> Philosophy boundary could fall through normal document flow for a frame on slower loads. Impact: the section now pins immediately, while the loader and first-frame readiness gate only rendering/text sync.
 - 2026-03-09 - Decision: fix the Hero -> Philosophy -> Gap flicker by stabilizing Philosophy startup instead of adding more Gap motion. Why: Gap-local GSAP reduced symptoms but left the wrong owner in the handoff and made the boundary harder to reason about. Impact: Gap is static again and the boundary now has one scroll-motion owner.
@@ -32,6 +37,8 @@
 
 ## Rejected
 
+- 2026-03-09 - Rejected option: keep using the desktop landscape sequence on phones and soften it with a hard zoom multiplier. Why: reducing `cover` scale on a `16:9` asset inside a tall phone viewport trades crop for obvious empty space and still leaves the wrong source asset in place.
+- 2026-03-09 - Rejected option: redesign the mobile philosophy layout on this branch. Why: the goal here is to compare the existing immersive layout plus portrait assets against the separate stacked-layout branch, not to mix both experiments together.
 - 2026-03-07 - Rejected option: keep philosophy copy fully inside Hero transition. Why: Hero already has dense visual and copy load.
 - 2026-03-07 - Rejected option: move sequence after GapProblem. Why: narrative impact is weaker and less coherent.
 

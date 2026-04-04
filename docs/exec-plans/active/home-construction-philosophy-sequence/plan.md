@@ -1,8 +1,8 @@
 # Plan - Home Construction Philosophy Sequence
 
-Status: Active rewrite implementation
+Status: Active mobile-variant comparison branch
 Feature slug: `home-construction-philosophy-sequence`
-Branch: `codex/mentorship-horizontal-scroll`
+Branch: `feature/offscreen-canvas-worker`
 Related docs:
 - [Feature overview](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/exec-plans/active/home-construction-philosophy-sequence/README.md)
 - [Design note](file:///c:/Users/Leon/DevMode/kossy-langat-website/docs/design-docs/home-construction-philosophy-sequence/README.md)
@@ -10,156 +10,96 @@ Related docs:
 
 ## Goal
 
-Rewrite the animation structure across `Hero`, `PhilosophySequence`, and `GapProblem` so the three sections are intentionally disconnected in animation ownership:
-- `Hero` is an independent intro with only hero-owned motion.
-- `PhilosophySequence` is the only pinned GSAP narrative in this page region.
-- `GapProblem` is a static reading section with a subtle top-settle behavior and no local GSAP animation.
+Integrate a phone-only portrait philosophy sequence into the current immersive mobile layout so phones no longer crop the desktop `16:9` frames aggressively:
+- phones below `768px` use the new `240`-frame portrait sequence
+- tablet and desktop keep the existing `192`-frame landscape sequence
+- text timing remains editorially aligned across both variants
+- breakpoint changes preserve progress without destabilizing the pinned GSAP sequence
 
 ## Non-Goals
 
-- net-new feature expansion beyond current section scope
-- migration to a different animation stack
-- redesign of unrelated home sections
-- changes to `FeaturedProjects` beyond preserving its current local animation behavior
+- redesigning the mobile layout on this branch
+- changing Hero, GapProblem, or FeaturedProjects
+- changing the `250vh` narrative pacing or `10vh` end hold
+- replacing the worker architecture
+- ratio-based device gating beyond `<768px`
 
 ## Success Criteria
 
-- Hero no longer animates or measures sibling sections.
-- Philosophy owns the only pin in the `Hero -> Philosophy -> Gap` flow.
-- Gap enters naturally after Philosophy unpins and remains readable without becoming another motion stage.
-- The chosen soft-settle behavior for Gap feels subtle and does not trap the reader.
-- Desktop and mobile behavior are defined explicitly rather than inherited from sibling coupling.
-- `FeaturedProjects` still works as expected after the upstream rewrite.
+- Phones load only the portrait sequence from `public/images/philosophy/mobile/`.
+- Tablet and desktop continue loading only the landscape sequence from `public/images/philosophy/`.
+- Text cues remain aligned across both frame families via shared progress windows.
+- The current immersive mobile layout remains visually unchanged apart from the improved source framing.
+- Breakpoint changes do not compound pin spacing or restart the sequence.
+- Delayed phone frame loads do not leak Gap into view before Philosophy owns the viewport.
 - `npm run lint` and `npm run build` continue to pass.
+- This branch remains directly comparable with the separate stacked mobile-layout branch.
 
 ## Principles
 
-### 1. Single-owner motion
+### 1. Preserve the current immersive layout on this branch
 
-- A section may animate only its own elements.
-- No section may move the trigger geometry of the next section.
+- The point of this branch is to evaluate portrait assets inside the existing mobile composition.
+- Layout redesign belongs to the separate stacked-layout comparison branch.
 
-### 2. Single-owner pinning
+### 2. Breakpoints choose sequence variants
 
-- In this region of the home page, only `PhilosophySequence` may own a long-form `pin: true`.
-- Global micro-pins must not target Philosophy during this flow.
+- `<768px` selects the portrait sequence.
+- `>=768px` selects the landscape sequence.
+- Only one frame family should load for a given breakpoint path.
 
-### 3. Explicit breakpoint setup
+### 3. Shared editorial timing
 
-- If the timeline structure differs by breakpoint, rebuild it with `gsap.matchMedia()` instead of relying on CSS-only changes plus `ScrollTrigger.refresh()`.
+- Copy timing should be expressed as normalized progress windows, not hardcoded per-variant frame indices.
+- Landscape timing remains the editorial baseline.
 
-### 4. Gap stays static
+### 4. One pin owner during resize
 
-- Gap should not become a GSAP scene.
-- The reading assist should stay lightweight and be owned by the Philosophy exit if it is still needed after the rebuilds.
-
-## Section Architecture
-
-### Hero
-
-Target behavior:
-- Independent Hero sequence only.
-- Fade out Hero copy, overlays, and texture on scroll.
-- Optional short Hero pin/hold is acceptable if it affects only Hero-owned refs.
-- No sibling handoff animation.
-- No `nextElementSibling` dependency.
-
-Implementation shape:
-- Refactor `Hero.tsx` so every tween targets only hero refs.
-- Remove the current logic that offsets and animates the next sibling.
-- Let Hero release into normal document flow.
-
-### Philosophy
-
-Target behavior:
-- Full pinned GSAP narrative.
-- Canvas-based 192-frame scrub across `250vh`.
-- Text choreography fully owned by the philosophy timeline.
-- Clean release into Gap after the final line lands.
-
-Implementation shape:
-- Opt Philosophy out of `ScrollMicroPin`.
-- Rebuild the section with explicit desktop/mobile `gsap.matchMedia()` branches.
-- Keep trigger geometry stable by ensuring Hero no longer transforms this section.
-- Revisit preload/init timing so pin setup is predictable on slower loads.
-
-### Gap
-
-Target behavior:
-- No local GSAP animation.
-- Normal scroll section that "settles" just enough at the top to let the headline read.
-- Once the reader continues, the section passes naturally into `FeaturedProjects`.
-
-Implementation shape:
-- Remove Gap from any inherited local or cross-section GSAP choreography.
-- Keep document-level scroll snap out of this flow because there is no local scroll container in the page region.
-- If a settle is still needed after the Hero and Philosophy rebuilds, move it to the end state of Philosophy rather than adding GSAP to Gap itself.
+- `gsap.matchMedia()` remains the only timeline owner during breakpoint changes.
+- Variant switching must not rerun the full `useGSAP` setup, or pin spacing will accumulate.
+- Worker and fallback loads must ignore stale requests during variant swaps.
 
 ## Phases
 
-### Phase 1 - Remove Cross-Section Coupling
+### Phase 1 - Promote the Phone Portrait Asset Set
 
-- Remove Hero's `nextElementSibling` handoff model.
-- Decide whether Hero keeps a local pin or becomes a simple scrub/fade release.
-- Opt Philosophy out of the global micro-pin system.
-- Confirm Gap is not being animated by Hero or by inherited pin logic.
+- Copy the portrait research frames into `public/images/philosophy/mobile/`.
+- Normalize the filenames to `frame-001.jpg` through `frame-240.jpg`.
 
 Deliverable:
-- Clean section ownership boundaries.
-- Status: checkpoint completed on 2026-03-08.
+- Production-ready phone frame set.
+- Status: completed on 2026-03-09.
 
-### Phase 2 - Rebuild Hero as a Self-Contained Intro
+### Phase 2 - Make the Sequence Variant-Aware
 
-- Refactor `Hero.tsx` so all tweens are scoped to hero-owned refs.
-- Preserve the current atmosphere and fade quality without affecting downstream sections.
-- Tune Hero's release so Philosophy arrives naturally.
-
-Deliverable:
-- Independent Hero animation.
-- Status: checkpoint completed on 2026-03-08.
-
-### Phase 3 - Rebuild Philosophy as the Only Pinned Narrative
-
-- Rework Philosophy into explicit desktop/mobile GSAP setups.
-- Preserve one pin owner and one timeline owner.
-- Improve loading/init strategy so the pin does not register excessively late.
-- Preserve reduced-motion and load-failure fallbacks.
-- Re-validate mobile light-theme readability.
+- Replace the single fixed frame family in `PhilosophySequence.tsx` with explicit landscape and phone variants.
+- Refactor the fallback renderer to use the active variant frame count.
+- Convert text activation from frame windows to shared progress windows.
 
 Deliverable:
-- Stable pinned philosophy sequence with clean entry and release.
-- Status: checkpoint completed on 2026-03-08.
+- One component path that supports `192` landscape frames and `240` portrait frames.
+- Status: completed on 2026-03-09.
 
-### Phase 4 - Add Gap Soft-Settle
+### Phase 3 - Make Breakpoint Switching Safe
 
-- Implement the lightest possible non-GSAP readability assist for Gap.
-- Validate that the section settles gently without feeling sticky or forced.
-- Ensure the transition into `FeaturedProjects` remains natural.
-
-Deliverable:
-- Static Gap section with a subtle reading-friendly settle.
-
-### Phase 5 - Integration and Cleanup
-
-- Re-test `Hero -> Philosophy -> Gap -> FeaturedProjects` as one continuous flow.
-- Remove obsolete assumptions from docs and code comments.
-- Verify the global micro-pin system still behaves correctly for the rest of the site.
+- Preserve normalized progress when changing variants on resize.
+- Ignore stale worker/fallback loads during variant changes.
+- Keep `gsap.matchMedia()` as the single timeline owner during breakpoint changes.
 
 Deliverable:
-- Stable home flow with independent animation ownership.
+- Stable `767 -> 768 -> 767` transitions with no compounded pin spacing.
+- Status: completed on 2026-03-09.
 
-### Phase 6 - Verification and Signoff
+### Phase 4 - Verification and Comparison Prep
 
-- Desktop browser pass.
-- Mobile browser pass.
-- Reduced-motion pass.
-- Slow-load sanity pass for Philosophy.
-- `npm run lint`
-- `npm run build`
+- Re-run phone, tablet, desktop, reduced-motion, final-hold, and delayed-load checks.
+- Update feature continuity docs and changelog for the comparison branch.
+- Hand off the branch for visual review against the stacked-layout alternative.
 
 Deliverable:
-- User-review-ready rewrite.
+- User-review-ready immersive mobile comparison branch.
+- Status: completed on 2026-03-09.
 
 ## Immediate Next Step
 
-- Execute Phase 4 next: add the chosen Philosophy-owned exit settle while keeping Gap static and free of local GSAP.
+- Compare this branch against `codex/mobile-philosophy-layout-exploration` and decide whether the immersive portrait-frame path or the stacked mobile layout is the stronger mobile direction.

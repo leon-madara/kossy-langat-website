@@ -46,6 +46,14 @@
 | 2026-03-09 | Playwright final-hold pacing check | pass | At desktop `1440x1200`, the last line became active around `scrollY=4680`; Philosophy still held through `scrollY=5040` with `gapTop=1200`, and Gap first entered at about `scrollY=5060`, which matches the intended extra `10vh` release delay |
 | 2026-03-09 | `npm run build` (final-hold tuning) | pass | Production build succeeds after adding the dedicated final hold segment |
 | 2026-03-09 | `npm run lint` (final-hold tuning) | pass with warnings | Same 2 unrelated warnings in `src/app/layout.tsx` and `src/app/mentorship/page.tsx`; no feature-specific lint errors |
+| 2026-03-09 | Phone portrait asset count | pass | `public/images/philosophy/mobile/` contains 240 files named `frame-001.jpg` through `frame-240.jpg` |
+| 2026-03-09 | Playwright asset-family pass | pass | `390x844` and `430x932` requested only the mobile portrait frames (`240` URLs), while `768x1024` and `1440x945` requested only the landscape frames (`192` URLs) |
+| 2026-03-09 | Playwright reduced-motion portrait pass | pass | At `390x844` with reduced motion, all 7 lines remained visible in static flow while the phone breakpoint still selected the portrait asset family |
+| 2026-03-09 | Playwright breakpoint-crossing pass | pass | After the `767 -> 768 -> 767` fix, the active line stayed on `With logic.`, `#philosophy-sequence` remained pinned at `top=0`, and the philosophy pin spacer no longer accumulated an extra `260vh` on each transition |
+| 2026-03-09 | Playwright mobile final-hold pass | pass | At `390x844`, the final line became active around `scrollY=3355`; after another `140px` of scroll the final line still held while Gap remained below the viewport (`gapTop=938`) |
+| 2026-03-09 | Python Playwright delayed mobile-load boundary probe | pass | With `~1500ms` delays on `**/images/philosophy/mobile/frame-*.jpg`, Philosophy was still `aria-busy=true` with `Loading sequence... 0%` at the boundary and no visible early Gap leak was observed |
+| 2026-03-09 | `npm run lint` (phone portrait variant) | pass with warnings | Same 2 unrelated warnings in `src/app/layout.tsx` and `src/app/mentorship/page.tsx`; no feature-specific lint errors |
+| 2026-03-09 | `npm run build` (phone portrait variant) | pass | Production build succeeds after the portrait asset swap, variant switching, and breakpoint cleanup |
 
 ## Review Findings (Code-Level)
 
@@ -58,6 +66,8 @@
 - `src/components/sections/home/PhilosophySequence.tsx`: the frame scrub now completes within the original narrative range and a no-op tail segment preserves the final frame/line for an extra `10vh` before release.
 - `src/components/sections/home/GapProblem.tsx` and `.css`: Gap is static again with no local GSAP settle; the Framer Motion wrappers used for its reveals now carry the actual opacity hint instead of the inner article.
 - `src/components/sections/home/PhilosophySequence.tsx`: frame tween still uses explicit duration and normalized timeline positions for text cues, now split across explicit desktop/mobile `gsap.matchMedia()` branches.
+- `src/components/sections/home/PhilosophySequence.tsx`: the sequence now chooses between `192` landscape frames and `240` portrait frames by breakpoint, while preserving cue timing via shared progress windows.
+- `public/workers/philosophy-worker.js`: worker-side sequence loads now use tokens so stale variant requests cannot emit outdated ready/progress state after a breakpoint swap.
 - `src/components/sections/home/PhilosophySequence.tsx`: resize path still resets transform and redraws the current frame with DPR-capped scaling.
 - `src/components/sections/home/PhilosophySequence.css` and `.tsx`: desktop side-rail structure remains intact, mobile still uses lower-third overlay placement, and light-theme mobile overlay tokens now keep copy readable against the scrim.
 - `src/components/sections/home/PhilosophySequence.tsx` and `.css`: reduced-motion and total frame-load failure paths now degrade to a readable static narrative instead of leaving the section dependent on the pinned sequence path.
@@ -77,13 +87,13 @@
 - Verified on 2026-03-08 that mobile light-theme Philosophy now resolves to light overlay copy (`rgb(248, 246, 243)`) over the dark lower-third scrim.
 - Verified on 2026-03-09 that, at the Hero -> Philosophy boundary, Gap remains fully below the viewport through the first sampled post-boundary animation frame in both normal-load and delayed-image runs.
 - Verified on 2026-03-09 that the final Philosophy line remains active through the added end-hold and that Gap does not begin entering until after the extra `10vh` release delay.
+- Verified on 2026-03-09 that phones now request the portrait frame family while tablet and desktop continue requesting only the landscape family.
+- Verified on 2026-03-09 that `767 -> 768 -> 767` no longer changes the active line or compounds philosophy pin spacing after the variant-switch cleanup.
+- Verified on 2026-03-09 via Python Playwright that delayed mobile frame loads keep the loader visible at the philosophy boundary without exposing Gap early.
 - Browser console showed no runtime errors during philosophy-section validation; one unrelated Next image warning from the hero blur asset remains.
 - Verified on 2026-03-08 in emulated reduced-motion mode that Philosophy degrades to a static non-pinned narrative with all 7 lines visible.
 
 ## Remaining Verification
 
-- Implement and validate the chosen Philosophy-owned exit settle against the static Gap section before shipping.
-- Re-test the full `Hero -> Philosophy -> Gap -> FeaturedProjects` flow after the Gap settle lands.
-- Re-test desktop, mobile, reduced-motion, and slow-load behavior after the Phase 4 and Phase 5 integration passes.
-- Re-check desktop eyebrow clearance once the transition into Gap is finalized.
-- Defer user signoff until the structural rewrite and readability fixes are complete.
+- Compare this immersive portrait-frame branch against the stacked mobile-layout branch and record the chosen direction.
+- If this branch advances, run a final whole-flow review for `Hero -> Philosophy -> Gap -> FeaturedProjects` on the chosen mobile direction before signoff.

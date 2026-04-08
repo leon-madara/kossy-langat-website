@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 
 const FOOTER_LINKS = {
@@ -30,12 +31,15 @@ export function Footer() {
 
                     {/* Brand & Mission Statement */}
                     <div className="lg:col-span-5 flex flex-col items-start">
-                        <Link href="/" className="mb-6 group">
-                            <div className="flex flex-col">
-                                <span className="font-serif text-3xl font-semibold tracking-tight text-background transition-colors group-hover:text-accent">
-                                    KOSSY
-                                </span>
-                            </div>
+                        <Link href="/" className="mb-6 group inline-block">
+                            <Image
+                                src="/KOSSYmain.svg"
+                                alt="Kossy"
+                                className="h-9 w-auto max-w-[min(220px,85vw)] object-contain object-left transition-opacity group-hover:opacity-90"
+                                width={786}
+                                height={193}
+                                unoptimized
+                            />
                         </Link>
 
                         <p className="font-sans text-lg text-background/80 max-w-sm leading-relaxed mb-8">

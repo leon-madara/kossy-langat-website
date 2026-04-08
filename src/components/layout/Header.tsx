@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -65,7 +66,15 @@ export function Header() {
             <div className="site-header__inner">
                 {/* Logo Mark */}
                 <Link href="/" className="site-header__brand">
-                    <span className="site-header__brand-name">KOSSY</span>
+                    <Image
+                        src="/KOSSYmain.svg"
+                        alt="Kossy"
+                        className="site-header__brand-logo"
+                        width={786}
+                        height={193}
+                        priority
+                        unoptimized
+                    />
                     <span className="site-header__brand-subtitle">Structural Engineer</span>
                 </Link>
 

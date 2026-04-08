@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-04-09] - Cloudflare Workers deploy via OpenNext
+
+### Added
+- **`@opennextjs/cloudflare`** and **`wrangler`**: Adapter and CLI for running the Next.js App Router on Cloudflare Workers with static assets bound as `ASSETS`.
+- **`wrangler.jsonc`**: Worker entry (`.open-next/worker.js`), `nodejs_compat`, asset directory `.open-next/assets`, and observability enabled; worker name defaults to `kossy-langat-website` (change `name` if the Cloudflare project should differ).
+- **`open-next.config.ts`**: Default `defineCloudflareConfig()`; extend here later for caching and other adapter options.
+- **`package.json` scripts**: `preview` (OpenNext build + local Workers preview), `deploy` (build + `wrangler deploy`), `cf-typegen` (env typings after a successful OpenNext build).
+
+### Changed
+- **`.gitignore`**: Ignores `.open-next/` output and generated `cloudflare-env.d.ts`.
+- **`eslint.config.mjs`**: Ignores `.open-next/**` so ESLint does not lint OpenNext bundles.
+
+### Notes
+- Local workflow: `npm run dev` for day-to-day editing; `npm run preview` to validate the Workers runtime before deploy. Run `npm run cf-typegen` after the first OpenNext build when you want `CloudflareEnv` typings locally.
+- Contact form handling remains future work; no server routes were added for Resend or other backends.
+- **`package.json` `name` must match `wrangler.jsonc` `name`**: OpenNext adds a `WORKER_SELF_REFERENCE` service binding to the npm package name; if they differ (e.g. `next-app` vs `kossy-langat-website`), deploy fails with API error 10143.
+
+## [2026-04-09] - Site logo uses KOSSYmain.svg
+
+### Changed
+- **`src/components/layout/Header.tsx`** and **`src/components/layout/Header.css`**: Replaces the text “KOSSY” mark with `/KOSSYmain.svg` (Next.js `Image`, `unoptimized` for SVG), keeps the “Structural Engineer” subtitle, and adjusts hover/dark styles so only the subtitle follows the accent color (the SVG keeps its embedded palette).
+- **`src/components/layout/Footer.tsx`**: Uses the same SVG for the footer brand link.
+
 ## [2026-03-09] - Philosophy Phone-Only Layout Recomposition
 
 ### Changed

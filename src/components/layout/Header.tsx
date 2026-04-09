@@ -75,6 +75,7 @@ export function Header() {
                         priority
                         unoptimized
                     />
+                    <span className="site-header__brand-logo-mask" aria-hidden="true" />
                     <span className="site-header__brand-subtitle">Structural Engineer</span>
                 </Link>
 

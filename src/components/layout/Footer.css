@@ -1,0 +1,48 @@
+.footer-brand-mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.footer-brand-mark__image {
+  display: block;
+}
+
+.footer-brand-mark__mask {
+  display: none;
+  width: min(220px, 85vw);
+  height: 2.25rem;
+  background-color: #ffffff;
+  -webkit-mask-image: url("/KOSSYmain.svg");
+  mask-image: url("/KOSSYmain.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: left center;
+  mask-position: left center;
+  transition: opacity 180ms ease;
+}
+
+:root[data-theme="dark"] .footer-brand-mark__image {
+  display: none;
+}
+
+:root[data-theme="dark"] .footer-brand-mark__mask {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .footer-brand-mark__image {
+    display: none;
+  }
+
+  :root:not([data-theme]) .footer-brand-mark__mask {
+    display: block;
+  }
+}
+
+.footer-brand-mark:hover .footer-brand-mark__mask {
+  opacity: 0.9;
+}

@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import "./Footer.css"
 
 const FOOTER_LINKS = {
     Capabilities: [
@@ -31,15 +32,16 @@ export function Footer() {
 
                     {/* Brand & Mission Statement */}
                     <div className="lg:col-span-5 flex flex-col items-start">
-                        <Link href="/" className="mb-6 group inline-block">
+                        <Link href="/" className="mb-6 group inline-block footer-brand-mark" aria-label="Kossy home">
                             <Image
                                 src="/KOSSYmain.svg"
                                 alt="Kossy"
-                                className="h-9 w-auto max-w-[min(220px,85vw)] object-contain object-left transition-opacity group-hover:opacity-90"
+                                className="footer-brand-mark__image h-9 w-auto max-w-[min(220px,85vw)] object-contain object-left transition-opacity group-hover:opacity-90"
                                 width={786}
                                 height={193}
                                 unoptimized
                             />
+                            <span className="footer-brand-mark__mask" aria-hidden="true" />
                         </Link>
 
                         <p className="font-sans text-lg text-background/80 max-w-sm leading-relaxed mb-8">

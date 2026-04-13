@@ -55,7 +55,9 @@
   position: relative;
   width: 100%;
   height: min(76vh, 48rem);
-  min-height: 30rem;
+  aspect-ratio: 16 / 10;
+  min-height: 15rem;
+  max-height: 60rem;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -179,7 +181,9 @@
 
 .philosophy-sequence--static .philosophy-sequence__canvas-wrap {
   height: min(70vh, 42rem);
-  min-height: 20rem;
+  aspect-ratio: 16 / 10;
+  min-height: 15rem;
+  max-height: 60rem;
 }
 
 .philosophy-sequence--static .philosophy-sequence__text-overlay {
@@ -215,7 +219,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: clamp(5.5rem, 12vh, 6.5rem) 1rem 1.5rem;
+    padding: clamp(4rem, 9vh, 5rem) 1rem 1.5rem;
   }
 
   .philosophy-sequence--static {
@@ -243,14 +247,18 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    justify-content: flex-end;
     gap: 1rem;
     padding: 0;
   }
 
   .philosophy-sequence__canvas-wrap {
     flex: 0 0 auto;
-    height: clamp(22rem, 50svh, 30rem);
-    min-height: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
     border: 1px solid rgba(var(--philosophy-foreground-rgb), 0.08);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     background: rgba(30, 41, 41, 0.02);
@@ -270,7 +278,7 @@
   }
 
   .philosophy-sequence__text-overlay {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     min-height: clamp(7rem, 18svh, 10rem);
     height: auto;
     justify-content: flex-start;
@@ -283,7 +291,7 @@
   }
 
   .philosophy-sequence__text-track {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     min-height: clamp(7rem, 18svh, 10rem);
     align-items: flex-start;
   }
@@ -312,6 +320,9 @@
 
   .philosophy-sequence--static .philosophy-sequence__canvas-wrap {
     height: clamp(22rem, 50svh, 30rem);
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
   }
 
   .philosophy-sequence--static .philosophy-sequence__text-overlay,
@@ -338,7 +349,9 @@
     grid-row: 1;
     grid-column: 1;
     height: 100%;
-    min-height: 100vh;
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
     border: none;
     box-shadow: none;
     background: none;
@@ -402,6 +415,9 @@
 
   .philosophy-sequence--static .philosophy-sequence__canvas-wrap {
     height: min(60vh, 34rem);
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
   }
 
   .philosophy-sequence--static .philosophy-sequence__text-overlay {
@@ -445,7 +461,9 @@
 
   .philosophy-sequence__canvas-wrap {
     height: min(70vh, 42rem);
-    min-height: 20rem;
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
   }
 
   .philosophy-sequence__text-overlay {
@@ -488,6 +506,9 @@
 
   .philosophy-sequence__canvas-wrap {
     height: clamp(22rem, 50svh, 30rem);
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
   }
 
   .philosophy-sequence__text-overlay {
@@ -512,6 +533,9 @@
 
   .philosophy-sequence__canvas-wrap {
     height: min(60vh, 34rem);
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
   }
 
   .philosophy-sequence__text-overlay {
@@ -531,6 +555,9 @@
 @media (prefers-reduced-motion: reduce) and (min-width: 1024px) {
   .philosophy-sequence__canvas-wrap {
     height: min(75vh, 45rem);
+    aspect-ratio: 16 / 10;
+    min-height: 15rem;
+    max-height: 60rem;
   }
 }
 

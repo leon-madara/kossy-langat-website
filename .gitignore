@@ -50,3 +50,9 @@ cloudflare-env.d.ts
 /layout-audit-cards/
 /themegen-*/
 /.codex-route-auto
+
+# Claude Code project memory and worktrees
+/.claude/
+
+# Shared workflow docs (global — lives outside repo at Dev Mode/WorkFlow_v2)
+/WorkFlow_v2/

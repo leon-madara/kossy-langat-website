@@ -220,6 +220,7 @@
     flex-direction: column;
     gap: 0.75rem;
     padding: clamp(4rem, 9vh, 5rem) 1rem 1.5rem;
+    overflow-x: hidden;
   }
 
   .philosophy-sequence--static {
@@ -235,7 +236,7 @@
     display: flex;
     flex: 0 0 auto;
     margin-bottom: 0;
-    font-size: 1rem;
+    font-size: 1.125rem;
     letter-spacing: 0.18em;
     color: rgba(var(--philosophy-muted-rgb), 0.84);
   }
@@ -254,11 +255,11 @@
 
   .philosophy-sequence__canvas-wrap {
     flex: 0 0 auto;
-    width: 100%;
-    height: auto;
+    align-self: center;
+    width: auto;
+    height: clamp(18rem, 58svh, 32rem);
     aspect-ratio: 16 / 10;
-    min-height: 15rem;
-    max-height: 60rem;
+    max-width: none;
     border: 1px solid rgba(var(--philosophy-foreground-rgb), 0.08);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     background: rgba(30, 41, 41, 0.02);
@@ -299,7 +300,7 @@
   .philosophy-sequence__line {
     align-items: flex-start;
     max-width: none;
-    font-size: clamp(1.75rem, 7vw, 2.45rem);
+    font-size: clamp(1.925rem, 7.7vw, 2.695rem);
     line-height: 0.88;
     text-shadow: none;
     transform: translateY(4%);

@@ -49,8 +49,8 @@ function getFrameUrls(): string[] {
   return urls
 }
 
-function getFitMode(viewportWidth: number): FitMode {
-  return viewportWidth < PHONE_BREAKPOINT ? "contain" : "cover"
+function getFitMode(_viewportWidth: number): FitMode {
+  return "cover"
 }
 
 // ── Fallback: main-thread canvas rendering ────────────────────────────

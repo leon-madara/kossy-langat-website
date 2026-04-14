@@ -442,13 +442,13 @@ export function PhilosophySequence() {
         </div>
       )}
 
-      <div className="philosophy-sequence__eyebrow philosophy-sequence__eyebrow--phone" aria-hidden="true">
-        <span className="philosophy-sequence__eyebrow-number">02.0</span>
-        <span className="philosophy-sequence__eyebrow-separator">/</span>
-        <span>THE PHILOSOPHY</span>
-      </div>
-
       <div className="philosophy-sequence__stage">
+        <div className="philosophy-sequence__eyebrow philosophy-sequence__eyebrow--phone" aria-hidden="true">
+          <span className="philosophy-sequence__eyebrow-number">02.0</span>
+          <span className="philosophy-sequence__eyebrow-separator">/</span>
+          <span>THE PHILOSOPHY</span>
+        </div>
+
         <div ref={canvasWrapRef} className="philosophy-sequence__canvas-wrap">
           {!allFramesSettled && (
             <div className="philosophy-sequence__loader philosophy-sequence__loader--frame" aria-live="polite">

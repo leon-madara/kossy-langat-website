@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-04-14] - Real project work section refresh
+
+### Changed
+- **`src/data/projects.ts`** and **`src/components/ui/ProjectCard.tsx`**: Replaces fabricated Work entries with four real client projects sourced from `public/projects done`, adds a richer shared project content model (`summary`, `stage`, `system`, `overview`, `imageAlt`, `gallery`), and switches project imagery to local site assets.
+- **`src/app/work/page.tsx`** and **`src/app/work/WorkPage.css`**: Reframes the Work page around real structural delivery, adding grounded introductory copy while preserving the existing GSAP reveal behavior and card grid system.
+- **`src/app/work/[slug]/page.tsx`** and **`src/app/work/[slug]/CaseStudy.css`**: Expands the case-study pages with lead imagery, project facts, overview narrative, and galleries tied to the real project record instead of generic placeholder challenge/outcome blocks.
+- **`docs/exec-plans/active/work-real-projects-refresh/`**: Adds the required feature continuity folder for this cross-page portfolio refresh, including plan, decisions, handoff, and verification records.
+
 ## [2026-04-09] - Cloudflare Workers deploy via OpenNext
 
 ### Added

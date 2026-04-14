@@ -12,11 +12,21 @@ export interface Project {
     slug: string
     title: string
     location: string
+    summary: string
+    stage: string
+    system: string
+    overview: string
     challenge: string
     intervention: string
     result: string
     tags: string[]
     imageUrl?: string
+    imageAlt?: string
+    gallery?: Array<{
+        src: string
+        alt: string
+        caption: string
+    }>
 }
 
 interface ProjectCardProps {
@@ -26,14 +36,15 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, className, gridWaves = false }: ProjectCardProps) {
+    const imageSrc = project.imageUrl ? encodeURI(project.imageUrl) : undefined
+
     return (
         <article className={`project-card ${className || ""}`}>
-            {/* Image Placeholder */}
             <div className="project-card-media">
-                {project.imageUrl ? (
+                {imageSrc ? (
                     <Image
-                        src={project.imageUrl}
-                        alt={`${project.title} - case study preview`}
+                        src={imageSrc}
+                        alt={project.imageAlt || `${project.title} case study preview`}
                         fill
                         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                         className="project-card-media__image"
@@ -54,7 +65,6 @@ export function ProjectCard({ project, className, gridWaves = false }: ProjectCa
                 </div>
             </div>
 
-            {/* Content */}
             <div className="project-card-content">
                 <p className="project-card-location">{project.location}</p>
                 <h3 className="project-card-title">

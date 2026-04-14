@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer"
 
 export const metadata: Metadata = {
     title: "Work",
-    description: "Featured case studies and project outcomes. See how structured alignment, stakeholder coordination, and engineering precision deliver measurable impact.",
+    description: "Real EPS 3D and structural engineering case studies across commercial, residential, hostel, and private residence delivery.",
 }
 
 export default function WorkLayout({

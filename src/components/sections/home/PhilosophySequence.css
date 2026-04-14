@@ -168,6 +168,13 @@
   transition: opacity 0.4s ease-in, transform 0.5s cubic-bezier(0.4, 0, 1, 1);
 }
 
+/* ─── Line color variants (light mode) ─────────────────────────────────────── */
+.philosophy-sequence__line--teal  { color: #48616b; }
+.philosophy-sequence__line--olive { color: #323006; }
+.philosophy-sequence__line--warm  { color: #685a54; }
+.philosophy-sequence__line--dark  { color: #1e2929; }
+.philosophy-sequence__line--moss  { color: #545110; }
+
 .philosophy-sequence--static {
   min-height: auto;
 }
@@ -479,13 +486,13 @@
   }
 
   .philosophy-sequence__line {
-    position: relative !important;
-    inset: auto !important;
-    display: block !important;
+    position: relative;
+    inset: auto;
+    display: block;
     max-width: 18ch;
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+    opacity: 1;
+    transform: none;
+    transition: none;
     text-shadow: none;
   }
 }
@@ -659,24 +666,24 @@
 }
 
 /* ─── Dark mode WCAG AA contrast fixes ─────────────────────────────────────── */
-/* Quote lines receive inline color from JS — override with !important          */
+/* Line color variants: higher specificity (3 classes) beats light mode (1 class) */
 :root[data-theme="dark"] .philosophy-sequence .philosophy-sequence__line {
-  color: var(--philosophy-foreground) !important;
+  color: var(--philosophy-foreground);
 }
 
-/* Eyebrow: raise opacity from 0.84 → 1.0 (was 4.45:1, now ~5.29:1) */
+/* Eyebrow: raise opacity from 0.84 → 1.0 (4.45:1 → ~5.29:1, passes AA) */
 :root[data-theme="dark"] .philosophy-sequence .philosophy-sequence__eyebrow {
   color: rgba(var(--philosophy-overlay-muted-rgb), 1.0);
 }
 
-/* Separator: raise opacity from 0.45 → 0.75 (was 2.14:1, now ~3.97:1 ≥ 3:1 UI) */
+/* Separator: raise opacity from 0.45 → 0.75 (~2.14:1 → ~3.97:1, passes AA UI) */
 :root[data-theme="dark"] .philosophy-sequence .philosophy-sequence__eyebrow-separator {
   color: rgba(var(--philosophy-overlay-muted-rgb), 0.75);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) .philosophy-sequence .philosophy-sequence__line {
-    color: var(--philosophy-foreground) !important;
+    color: var(--philosophy-foreground);
   }
 
   :root:not([data-theme]) .philosophy-sequence .philosophy-sequence__eyebrow {

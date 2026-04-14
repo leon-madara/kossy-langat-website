@@ -476,7 +476,7 @@
         inset: auto;
         height: auto;
         aspect-ratio: 16 / 10;
-        transform: none !important;
+        transform: none;
     }
 
     .advice-panel-safe-area {
@@ -496,7 +496,7 @@
         width: 100%;
         padding: 0 1.25rem 1.25rem;
         margin-top: -2rem;
-        transform: none !important;
+        transform: none;
     }
 
     .advice-panel-card {

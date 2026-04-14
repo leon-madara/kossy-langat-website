@@ -356,16 +356,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .about-split-hero__panel {
-    clip-path: inset(0 0 0 0) !important;
-    -webkit-clip-path: inset(0 0 0 0) !important;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
   }
 
   .about-split-hero__image-layer--gray,
   .about-split-hero__veil {
-    opacity: 0 !important;
+    opacity: 0;
   }
 
   .about-split-hero__rule {
-    transform: scaleX(1) !important;
+    transform: scaleX(1);
   }
 }

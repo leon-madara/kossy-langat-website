@@ -18,22 +18,22 @@ const FRAME_PROGRESS_DURATION = PIN_NARRATIVE_SCROLL_DISTANCE_VH / PIN_SCROLL_DI
 type FitMode = "cover" | "contain"
 
 const TEXT_SEQUENCE = [
-  { text: "Good design does not begin with walls.", frameStart: 1, frameEnd: 24, color: "#48616b" },
-  { text: "It begins with structure.", frameStart: 25, frameEnd: 48, color: "#323006" },
-  { text: "With alignment.", frameStart: 49, frameEnd: 72, color: "#685a54" },
-  { text: "With logic.", frameStart: 73, frameEnd: 96, color: "black" },
-  { text: "With systems that hold.", frameStart: 97, frameEnd: 132, color: "#545110" },
+  { text: "Good design does not begin with walls.", frameStart: 1, frameEnd: 24, colorClass: "philosophy-sequence__line--teal" },
+  { text: "It begins with structure.", frameStart: 25, frameEnd: 48, colorClass: "philosophy-sequence__line--olive" },
+  { text: "With alignment.", frameStart: 49, frameEnd: 72, colorClass: "philosophy-sequence__line--warm" },
+  { text: "With logic.", frameStart: 73, frameEnd: 96, colorClass: "philosophy-sequence__line--dark" },
+  { text: "With systems that hold.", frameStart: 97, frameEnd: 132, colorClass: "philosophy-sequence__line--moss" },
   {
     text: "And with the right leadership, what was only a framework becomes something real.",
     frameStart: 133,
     frameEnd: 176,
-    color: "#48616b",
+    colorClass: "philosophy-sequence__line--teal",
   },
   {
     text: "That space between people and design - that's where I live.",
     frameStart: 177,
     frameEnd: 192,
-    color: "#323006",
+    colorClass: "philosophy-sequence__line--olive",
   },
 ]
 
@@ -483,12 +483,12 @@ export function PhilosophySequence() {
                 }}
                 className={[
                   "philosophy-sequence__line",
+                  line.colorClass,
                   isStaticFallback ? "philosophy-sequence__line--static" : "",
                   index === 0 ? "is-active" : ""
                 ].filter(Boolean).join(" ")}
                 data-frame-start={line.frameStart}
                 data-frame-end={line.frameEnd}
-                style={{ color: line.color }}
               >
                 {line.text}
               </p>

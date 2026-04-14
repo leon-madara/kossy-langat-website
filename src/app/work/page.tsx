@@ -9,6 +9,7 @@ import "./WorkPage.css"
 
 export default function WorkPage() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const cardVariants = ["featured", "highlight", "standard", "standard"]
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -41,9 +42,16 @@ export default function WorkPage() {
                 </header>
 
                 <div className="work-grid">
-                    {projects.map((project) => (
-                        <div key={project.slug} className="work-reveal">
-                            <ProjectCard project={project} gridWaves />
+                    {projects.map((project, index) => (
+                        <div
+                            key={project.slug}
+                            className={`work-card work-card--${cardVariants[index] ?? "standard"} work-reveal`}
+                        >
+                            <ProjectCard
+                                project={project}
+                                gridWaves
+                                className={`work-card-frame work-card-frame--${cardVariants[index] ?? "standard"}`}
+                            />
                         </div>
                     ))}
                 </div>

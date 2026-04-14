@@ -54,17 +54,65 @@
     gap: 3rem;
 }
 
+.work-card {
+    min-width: 0;
+}
+
+.work-card-frame {
+    height: 100%;
+}
+
 @media (min-width: 768px) {
     .work-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 4rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2.5rem;
     }
 }
 
 @media (min-width: 1280px) {
     .work-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 3rem;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 2.25rem;
+        align-items: stretch;
+    }
+
+    .work-card--featured {
+        grid-column: span 7;
+    }
+
+    .work-card--highlight {
+        grid-column: span 5;
+    }
+
+    .work-card--standard {
+        grid-column: span 6;
+    }
+
+    .work-card-frame--featured .project-card-media {
+        height: 320px;
+    }
+
+    .work-card-frame--featured .project-card-content {
+        padding: 2rem;
+    }
+
+    .work-card-frame--featured .project-card-title {
+        font-size: 1.7rem;
+    }
+
+    .work-card-frame--featured .project-card-intervention-text {
+        -webkit-line-clamp: 4;
+        font-size: 0.95rem;
+    }
+
+    .work-card-frame--featured .project-card-block-text {
+        font-size: 0.93rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+    .work-card-frame .project-card-media {
+        height: 260px;
     }
 }
 

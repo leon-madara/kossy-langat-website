@@ -655,4 +655,35 @@
     --philosophy-overlay-foreground-rgb: 248, 246, 243;
     --philosophy-overlay-muted-rgb: 155, 158, 165;
   }
+
+}
+
+/* ─── Dark mode WCAG AA contrast fixes ─────────────────────────────────────── */
+/* Quote lines receive inline color from JS — override with !important          */
+:root[data-theme="dark"] .philosophy-sequence .philosophy-sequence__line {
+  color: var(--philosophy-foreground) !important;
+}
+
+/* Eyebrow: raise opacity from 0.84 → 1.0 (was 4.45:1, now ~5.29:1) */
+:root[data-theme="dark"] .philosophy-sequence .philosophy-sequence__eyebrow {
+  color: rgba(var(--philosophy-overlay-muted-rgb), 1.0);
+}
+
+/* Separator: raise opacity from 0.45 → 0.75 (was 2.14:1, now ~3.97:1 ≥ 3:1 UI) */
+:root[data-theme="dark"] .philosophy-sequence .philosophy-sequence__eyebrow-separator {
+  color: rgba(var(--philosophy-overlay-muted-rgb), 0.75);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .philosophy-sequence .philosophy-sequence__line {
+    color: var(--philosophy-foreground) !important;
+  }
+
+  :root:not([data-theme]) .philosophy-sequence .philosophy-sequence__eyebrow {
+    color: rgba(var(--philosophy-overlay-muted-rgb), 1.0);
+  }
+
+  :root:not([data-theme]) .philosophy-sequence .philosophy-sequence__eyebrow-separator {
+    color: rgba(var(--philosophy-overlay-muted-rgb), 0.75);
+  }
 }

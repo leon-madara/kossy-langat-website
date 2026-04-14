@@ -601,3 +601,58 @@
     --philosophy-overlay-muted-rgb: 104, 90, 84;
   }
 }
+
+/* ── Dark theme overrides ───────────────────────────────────────────── */
+
+:root[data-theme="dark"] .philosophy-sequence {
+  --philosophy-surface: #1a2626;
+  --philosophy-foreground: #F8F6F3;
+  --philosophy-foreground-rgb: 248, 246, 243;
+  --philosophy-muted: #9b9ea5;
+  --philosophy-muted-rgb: 155, 158, 165;
+  --philosophy-overlay-foreground: #F8F6F3;
+  --philosophy-overlay-foreground-rgb: 248, 246, 243;
+  --philosophy-overlay-muted-rgb: 155, 158, 165;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .philosophy-sequence {
+    --philosophy-surface: #1a2626;
+    --philosophy-foreground: #F8F6F3;
+    --philosophy-foreground-rgb: 248, 246, 243;
+    --philosophy-muted: #9b9ea5;
+    --philosophy-muted-rgb: 155, 158, 165;
+    --philosophy-overlay-foreground: #F8F6F3;
+    --philosophy-overlay-foreground-rgb: 248, 246, 243;
+    --philosophy-overlay-muted-rgb: 155, 158, 165;
+  }
+}
+
+/* Tablet scrim — uses surface color so must update for dark mode */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root[data-theme="dark"] .philosophy-sequence .philosophy-sequence__mobile-scrim {
+    background:
+      linear-gradient(to top, rgba(26, 38, 38, 0.97) 0%, rgba(26, 38, 38, 0.86) 18%, rgba(26, 38, 38, 0.4) 46%, rgba(26, 38, 38, 0.08) 72%, rgba(26, 38, 38, 0) 100%),
+      linear-gradient(to right, rgba(26, 38, 38, 0.56) 0%, rgba(26, 38, 38, 0.18) 42%, rgba(26, 38, 38, 0) 76%);
+  }
+
+  :root[data-theme="dark"] .philosophy-sequence {
+    --philosophy-overlay-foreground: #F8F6F3;
+    --philosophy-overlay-foreground-rgb: 248, 246, 243;
+    --philosophy-overlay-muted-rgb: 155, 158, 165;
+  }
+}
+
+@media (prefers-color-scheme: dark) and (min-width: 768px) and (max-width: 1023px) {
+  :root:not([data-theme]) .philosophy-sequence .philosophy-sequence__mobile-scrim {
+    background:
+      linear-gradient(to top, rgba(26, 38, 38, 0.97) 0%, rgba(26, 38, 38, 0.86) 18%, rgba(26, 38, 38, 0.4) 46%, rgba(26, 38, 38, 0.08) 72%, rgba(26, 38, 38, 0) 100%),
+      linear-gradient(to right, rgba(26, 38, 38, 0.56) 0%, rgba(26, 38, 38, 0.18) 42%, rgba(26, 38, 38, 0) 76%);
+  }
+
+  :root:not([data-theme]) .philosophy-sequence {
+    --philosophy-overlay-foreground: #F8F6F3;
+    --philosophy-overlay-foreground-rgb: 248, 246, 243;
+    --philosophy-overlay-muted-rgb: 155, 158, 165;
+  }
+}

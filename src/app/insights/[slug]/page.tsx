@@ -51,16 +51,23 @@ export default function InsightDetailPage({ params }: { params: Promise<{ slug: 
                     <p className="font-playfair text-2xl italic opacity-80 mb-8 border-l-2 border-accent pl-6">
                         {insight.excerpt}
                     </p>
-                    <p>
-                        The gap between engineering precision and management decision-making is often where budgets explode and timelines collapse. When a structural model is handed over to a project management team that prioritizes speed over curing times, or cost over high-yield steel, the integrity of the entire structure is compromised.
-                    </p>
-                    <p>
-                        It is not enough to design a perfect structure in isolation. The engineer must act as the primary translator between the physics of the building and the economics of the boardroom. Misalignment here is not just a communication error; it is a structural failure waiting to happen.
-                    </p>
-                    <p>
-                        True engineering isn&apos;t just about managing loads—it&apos;s about managing people. By inserting technical oversight directly into the operational hierarchy, we close the fatal gap. We ensure that every financial decision is structurally sound, and every structural decision is financially viable.
-                    </p>
-                    {/* Note: This is placeholder body content for demonstration. In a real CMS, this would be rich text or MDX. */}
+                    {insight.body ? (
+                        insight.body.map((paragraph, i) => (
+                            <p key={i}>{paragraph}</p>
+                        ))
+                    ) : (
+                        <>
+                            <p>
+                                The gap between engineering precision and management decision-making is often where budgets explode and timelines collapse. When a structural model is handed over to a project management team that prioritizes speed over curing times, or cost over high-yield steel, the integrity of the entire structure is compromised.
+                            </p>
+                            <p>
+                                It is not enough to design a perfect structure in isolation. The engineer must act as the primary translator between the physics of the building and the economics of the boardroom. Misalignment here is not just a communication error; it is a structural failure waiting to happen.
+                            </p>
+                            <p>
+                                True engineering isn&apos;t just about managing loads—it&apos;s about managing people. By inserting technical oversight directly into the operational hierarchy, we close the fatal gap. We ensure that every financial decision is structurally sound, and every structural decision is financially viable.
+                            </p>
+                        </>
+                    )}
                 </div>
             </div>
         </article>

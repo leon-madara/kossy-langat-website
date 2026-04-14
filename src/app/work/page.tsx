@@ -9,7 +9,7 @@ import "./WorkPage.css"
 
 export default function WorkPage() {
     const containerRef = useRef<HTMLDivElement>(null)
-    const cardVariants = ["featured", "highlight", "standard", "standard"]
+    const cardVariants = ["standard", "standard", "standard", "standard"]
 
     useEffect(() => {
         const ctx = gsap.context(() => {

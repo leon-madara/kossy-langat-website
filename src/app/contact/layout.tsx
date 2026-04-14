@@ -3,7 +3,7 @@ import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 
 export const metadata: Metadata = {
-    title: "Contact",
+    title: "Contact — Start a Project",
     description: "Start a conversation about your next project, request mentorship guidance, or inquire about speaking engagements. Let's build alignment together.",
 }
 

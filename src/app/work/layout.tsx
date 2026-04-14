@@ -3,7 +3,10 @@ import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 
 export const metadata: Metadata = {
-    title: "Work",
+    title: {
+        default: "Work & Case Studies | Kossy",
+        template: "%s | Kossy",
+    },
     description: "Real EPS 3D and structural engineering case studies across commercial, residential, hostel, and private residence delivery.",
 }
 

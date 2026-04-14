@@ -43,13 +43,18 @@ export const metadata: Metadata = {
     "I don't just build structures. I build alignment between the people who make them possible. Structural engineer, General Manager, and systems orchestrator operating in East Africa.",
   keywords: [
     "structural engineer",
+    "structural engineer Nairobi",
+    "structural engineering Kenya",
     "general manager",
     "East Africa",
     "construction management",
+    "construction management Nairobi",
+    "EPS 3D Kenya",
+    "EPS panel systems Kenya",
     "EPS systems",
     "women in engineering",
     "mentorship",
-    "Naomi Langat",
+    "Naomi Lang'at Chepkoskei",
     "Kossy",
   ],
   authors: [{ name: "Naomi 'Kossy' Lang'at Chepkoskei" }],
@@ -83,6 +88,45 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://kossy.engineer/#person",
+                  "name": "Naomi Lang'at Chepkoskei",
+                  "alternateName": "Kossy",
+                  "jobTitle": "General Manager",
+                  "worksFor": { "@id": "https://kossy.engineer/#org" },
+                  "knowsAbout": [
+                    "Structural Engineering",
+                    "EPS 3D Panel Systems",
+                    "Construction Management"
+                  ],
+                  "url": "https://kossy.engineer/about"
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://kossy.engineer/#org",
+                  "name": "EPS Manufacturing & Supply Kenya",
+                  "url": "https://kossy.engineer",
+                  "areaServed": "KE",
+                  "description": "EPS 3D panel system installation and structural engineering services across Kenya and East Africa."
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://kossy.engineer/#website",
+                  "url": "https://kossy.engineer",
+                  "name": "Kossy — Structural Engineer",
+                  "publisher": { "@id": "https://kossy.engineer/#person" }
+                }
+              ]
+            })
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double:wght@100..900&family=Euphoria+Script&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet" />

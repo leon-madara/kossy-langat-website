@@ -129,23 +129,22 @@
   inset: 0;
   z-index: 5;
   pointer-events: none;
-  mask-image: linear-gradient(to bottom, 
-    black 0%, 
-    black var(--mask-p1, 50%), 
-    transparent var(--mask-p1, 50%), 
-    transparent var(--mask-p2, 50%), 
-    black var(--mask-p2, 50%), 
+  mask-image: linear-gradient(to bottom,
+    black 0%,
+    black var(--mask-p1, 50%),
+    transparent var(--mask-p1, 50%),
+    transparent var(--mask-p2, 50%),
+    black var(--mask-p2, 50%),
     black 100%
   );
-  -webkit-mask-image: linear-gradient(to bottom, 
-    black 0%, 
-    black var(--mask-p1, 50%), 
-    transparent var(--mask-p1, 50%), 
-    transparent var(--mask-p2, 50%), 
-    black var(--mask-p2, 50%), 
+  -webkit-mask-image: linear-gradient(to bottom,
+    black 0%,
+    black var(--mask-p1, 50%),
+    transparent var(--mask-p1, 50%),
+    transparent var(--mask-p2, 50%),
+    black var(--mask-p2, 50%),
     black 100%
   );
-  opacity: var(--mask-opacity, 1);
 }
 
 .about-split-hero__veil--inner {
@@ -270,19 +269,26 @@
 
 @media (max-width: 900px) {
   .about-split-hero {
-    --hero-h: 82vh;
+    --hero-h: 90vh;
     margin-top: 72px;
   }
 
   @supports (height: 1svh) {
     .about-split-hero {
-      --hero-h: 82svh;
+      --hero-h: 90svh;
     }
+  }
+
+  /* No tint on touch devices — hover doesn't exist, remove mask entirely */
+  .about-split-hero__overlay-group {
+    opacity: 0;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 
   .about-split-hero__grid {
     grid-template-columns: 1fr;
-    grid-template-rows: 0.15fr 0.52fr 0.33fr;
+    grid-template-rows: 0.12fr 0.58fr 0.30fr;
   }
 
   .about-split-hero__panel--accent {
@@ -322,6 +328,10 @@
     flex-direction: column;
     justify-content: stretch;
     background: var(--split-right);
+  }
+
+  .about-split-hero__image {
+    object-position: 50% 20%;
   }
 
   .about-split-hero__rule {

@@ -56,3 +56,4 @@ cloudflare-env.d.ts
 
 # Shared workflow docs (global — lives outside repo at Dev Mode/WorkFlow_v2)
 /WorkFlow_v2/
+.wrangler/

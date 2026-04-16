@@ -242,6 +242,14 @@ export default function CaseStudyContent({ project }: Props) {
                     </section>
                 ) : null}
 
+                {/* Footer Back Link */}
+                <footer className="case-study-footer cs-scroll-reveal">
+                    <Link href="/work" className="case-study-back-link">
+                        <span className="case-study-back-link__arrow" aria-hidden="true">←</span>
+                        <span className="case-study-back-link__text">Back to All Work</span>
+                    </Link>
+                </footer>
+
             </div>
         </div>
     )

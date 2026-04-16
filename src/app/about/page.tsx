@@ -303,26 +303,31 @@ export default function AboutPage() {
                         <div className="origin-text-col">
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <SectionLabel number="02" text="The Beginning" className="mb-6" />
-                                <h2 className="origin-headline">A Collapse That Built a Career</h2>
+                                <h2 className="origin-headline">Curiosity Built from the Ground Up</h2>
                             </div>
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <p className="origin-paragraph">
-                                    I was 14 when a building collapsed in Nairobi. I remember my uncle, a mason, explaining how buildings fail — not just from bad materials, but from people not understanding loads, foundations, forces.
+                                    I was 9 years old, standing in the rain while my dad built our family home. I watched the foundation walls hold the water — portion by portion, the ground absorbing it, the structure containing it. I didn&apos;t have the words for it then. But I couldn&apos;t look away.
                                 </p>
                             </div>
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <p className="origin-paragraph">
-                                    I thought: <em>someone needs to make sure our buildings stand. That someone could be me.</em> That quiet conviction became a degree in Structural Engineering, a career on construction sites across East Africa, and eventually a leadership role where I now coordinate not just steel and concrete — but everything and everyone between concept and completion.
+                                    That early fascination became a degree in Structural Engineering, a career on construction sites across East Africa, and eventually a leadership role where I coordinate not just steel and concrete — but everything and everyone between concept and completion.
                                 </p>
                             </div>
                             <blockquote className="origin-quote abt-reveal-scroll opacity-0 translate-y-8">
                                 &ldquo;Engineering is 30% calculations, 70% people. I learned that in year three — and I&apos;ve never forgotten it.&rdquo;
                             </blockquote>
-                            <div className="origin-anecdote abt-reveal-scroll opacity-0 translate-y-8">
-                                <p className="origin-anecdote-text">
-                                    My first day on a real construction site, the foreman looked past me and asked, &ldquo;Where&apos;s the engineer?&rdquo; I was holding the structural drawings. I smiled and said, &ldquo;You&apos;re looking at her.&rdquo; He laughed. Then I showed him why his rebar spacing was wrong. He stopped laughing. We&apos;ve worked on four projects together since.
-                                </p>
-                            </div>
+                        </div>
+
+                        <div className="origin-anecdote origin-anecdote-fullwidth abt-reveal-scroll opacity-0 translate-y-8">
+                            <p className="origin-anecdote-text">
+                                I&apos;ve been fortunate. The foreman I work with is exactly who you want on a site — professional, precise, someone who cares about the work more than about who&apos;s giving the direction. Together, we&apos;ve built 6 blocks of 300 housing units. That partnership is what construction should look like. But I&apos;m not naive about the industry. I&apos;ve heard from women who walked onto sites and were addressed as secretaries. Women whose specifications were quietly revised by foremen who couldn&apos;t accept that a woman had written them. Women who had to stand in the rain and prove something no man on that site was ever asked to prove. I was spared that. Not every woman is.
+                            </p>
+                            <div className="origin-anecdote-divider" aria-hidden="true" />
+                            <p className="origin-anecdote-text">
+                                What I wasn&apos;t spared is this: I&apos;ve stood in a room and proposed a technical solution — the right one — only to watch it gain traction an hour later when a male colleague said the same thing. I&apos;ve had to follow up my own recommendations in writing, calculations attached, just to be taken as seriously as a verbal opinion from someone else. I&apos;ve walked onto sites and been asked twice whether I&apos;m the engineer. Not once, from confusion. Twice, from disbelief. I don&apos;t lead with this because it defines me. I lead with it because pretending it doesn&apos;t happen leaves the next woman unprepared.
+                            </p>
                         </div>
                     </div>
                 </section>
@@ -506,6 +511,11 @@ export default function AboutPage() {
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <p className="inspiration-para">
                                     &ldquo;We tell girls engineering is <em>hard</em>. We don&apos;t tell boys that — we tell them it&apos;s <em>challenging</em>, prestigious, well-paid. Hard vs. challenging — hear the difference? One says &lsquo;maybe you can&apos;t.&rsquo; The other says &lsquo;this will make you stronger.&rsquo; We are programming girls to opt out before they even try. That stops now.&rdquo;
+                                </p>
+                            </div>
+                            <div className="abt-reveal-scroll opacity-0 translate-y-8">
+                                <p className="inspiration-para">
+                                    No one will tell you this enough, so I will: some rooms will assume less of you before you&apos;ve spoken. Some sites will make you prove what no one asked your male colleagues to prove. That is not a maybe — it is a likelihood. The response is not to harden or hide. It is to be so prepared that dismissal becomes untenable. Know your calculations cold. Know the codes. Know the ground beneath the project before anyone asks. But also prepare the parts of yourself that no textbook covers: the composure to stay technical when someone gets personal; the resilience to re-enter a room after being talked over in it; the quiet certainty that doesn&apos;t need external validation to keep functioning. A prepared woman is harder to dismiss. That is not just armour. That is architecture.
                                 </p>
                             </div>
                             <blockquote className="inspiration-quote abt-reveal-scroll opacity-0 translate-y-8">

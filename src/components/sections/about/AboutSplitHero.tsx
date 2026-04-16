@@ -133,37 +133,37 @@ export function AboutSplitHero() {
                 }, PANEL_DUR + 0.3)
             }
 
-            // 5. Hover Animation Setup (Desktop/Tablet)
-            if (imagePanelRef.current && imageOverlayGroupRef.current) {
+            // 5. Hover Animation Setup (Desktop only — >900px)
+            if (imagePanelRef.current && imageOverlayGroupRef.current && window.innerWidth > 900) {
                 const group = imageOverlayGroupRef.current
-                
-                // Initialize mask stops
-                gsap.set(group, { 
-                    '--mask-p1': '50%', 
-                    '--mask-p2': '50%',
-                    '--mask-opacity': 1 
-                })
+
+                // Proxy: GSAP animates plain numbers, onUpdate writes CSS vars each frame
+                const proxy = { p1: 50, p2: 50 }
+
+                // Set initial state: mask collapsed to hairline at center
+                group.style.setProperty('--mask-p1', '50%')
+                group.style.setProperty('--mask-p2', '50%')
+                gsap.set(group, { opacity: 1 })
 
                 const hoverTl = gsap.timeline({ paused: true })
-                hoverTl.to(group, {
-                    '--mask-p1': '0%',
-                    '--mask-p2': '100%',
-                    '--mask-opacity': 0,
+                hoverTl.to(proxy, {
+                    p1: 0,
+                    p2: 100,
                     duration: 0.8,
-                    ease: "power2.inOut"
+                    ease: "power2.inOut",
+                    onUpdate: () => {
+                        group.style.setProperty('--mask-p1', `${proxy.p1}%`)
+                        group.style.setProperty('--mask-p2', `${proxy.p2}%`)
+                    }
                 })
 
-                const onEnter = () => {
-                    if (window.innerWidth > 900) hoverTl.play()
-                }
-                const onLeave = () => {
-                    if (window.innerWidth > 900) hoverTl.reverse()
-                }
+                const onEnter = () => hoverTl.play()
+                const onLeave = () => hoverTl.reverse()
 
                 const panel = imagePanelRef.current
                 panel.addEventListener('mouseenter', onEnter)
                 panel.addEventListener('mouseleave', onLeave)
-                
+
                 return () => {
                     panel.removeEventListener('mouseenter', onEnter)
                     panel.removeEventListener('mouseleave', onLeave)

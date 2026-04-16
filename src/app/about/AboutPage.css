@@ -177,6 +177,49 @@
     background: rgba(var(--border-rgb, 220, 211, 210), 0.18);
     border: 1px solid rgba(var(--border-rgb, 220, 211, 210), 0.35);
     border-radius: 2px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .origin-anecdote {
+        grid-template-columns: 1fr 1px 1fr;
+        gap: 0;
+        padding: 2rem 2rem;
+        align-items: stretch;
+    }
+
+    .origin-anecdote-text:first-child {
+        padding-right: 2rem;
+    }
+
+    .origin-anecdote-text:last-child {
+        padding-left: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .origin-anecdote {
+        padding: 2.25rem 2.5rem;
+    }
+}
+
+.origin-anecdote-fullwidth {
+    grid-column: 1 / -1;
+    margin-top: 0;
+}
+
+.origin-anecdote-divider {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .origin-anecdote-divider {
+        display: block;
+        align-self: stretch;
+        background: rgba(var(--border-rgb, 220, 211, 210), 0.5);
+    }
 }
 
 .origin-anecdote-text {
@@ -185,6 +228,7 @@
     line-height: 1.75;
     color: var(--foreground);
     opacity: 0.8;
+    min-width: 0;
 }
 
 /* ─── BI-DIRECTIONAL PARALLAX ─── */

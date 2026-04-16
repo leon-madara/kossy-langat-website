@@ -303,16 +303,16 @@ export default function AboutPage() {
                         <div className="origin-text-col">
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <SectionLabel number="02" text="The Beginning" className="mb-6" />
-                                <h2 className="origin-headline">A Collapse That Built a Career</h2>
+                                <h2 className="origin-headline">Curiosity Built from the Ground Up</h2>
                             </div>
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <p className="origin-paragraph">
-                                    I was 14 when a building collapsed in Nairobi. I remember my uncle, a mason, explaining how buildings fail — not just from bad materials, but from people not understanding loads, foundations, forces.
+                                    I was 9 when I first became intrigued by construction. My dad was building our residential home, and I remember watching it rain, fascinated as the foundation walls retained the water portion by portion.
                                 </p>
                             </div>
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <p className="origin-paragraph">
-                                    I thought: <em>someone needs to make sure our buildings stand. That someone could be me.</em> That quiet conviction became a degree in Structural Engineering, a career on construction sites across East Africa, and eventually a leadership role where I now coordinate not just steel and concrete — but everything and everyone between concept and completion.
+                                    That early curiosity grew into a degree in Structural Engineering, a career on construction sites, and eventually a leadership role where I now coordinate not just steel and concrete — but everything and everyone between concept and completion.
                                 </p>
                             </div>
                             <blockquote className="origin-quote abt-reveal-scroll opacity-0 translate-y-8">
@@ -320,7 +320,7 @@ export default function AboutPage() {
                             </blockquote>
                             <div className="origin-anecdote abt-reveal-scroll opacity-0 translate-y-8">
                                 <p className="origin-anecdote-text">
-                                    My first day on a real construction site, the foreman looked past me and asked, &ldquo;Where&apos;s the engineer?&rdquo; I was holding the structural drawings. I smiled and said, &ldquo;You&apos;re looking at her.&rdquo; He laughed. Then I showed him why his rebar spacing was wrong. He stopped laughing. We&apos;ve worked on four projects together since.
+                                    I&apos;ve been fortunate to work with highly professional colleagues—like a foreman with whom I have now successfully built 6 blocks of 300 housing units together. Yet, the broader reality of the industry remains. I have encountered situations where I had to work significantly harder to prove myself, watching as my ideas were rigorously questioned and vetted while male colleagues faced less scrutiny. That friction didn&apos;t stop me; it only sharpened my resolve to excel.
                                 </p>
                             </div>
                         </div>
@@ -501,6 +501,11 @@ export default function AboutPage() {
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
                                 <p className="inspiration-para">
                                     Only 8.4% of registered professional engineers in Kenya are women. Kossy sees that number not as a ceiling, but as a proof of space.
+                                </p>
+                            </div>
+                            <div className="abt-reveal-scroll opacity-0 translate-y-8">
+                                <p className="inspiration-para">
+                                    When you are one of the few women in the room, your ideas may face stricter vetting, and your competence might be tested before it is trusted. But this is exactly why your presence is necessary. Every time you stand your ground and let your work speak, you are normalizing excellence for the women who will follow.
                                 </p>
                             </div>
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">

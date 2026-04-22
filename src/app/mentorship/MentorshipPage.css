@@ -20,7 +20,7 @@
 /* Sits inside .mentor-hero, positioned absolutely below the global header */
 .mentorship-sub-nav {
     position: absolute;
-    top: 4.5rem;
+    top: 6rem;
     left: 0;
     right: 0;
     z-index: 20;
@@ -57,7 +57,8 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: color-mix(in srgb, var(--foreground) 70%, transparent);
+    /* Always over dark hero photo — light color required in both modes */
+    color: rgba(255, 255, 255, 0.7);
 }
 
 @media (min-width: 768px) {
@@ -146,7 +147,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .scroll-line {
@@ -214,7 +215,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    opacity: 0.5;
+    color: hsl(var(--m-mute));
 }
 
 .reality-title {
@@ -252,7 +253,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    opacity: 0.5;
+    color: hsl(var(--m-mute));
 }
 
 .reality-body {
@@ -295,7 +296,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    opacity: 0.5;
+    color: hsl(var(--m-mute));
 }
 
 /* ===== PRACTICAL ADVICE SECTION ===== */
@@ -367,8 +368,13 @@
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--gold-accent);
+    /* --accent (#754D37) = 6.80:1 on light bg; gold restores at dark */
+    color: var(--accent);
     margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .mentor-section-label {
+    color: var(--gold-accent);
 }
 
 .mentor-section-title {
@@ -429,13 +435,19 @@
     flex-shrink: 0;
     width: 48px;
     height: 48px;
-    border: 1px solid var(--gold-accent);
+    /* --accent (#754D37) = 6.80:1 on light bg; 20px/700 large text needs 3:1 (gold = 2.95:1) */
+    border: 1px solid var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-playfair), serif;
     font-size: 1.25rem;
     font-weight: 700;
+    color: var(--accent);
+}
+
+[data-theme="dark"] .resilience-icon {
+    border-color: var(--gold-accent);
     color: var(--gold-accent);
 }
 

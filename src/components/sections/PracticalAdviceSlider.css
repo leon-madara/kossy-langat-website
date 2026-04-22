@@ -12,6 +12,11 @@
     color: var(--blue-slate);
 }
 
+/* --blue-slate (#48616B) is 2.95:1 on dark slider bg — fails 4.5:1 for 11px text */
+[data-theme="dark"] .pas-eyebrow {
+    color: #79ffff;
+}
+
 .pas-title {
     font-family: var(--font-instrument), var(--font-playfair), serif;
     font-size: clamp(2.2rem, 5.5vw, 5rem);
@@ -32,5 +37,10 @@
     font-size: clamp(1rem, 1.1vw, 1.125rem);
     line-height: 1.7;
     overflow: hidden;
-    color: var(--taupe-grey);
+    color: #453d38;
+}
+
+/* --taupe-grey (#685A54) is static — 2.92:1 on dark slider bg, fails 4.5:1 for body text */
+[data-theme="dark"] .pas-body {
+    color: #ffa840;
 }

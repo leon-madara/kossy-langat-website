@@ -56,7 +56,13 @@ function getFitMode(_viewportWidth: number): FitMode {
 // ── Fallback: main-thread canvas rendering ────────────────────────────
 // Used when OffscreenCanvas is not supported
 function createMainThreadRenderer(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext("2d")
+  let ctx: CanvasRenderingContext2D | null
+  try {
+    ctx = canvas.getContext("2d")
+  } catch {
+    // Canvas has transferred control to OffscreenCanvas — cannot use main thread
+    return null
+  }
   if (!ctx) return null
 
   const images: (HTMLImageElement | null)[] = Array.from({ length: FRAME_COUNT }, () => null)

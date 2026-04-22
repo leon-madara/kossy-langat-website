@@ -6,11 +6,11 @@
 }
 
 .footer-brand-mark__image {
-  display: block;
+  display: none;
 }
 
 .footer-brand-mark__mask {
-  display: none;
+  display: block;
   width: min(220px, 85vw);
   height: 2.25rem;
   background-color: #ffffff;
@@ -26,20 +26,20 @@
 }
 
 :root[data-theme="dark"] .footer-brand-mark__image {
-  display: none;
+  display: block;
 }
 
 :root[data-theme="dark"] .footer-brand-mark__mask {
-  display: block;
+  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) .footer-brand-mark__image {
-    display: none;
+    display: block;
   }
 
   :root:not([data-theme]) .footer-brand-mark__mask {
-    display: block;
+    display: none;
   }
 }
 

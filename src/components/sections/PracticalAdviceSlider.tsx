@@ -88,6 +88,10 @@ function renderTitleHTML(slide: Principle) {
 
 function updateIndicators(container: HTMLElement, activeIndex: number) {
     const rows = container.querySelectorAll<HTMLElement>("[data-idx]")
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark"
+    // Active: full section color (~17:1). Inactive: --m-mute equivalent (4.67:1 light / 5.32:1 dark)
+    const activeColor = isDark ? "hsl(0 0% 95%)" : "hsl(220 18% 6%)"
+    const inactiveColor = isDark ? "hsl(220 8% 55%)" : "hsl(220 8% 45%)"
     rows.forEach((row) => {
         const i = Number(row.dataset.idx)
         const marker = row.querySelector<HTMLElement>("[data-marker]")
@@ -102,7 +106,8 @@ function updateIndicators(container: HTMLElement, activeIndex: number) {
         }
         if (num) {
             gsap.to(num, {
-                opacity: i === activeIndex ? 1 : 0.3,
+                color: i === activeIndex ? activeColor : inactiveColor,
+                opacity: 1,
                 duration: 0.5,
                 overwrite: "auto",
             })
@@ -358,7 +363,13 @@ export default function PracticalAdviceSlider() {
                                     willChange: "transform",
                                 }}
                             />
-                            <span data-num style={{ opacity: i === 0 ? 1 : 0.3, willChange: "opacity" }}>
+                            <span
+                                data-num
+                                style={{
+                                    color: i === 0 ? undefined : (isDark ? "hsl(220 8% 55%)" : "hsl(220 8% 45%)"),
+                                    willChange: "color",
+                                }}
+                            >
                                 {p.number}
                             </span>
                         </div>

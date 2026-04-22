@@ -3,6 +3,67 @@
    These classes are injected via renderTitleHTML()
    ───────────────────────────────────────────── */
 
+/* Theme-driven section surfaces — defined in CSS so SSR and
+   first paint match the resolved theme (set on <html> before
+   hydration). Previously inline styles driven by useState
+   caused a light→dark flash on entry for dark-mode users. */
+.slider-frame {
+    background-color: hsl(40 25% 96%);
+    color: hsl(220 18% 6%);
+}
+
+[data-theme="dark"] .slider-frame {
+    background-color: hsl(220 18% 6%);
+    color: hsl(0 0% 95%);
+}
+
+.pas-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        hsl(40 25% 96% / 0.88) 0%,
+        hsl(40 25% 96% / 0.6) 55%,
+        hsl(40 25% 96% / 0.35) 100%
+    );
+}
+
+[data-theme="dark"] .pas-overlay {
+    background: linear-gradient(
+        90deg,
+        hsl(220 18% 4% / 0.55) 0%,
+        hsl(220 18% 4% / 0.25) 55%,
+        transparent 100%
+    );
+}
+
+.pas-chip {
+    border-color: hsl(220 18% 6% / 0.2);
+    background: hsl(40 25% 96% / 0.5);
+}
+
+[data-theme="dark"] .pas-chip {
+    border-color: hsl(0 0% 95% / 0.25);
+    background: hsl(220 18% 4% / 0.3);
+}
+
+.pas-progress-rail {
+    background: hsl(220 18% 6% / 0.2);
+}
+
+[data-theme="dark"] .pas-progress-rail {
+    background: hsl(0 0% 95% / 0.25);
+}
+
+.pas-num-inactive {
+    color: hsl(220 8% 45%);
+}
+
+[data-theme="dark"] .pas-num-inactive {
+    color: hsl(220 8% 55%);
+}
+
+
 .pas-eyebrow {
     margin-bottom: 1.5rem;
     font-family: var(--font-mono), monospace;

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import "./PracticalAdviceSlider.css"
@@ -65,12 +65,13 @@ function chipText(n: number) {
     return `[ Practical Advice / Principle 0${n} of 0${principles.length} ]`
 }
 
-function renderTitleHTML(slide: Principle) {
-    const escapeHtml = (s: string) =>
-        s.replace(/[&<>"']/g, (c) => (
-            ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" } as Record<string, string>)[c] ?? c
-        ))
+function escapeHtml(s: string) {
+    return s.replace(/[&<>"']/g, (c) => (
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" } as Record<string, string>)[c] ?? c
+    ))
+}
 
+function renderTitleHTML(slide: Principle) {
     return `
     <p class="pas-eyebrow">
       <span data-line class="inline-block">${escapeHtml(slide.eyebrow)}</span>
@@ -88,10 +89,6 @@ function renderTitleHTML(slide: Principle) {
 
 function updateIndicators(container: HTMLElement, activeIndex: number) {
     const rows = container.querySelectorAll<HTMLElement>("[data-idx]")
-    const isDark = document.documentElement.getAttribute("data-theme") === "dark"
-    // Active: full section color (~17:1). Inactive: --m-mute equivalent (4.67:1 light / 5.32:1 dark)
-    const activeColor = isDark ? "hsl(0 0% 95%)" : "hsl(220 18% 6%)"
-    const inactiveColor = isDark ? "hsl(220 8% 55%)" : "hsl(220 8% 45%)"
     rows.forEach((row) => {
         const i = Number(row.dataset.idx)
         const marker = row.querySelector<HTMLElement>("[data-marker]")
@@ -105,12 +102,11 @@ function updateIndicators(container: HTMLElement, activeIndex: number) {
             })
         }
         if (num) {
-            gsap.to(num, {
-                color: i === activeIndex ? activeColor : inactiveColor,
-                opacity: 1,
-                duration: 0.5,
-                overwrite: "auto",
-            })
+            if (i === activeIndex) {
+                num.classList.remove("pas-num-inactive")
+            } else {
+                num.classList.add("pas-num-inactive")
+            }
         }
     })
 }
@@ -128,35 +124,22 @@ export default function PracticalAdviceSlider() {
     const progressRef = useRef<HTMLDivElement>(null)
     const indicesRef = useRef<HTMLDivElement>(null)
     const chipRef = useRef<HTMLSpanElement>(null)
+    const firstImgRef = useRef<HTMLImageElement>(null)
     const activeRef = useRef<number>(0)
-    const themeRef = useRef<"dark" | "light">(getTheme())
-    const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
+    const themeRef = useRef<"dark" | "light">("light")
 
-    // Reactive theme state so JSX re-renders on theme change
-    const [currentTheme, setCurrentTheme] = useState<"dark" | "light">(getTheme())
-
-    // Initialize first slide — runs after mount (client-only)
-    useEffect(() => {
-        const imagesEl = imagesRef.current
-        const titleEl = titleWrapRef.current
-        if (!imagesEl || !titleEl) return
-
+    // Sync first image src to resolved theme BEFORE paint.
+    // SSR renders the light image; on dark-theme clients we swap
+    // the src synchronously here so there's no visible flash.
+    useLayoutEffect(() => {
         const theme = getTheme()
         themeRef.current = theme
-
-        imagesEl.innerHTML = ""
-        const img = document.createElement("img")
-        img.src = theme === "dark" ? principles[0].imageDark : principles[0].imageLight
-        img.alt = principles[0].eyebrow
-        img.className = "absolute inset-0 h-full w-full object-cover"
-        img.style.willChange = "transform, opacity"
-        imagesEl.appendChild(img)
-
-        titleEl.innerHTML = renderTitleHTML(principles[0])
-        if (chipRef.current) chipRef.current.textContent = chipText(1)
+        if (theme === "dark" && firstImgRef.current) {
+            firstImgRef.current.src = principles[0].imageDark
+        }
     }, [])
 
-    // Main scroll animation - only runs once
+    // Main scroll animation
     useEffect(() => {
         const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
         if (reduced) return
@@ -169,8 +152,6 @@ export default function PracticalAdviceSlider() {
         if (!section || !imagesEl || !titleEl || !progressEl || !indicesEl) return
 
         const total = principles.length
-        gsap.set(progressEl, { scaleY: 0, transformOrigin: "top center" })
-        updateIndicators(indicesEl, 0)
 
         const animateNewSlide = (index: number) => {
             const slide = principles[index]
@@ -191,7 +172,6 @@ export default function PracticalAdviceSlider() {
                 overwrite: "auto",
             })
 
-            // Clean up old images
             while (imagesEl.children.length > MAX_CACHED_IMAGES) {
                 imagesEl.removeChild(imagesEl.children[0])
             }
@@ -234,18 +214,11 @@ export default function PracticalAdviceSlider() {
             pin: true,
             pinSpacing: true,
             scrub: 1,
-            anticipatePin: 1,
             invalidateOnRefresh: true,
             fastScrollEnd: true,
             preventOverlaps: true,
             onUpdate: (self) => {
-                // Update progress bar
-                gsap.set(progressEl, {
-                    scaleY: self.progress,
-                    overwrite: true,
-                })
-
-                // Calculate slide index
+                gsap.set(progressEl, { scaleY: self.progress, overwrite: true })
                 const idx = Math.min(total - 1, Math.floor(self.progress * total))
                 if (idx !== activeRef.current) {
                     activeRef.current = idx
@@ -254,22 +227,30 @@ export default function PracticalAdviceSlider() {
             },
         })
 
-        scrollTriggerRef.current = st
+        // Refresh once assets/fonts finish loading so pin positions
+        // account for final layout — avoids the 1-frame jump at pin engage.
+        const refresh = () => ScrollTrigger.refresh()
+        if (document.readyState === "complete") {
+            refresh()
+        } else {
+            window.addEventListener("load", refresh, { once: true })
+        }
+        if ("fonts" in document) {
+            ;(document as Document & { fonts: FontFaceSet }).fonts.ready.then(refresh)
+        }
 
         return () => {
             st.kill()
-            scrollTriggerRef.current = null
+            window.removeEventListener("load", refresh)
         }
     }, [])
 
-    // Handle theme changes: swap images and update reactive state
+    // Handle theme changes at runtime: swap the active image
     useEffect(() => {
         const handleThemeChange = () => {
             const newTheme = getTheme()
             if (newTheme === themeRef.current) return
-
             themeRef.current = newTheme
-            setCurrentTheme(newTheme)
 
             const imagesEl = imagesRef.current
             if (!imagesEl) return
@@ -304,46 +285,45 @@ export default function PracticalAdviceSlider() {
         return () => observer.disconnect()
     }, [])
 
-    const isDark = currentTheme === "dark"
+    const firstSlide = principles[0]
 
     return (
         <section
             ref={sectionRef}
             data-micro-pin="off"
             className="slider-frame relative h-screen w-full overflow-hidden"
-            style={{
-                backgroundColor: isDark ? "hsl(220 18% 6%)" : "hsl(40 25% 96%)",
-                color: isDark ? "hsl(0 0% 95%)" : "hsl(220 18% 6%)",
-                willChange: "transform",
-            }}
+            style={{ willChange: "transform" }}
         >
-            <div ref={imagesRef} className="absolute inset-0" style={{ willChange: "contents" }} />
+            {/* Images layer — first image rendered in JSX so first paint
+                shows content. Subsequent slides are appended imperatively. */}
+            <div ref={imagesRef} className="absolute inset-0" style={{ willChange: "contents" }}>
+                <img
+                    ref={firstImgRef}
+                    src={firstSlide.imageLight}
+                    alt={firstSlide.eyebrow}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    style={{ willChange: "transform, opacity" }}
+                />
+            </div>
 
-            {/* Overlay: lighter tint in dark mode so the image shows through */}
-            <div
-                className="absolute inset-0"
-                style={{
-                    background: isDark
-                        ? "linear-gradient(90deg, hsl(220 18% 4% / 0.55) 0%, hsl(220 18% 4% / 0.25) 55%, transparent 100%)"
-                        : "linear-gradient(90deg, hsl(40 25% 96% / 0.88) 0%, hsl(40 25% 96% / 0.6) 55%, hsl(40 25% 96% / 0.35) 100%)",
-                }}
-            />
+            <div className="pas-overlay" />
 
             <div className="pointer-events-none absolute left-1/2 top-24 z-20 -translate-x-1/2 md:left-10 md:top-28 md:translate-x-0">
-                <span
-                    className="inline-block whitespace-nowrap rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] backdrop-blur-md md:px-4 md:py-2 md:text-[11px] md:tracking-[0.2em]"
-                    style={{
-                        borderColor: isDark ? "hsl(0 0% 95% / 0.25)" : "hsl(220 18% 6% / 0.2)",
-                        background: isDark ? "hsl(220 18% 4% / 0.3)" : "hsl(40 25% 96% / 0.5)",
-                    }}
-                >
+                <span className="pas-chip inline-block whitespace-nowrap rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] backdrop-blur-md md:px-4 md:py-2 md:text-[11px] md:tracking-[0.2em]">
                     <span ref={chipRef}>{chipText(1)}</span>
                 </span>
             </div>
 
             <div className="absolute inset-0 z-10 flex items-center">
                 <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
-                    <div ref={titleWrapRef} className="max-w-2xl" style={{ willChange: "contents" }} />
+                    {/* First slide text rendered in JSX so it's present on
+                        first paint. Subsequent slides replace innerHTML. */}
+                    <div
+                        ref={titleWrapRef}
+                        className="max-w-2xl"
+                        style={{ willChange: "contents" }}
+                        dangerouslySetInnerHTML={{ __html: renderTitleHTML(firstSlide) }}
+                    />
                 </div>
             </div>
 
@@ -365,24 +345,24 @@ export default function PracticalAdviceSlider() {
                             />
                             <span
                                 data-num
-                                style={{
-                                    color: i === 0 ? undefined : (isDark ? "hsl(220 8% 55%)" : "hsl(220 8% 45%)"),
-                                    willChange: "color",
-                                }}
+                                className={i === 0 ? undefined : "pas-num-inactive"}
+                                style={{ willChange: "color" }}
                             >
                                 {p.number}
                             </span>
                         </div>
                     ))}
                 </div>
-                <div
-                    className="relative h-40 w-px"
-                    style={{ background: isDark ? "hsl(0 0% 95% / 0.25)" : "hsl(220 18% 6% / 0.2)" }}
-                >
+                <div className="pas-progress-rail relative h-40 w-px">
                     <div
                         ref={progressRef}
                         className="absolute left-0 top-0 h-full w-full"
-                        style={{ background: "currentColor", willChange: "transform" }}
+                        style={{
+                            background: "currentColor",
+                            transform: "scaleY(0)",
+                            transformOrigin: "top center",
+                            willChange: "transform",
+                        }}
                     />
                 </div>
             </div>

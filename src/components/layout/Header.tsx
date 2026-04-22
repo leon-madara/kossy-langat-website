@@ -5,9 +5,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Moon, Sun } from "lucide-react"
-
 import { cn } from "@/lib/utils"
+import { AnimatedThemeToggler } from "@/components/ui/AnimatedThemeToggler"
 import "./Header.css"
 
 const NAV_LINKS = [
@@ -20,15 +19,12 @@ const NAV_LINKS = [
     { name: "Contact", href: "/contact" },
 ]
 
-const THEME_STORAGE_KEY = "kossy-theme"
-
 export function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [mobileMenuOpenOnPath, setMobileMenuOpenOnPath] = useState<string | null>(null)
     const pathname = usePathname()
     const isMobileMenuOpen = mobileMenuOpenOnPath === pathname
 
-    // Handle scroll effect
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50)
@@ -36,25 +32,6 @@ export function Header() {
         window.addEventListener("scroll", handleScroll)
         return () => window.removeEventListener("scroll", handleScroll)
     }, [])
-
-    const handleToggleTheme = () => {
-        const rootTheme = document.documentElement.dataset.theme
-        const resolvedTheme =
-            rootTheme === "dark" || rootTheme === "light"
-                ? rootTheme
-                : window.matchMedia("(prefers-color-scheme: dark)").matches
-                    ? "dark"
-                    : "light"
-
-        const next = resolvedTheme === "dark" ? "light" : "dark"
-        document.documentElement.setAttribute("data-theme", next)
-
-        try {
-            window.localStorage.setItem(THEME_STORAGE_KEY, next)
-        } catch {
-            // no-op
-        }
-    }
 
     return (
         <header
@@ -101,15 +78,7 @@ export function Header() {
 
                 <div className="site-header__controls">
                     {/* Theme Toggle */}
-                    <button
-                        type="button"
-                        className="site-header__theme-toggle"
-                        onClick={handleToggleTheme}
-                        aria-label="Toggle theme"
-                    >
-                        <Sun className="site-header__theme-icon site-header__theme-icon--sun" size={18} aria-hidden="true" />
-                        <Moon className="site-header__theme-icon site-header__theme-icon--moon" size={18} aria-hidden="true" />
-                    </button>
+                    <AnimatedThemeToggler className="site-header__theme-toggle" />
 
                     {/* Desktop CTA */}
                     <div className="site-header__cta">

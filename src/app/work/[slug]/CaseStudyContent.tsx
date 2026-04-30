@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import type { Project } from "@/components/ui/ProjectCard"
 import "./CaseStudy.css"
 
-const SITE_URL = "https://kossy.engineer"
+const SITE_URL = "https://naomilangat.engineer"
 
 interface Props {
     project: Project

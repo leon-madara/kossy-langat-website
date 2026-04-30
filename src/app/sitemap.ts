@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next"
 import { projects } from "@/data/projects"
 import { insights } from "@/data/insights"
 
-const SITE_URL = "https://kossy.engineer"
+const SITE_URL = "https://naomilangat.engineer"
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const staticRoutes: MetadataRoute.Sitemap = [

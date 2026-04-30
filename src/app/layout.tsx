@@ -20,7 +20,7 @@ const instrumentSerif = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
-const SITE_URL = "https://kossy.engineer"; // Update with actual domain
+const SITE_URL = "https://naomilangat.engineer"; // Update with actual domain
 
 const THEME_INIT_SCRIPT = `
 (() => {
@@ -103,32 +103,32 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Person",
-                  "@id": "https://kossy.engineer/#person",
+                  "@id": "https://naomilangat.engineer/#person",
                   "name": "Naomi Lang'at Chepkoskei",
                   "alternateName": "Kossy",
                   "jobTitle": "General Manager",
-                  "worksFor": { "@id": "https://kossy.engineer/#org" },
+                  "worksFor": { "@id": "https://naomilangat.engineer/#org" },
                   "knowsAbout": [
                     "Structural Engineering",
                     "EPS 3D Panel Systems",
                     "Construction Management"
                   ],
-                  "url": "https://kossy.engineer/about"
+                  "url": "https://naomilangat.engineer/about"
                 },
                 {
                   "@type": "Organization",
-                  "@id": "https://kossy.engineer/#org",
+                  "@id": "https://naomilangat.engineer/#org",
                   "name": "EPS Manufacturing & Supply Kenya",
-                  "url": "https://kossy.engineer",
+                  "url": "https://naomilangat.engineer",
                   "areaServed": "KE",
                   "description": "EPS 3D panel system installation and structural engineering services across Kenya and East Africa."
                 },
                 {
                   "@type": "WebSite",
-                  "@id": "https://kossy.engineer/#website",
-                  "url": "https://kossy.engineer",
+                  "@id": "https://naomilangat.engineer/#website",
+                  "url": "https://naomilangat.engineer",
                   "name": "Kossy — Structural Engineer",
-                  "publisher": { "@id": "https://kossy.engineer/#person" }
+                  "publisher": { "@id": "https://naomilangat.engineer/#person" }
                 }
               ]
             })

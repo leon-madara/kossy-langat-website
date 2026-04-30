@@ -75,7 +75,7 @@ export const metadata: Metadata = {
       "I don't just build structures. I build alignment between the people who make them possible.",
     images: [
       {
-        url: "/images/hero/hero-photo.png",
+        url: "/images/hero/6dea.png",
         width: 1200,
         height: 800,
         alt: "Kossy — Structural Engineer reviewing blueprints in Nairobi",
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     title: "Kossy | Structural Engineer & General Manager",
     description:
       "Structural engineer, General Manager, and systems orchestrator — building alignment across East Africa.",
-    images: ["/images/hero/hero-photo.png"],
+    images: ["/images/hero/6dea.png"],
   },
   robots: {
     index: true,

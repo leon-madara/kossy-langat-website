@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, Instrument_Serif } from "next/font/google";
 import { ScrollMicroPin } from "@/components/layout/ScrollMicroPin";
+import { SHARE_IMAGE_ALT, SHARE_IMAGE_METADATA, SITE_URL } from "@/lib/siteMetadata";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,8 +20,6 @@ const instrumentSerif = Instrument_Serif({
   weight: "400",
   style: ["normal", "italic"],
 });
-
-const SITE_URL = "https://kossy.engineer"; // Update with actual domain
 
 const THEME_INIT_SCRIPT = `
 (() => {
@@ -65,6 +64,13 @@ export const metadata: Metadata = {
     "Kossy",
   ],
   authors: [{ name: "Naomi 'Kossy' Lang'at Chepkoskei" }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/KOSSYmain.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -73,12 +79,19 @@ export const metadata: Metadata = {
     title: "Kossy | Structural Engineer & General Manager",
     description:
       "I don't just build structures. I build alignment between the people who make them possible.",
+    images: [SHARE_IMAGE_METADATA],
   },
   twitter: {
     card: "summary_large_image",
     title: "Kossy | Structural Engineer & General Manager",
     description:
       "Structural engineer, General Manager, and systems orchestrator — building alignment across East Africa.",
+    images: [
+      {
+        ...SHARE_IMAGE_METADATA,
+        alt: SHARE_IMAGE_ALT,
+      },
+    ],
   },
   robots: {
     index: true,

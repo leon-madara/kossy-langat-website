@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { projects } from "@/data/projects"
+import { SHARE_IMAGE_METADATA, SITE_URL } from "@/lib/siteMetadata"
 import CaseStudyContent from "./CaseStudyContent"
 
 export function generateStaticParams() {
@@ -19,6 +20,14 @@ export async function generateMetadata(
         openGraph: {
             title: `${project.title} | Kossy`,
             description: project.summary,
+            url: new URL(`/work/${project.slug}`, SITE_URL),
+            images: [SHARE_IMAGE_METADATA],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${project.title} | Kossy`,
+            description: project.summary,
+            images: [SHARE_IMAGE_METADATA],
         },
     }
 }

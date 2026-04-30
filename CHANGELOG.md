@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-04-30] - Kossy social share preview image
+
+### Changed
+- **`public/kossy-share-card.png`**, **`src/lib/siteMetadata.ts`**, **`src/app/layout.tsx`**, and **`src/app/work/[slug]/page.tsx`**: Adds a crawler-friendly 1200x630 share card built from the Kossy logo, wires it into Open Graph and Twitter metadata, and keeps `/KOSSYmain.svg` registered as the SVG icon source so shared links no longer fall back to Vercel/default assets.
+
 ## [2026-04-14] - Real project work section refresh
 
 ### Changed

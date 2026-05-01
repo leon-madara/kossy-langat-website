@@ -96,9 +96,16 @@ export default function ContactPage() {
 
                         <div className="info-item c-reveal">
                             <span className="info-label">Network</span>
-                            <a href="https://linkedin.com/in/naomi-langat" target="_blank" rel="noopener noreferrer" className="info-link">
+                            <a href="https://ke.linkedin.com/in/naomi-langat-68760255" target="_blank" rel="noopener noreferrer" className="info-link">
                                 LinkedIn ↗
                             </a>
+                        </div>
+
+                        <div className="info-item c-reveal">
+                            <span className="info-label">Current Work</span>
+                            <p className="info-text">
+                                General Manager at Haven Heights Limited, Ruiru. Engineers Board of Kenya (EBK) membership details are available upon request for serious business or employment opportunities.
+                            </p>
                         </div>
 
                         <div className="info-item c-reveal">

@@ -16,7 +16,7 @@ const FOOTER_LINKS = {
         { name: "For Young Women", href: "/mentorship" },
     ],
     Connect: [
-        { name: "LinkedIn", href: "#", external: true },
+        { name: "LinkedIn", href: "https://ke.linkedin.com/in/naomi-langat-68760255", external: true },
         { name: "Start a Project", href: "/contact" },
         { name: "Speaking Inquiries", href: "/contact?type=speaking" },
     ],

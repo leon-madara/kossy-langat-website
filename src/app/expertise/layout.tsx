@@ -32,7 +32,7 @@ const faqSchema = {
             "name": "What structural engineering services does Kossy provide in Nairobi?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Kossy — operating as General Manager at EPS Manufacturing & Supply Kenya — provides structural engineering leadership, EPS 3D panel system installation and coordination, operations management, and cost alignment for residential and commercial construction projects across Nairobi and East Africa. Services include technical oversight, dynamic load analysis, workforce coordination, and structural value engineering."
+                "text": "Kossy — operating as General Manager at Haven Heights Limited, Ruiru — provides structural engineering leadership, EPS 3D panel system installation and coordination, operations management, and cost alignment for residential and commercial construction projects across Nairobi and East Africa. Services include technical oversight, dynamic load analysis, workforce coordination, and structural value engineering."
             }
         },
         {

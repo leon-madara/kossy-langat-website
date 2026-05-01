@@ -550,7 +550,7 @@ export default function AboutPage() {
                             <h3 className="credential-group-title">Education</h3>
                             <div className="credential-item">
                                 <span className="credential-name">BSc. Civil & Structural Engineering</span>
-                                <span className="credential-detail">University of Nairobi</span>
+                                <span className="credential-detail">Jomo Kenyatta University of Agriculture and Technology</span>
                             </div>
                         </div>
                         <div className="credential-group">
@@ -563,12 +563,16 @@ export default function AboutPage() {
                                 <span className="credential-name">Structural Risk Mitigation</span>
                                 <span className="credential-detail">East African Standards Board</span>
                             </div>
+                            <div className="credential-item">
+                                <span className="credential-name">Engineers Board of Kenya (EBK) Member</span>
+                                <span className="credential-detail">Membership details available upon request for serious business or employment opportunities.</span>
+                            </div>
                         </div>
                         <div className="credential-group">
                             <h3 className="credential-group-title">Leadership</h3>
                             <div className="credential-item">
                                 <span className="credential-name">General Manager</span>
-                                <span className="credential-detail">EPS Manufacturing & Supply, Kenya</span>
+                                <span className="credential-detail">Haven Heights Limited, Ruiru</span>
                             </div>
                             <div className="credential-item">
                                 <span className="credential-name">Mentor</span>

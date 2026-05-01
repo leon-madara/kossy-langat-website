@@ -117,6 +117,14 @@ export default function RootLayout({
                   "alternateName": "Kossy",
                   "jobTitle": "General Manager",
                   "worksFor": { "@id": "https://naomilangat.engineer/#org" },
+                  "sameAs": [
+                    "https://ke.linkedin.com/in/naomi-langat-68760255"
+                  ],
+                  "memberOf": {
+                    "@type": "Organization",
+                    "name": "Engineers Board of Kenya",
+                    "alternateName": "EBK"
+                  },
                   "knowsAbout": [
                     "Structural Engineering",
                     "EPS 3D Panel Systems",
@@ -127,10 +135,13 @@ export default function RootLayout({
                 {
                   "@type": "Organization",
                   "@id": "https://naomilangat.engineer/#org",
-                  "name": "EPS Manufacturing & Supply Kenya",
-                  "url": "https://naomilangat.engineer",
+                  "name": "Haven Heights Limited",
+                  "location": {
+                    "@type": "Place",
+                    "name": "Ruiru, Kenya"
+                  },
                   "areaServed": "KE",
-                  "description": "EPS 3D panel system installation and structural engineering services across Kenya and East Africa."
+                  "description": "Construction and structural engineering leadership based in Ruiru, Kenya."
                 },
                 {
                   "@type": "WebSite",

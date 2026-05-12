@@ -374,7 +374,7 @@ export default function AboutPage() {
                         <SectionLabel number="05" text="In Her Own Words" className="mb-6" />
                         <h2 className="interview-headline">The Engineer Behind the Innovation</h2>
                         <p className="interview-subhead">
-                            Interviewed by Kenya Development Corporation at EPS 3D Ltd — Kossy on the technology
+                            Interviewed by Kenya Development Corporation at EPS 3D Panels — Kossy on the technology
                             reshaping how Kenya builds.
                         </p>
                     </div>

@@ -91,7 +91,7 @@ export default function ContactPage() {
                     <div className="contact-info-block">
                         <div className="info-item c-reveal">
                             <span className="info-label">Direct Contact</span>
-                            <a href="mailto:hello@kossylangat.com" className="info-link">hello@kossylangat.com</a>
+                            <a href="mailto:naomi23lan@gmail.com" className="info-link">naomi23lan@gmail.com</a>
                         </div>
 
                         <div className="info-item c-reveal">

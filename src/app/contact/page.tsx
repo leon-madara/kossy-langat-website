@@ -104,7 +104,7 @@ export default function ContactPage() {
                         <div className="info-item c-reveal">
                             <span className="info-label">Current Work</span>
                             <p className="info-text">
-                                General Manager at Haven Heights Limited, Ruiru. Engineers Board of Kenya (EBK) membership details are available upon request for serious business or employment opportunities.
+                                General Manager at Haven Heights Limited, Ruiru. Engineers Board of Kenya (EBK) membership details are available upon request for serious project engagements and business partnerships.
                             </p>
                         </div>
 

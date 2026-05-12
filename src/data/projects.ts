@@ -89,7 +89,7 @@ export const projects: Project[] = [
         title: "BBS Mall",
         location: "Eastleigh, Nairobi",
         summary:
-            "Multi-floor commercial mall in Eastleigh, Nairobi — EPS-assisted flat slab construction at real commercial scale, with Kossy Langat among the structural leadership managing delivery under genuine urban pressure.",
+            "Multi-floor commercial mall in Eastleigh, Nairobi — Kossy's first commercial-scale EPS project, where she worked as part of a wider structural team, contributed to the execution of the EPS flat slab system, and provided hands-on after-sales technical guidance to installation crews.",
         stage: "Structural shell and slab field in progress",
         system: "EPS-assisted flat slab strategy for commercial floor plates",
         tags: ["Commercial", "EPS Slab", "Urban Build"],
@@ -98,13 +98,13 @@ export const projects: Project[] = [
         imageAlt:
             "Wide construction view of BBS Mall in Eastleigh with a crane, reinforced slab grid, and EPS slab elements visible across the deck.",
         overview:
-            "BBS Mall is the commercial proof point for EPS 3D at scale. A multi-storey retail development rising in Eastleigh — Nairobi's most active trading district — where the structural leadership team coordinated delivery across a wide floor plate using an EPS-assisted flat slab strategy. As General Manager at Haven Heights Limited, Ruiru, Kossy was a central figure within that leadership — ensuring the system's dead-load advantages were realised across repeated bays and that the build sequence stayed disciplined at scale.",
+            "BBS Mall in Eastleigh is where Kossy first operated at commercial EPS scale — working as part of a wider structural team under the General Manager at the time. The project was a genuine collaboration: engineers, installation crews, and technical leads working together across a multi-storey floor plate. Kossy was embedded in that team, contributing to the execution of the EPS flat slab system and taking on the after-sales technical role — working alongside the installation crews to ensure panels were laid correctly and the floor slab logic was understood and applied in the field.",
         challenge:
-            "A multi-floor commercial slab in Eastleigh must carry significant live loads — retail footfall, goods movement, dynamic crowd loads — while managing construction logistics across a constrained urban site with active streets on all sides. Getting the slab strategy wrong means structural overdesign, excessive material costs, or inadequate load capacity under occupation.",
+            "A multi-floor commercial slab in Eastleigh must carry significant live loads — retail footfall, goods movement, dynamic crowd loads — while managing construction logistics across a constrained urban site with active streets on all sides. Getting the EPS panel layout and slab detailing wrong at this scale has compounding consequences across every floor plate above.",
         intervention:
-            "The structural leadership, with Kossy as a key technical voice, specified an EPS void-former flat slab system — where EPS blocks reduce the dead weight of each floor plate while maintaining the structural depth needed for commercial load spans. The result is a lighter slab requiring less reinforcement mass, reduced load transfer to columns and foundations, and a commercial floor grid that repeats across multiple levels without compounding structural weight.",
+            "Working within the structural team, Kossy contributed to the coordination of the EPS void-former flat slab system and provided hands-on technical guidance during installation — translating engineering intent into correct field practice alongside the crews doing the work. The after-sales service role meant she was accountable for how the system was understood on the ground, not just specified on paper.",
         result:
-            "BBS Mall establishes that EPS 3D flat slab thinking scales to commercial development — not just residential. For developers planning multi-floor retail or mixed-use builds, the structural approach taken here is the reference: managed under urban pressure, delivered with structural precision, and built to carry the loads commercial occupation demands.",
+            "BBS Mall is a formative project in Kossy's career — the commercial-scale proof that EPS slab technology works under real urban pressure, and the project where she built the technical depth she now leads with. She later took over as General Manager from the same role she once reported to.",
         gallery: [
             {
                 src: "/projects done/BBS mall in Eastleigh/WhatsApp Image 2026-04-14 at 13.39.31  .jpeg",

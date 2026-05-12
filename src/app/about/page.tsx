@@ -322,7 +322,7 @@ export default function AboutPage() {
 
                         <div className="origin-anecdote origin-anecdote-fullwidth abt-reveal-scroll opacity-0 translate-y-8">
                             <p className="origin-anecdote-text">
-                                I&apos;ve been fortunate. The foreman I work with is exactly who you want on a site — professional, precise, someone who cares about the work more than about who&apos;s giving the direction. Together, we&apos;ve built 6 blocks of 300 housing units. That partnership is what construction should look like. But I&apos;m not naive about the industry. I&apos;ve heard from women who walked onto sites and were addressed as secretaries. Women whose specifications were quietly revised by foremen who couldn&apos;t accept that a woman had written them. Women who had to stand in the rain and prove something no man on that site was ever asked to prove. I was spared that. Not every woman is.
+                                I&apos;ve been fortunate. The foreman I work with is exactly who you want on a site — professional, precise, someone who cares about the work more than about who&apos;s giving the direction. Together, we completed over 300 housing units within a year. That partnership is what construction should look like. But I&apos;m not naive about the industry. I&apos;ve heard from women who walked onto sites and were addressed as secretaries. Women whose specifications were quietly revised by foremen who couldn&apos;t accept that a woman had written them. Women who had to stand in the rain and prove something no man on that site was ever asked to prove. I was spared that. Not every woman is.
                             </p>
                             <div className="origin-anecdote-divider" aria-hidden="true" />
                             <p className="origin-anecdote-text">
@@ -595,7 +595,7 @@ export default function AboutPage() {
                             </div>
                             <div className="credential-item">
                                 <span className="credential-name">Engineers Board of Kenya (EBK) Member</span>
-                                <span className="credential-detail">Membership details available upon request for serious business or employment opportunities.</span>
+                                <span className="credential-detail">Membership details available upon request for serious project engagements and business partnerships.</span>
                             </div>
                         </div>
                         <div className="credential-group">

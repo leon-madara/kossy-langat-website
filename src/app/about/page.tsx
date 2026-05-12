@@ -27,7 +27,7 @@ const GYM_IMAGES = [
         caption: "Progressive overload — same principle, different domain"
     },
     {
-        src: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",
+        src: "/images/about/gym4.jpeg",
         alt: "Engineer staying sharp",
         caption: "Physical discipline mirrors structural discipline"
     }
@@ -368,10 +368,40 @@ export default function AboutPage() {
                     </div>
                 </section>
 
+                {/* ─── KDC INTERVIEW — IN HER OWN WORDS ─── */}
+                <section className="interview-section">
+                    <div className="interview-header abt-reveal-scroll opacity-0 translate-y-8">
+                        <SectionLabel number="05" text="In Her Own Words" className="mb-6" />
+                        <h2 className="interview-headline">The Engineer Behind the Innovation</h2>
+                        <p className="interview-subhead">
+                            Interviewed by Kenya Development Corporation at EPS 3D Ltd — Kossy on the technology
+                            reshaping how Kenya builds.
+                        </p>
+                    </div>
+
+                    <div className="interview-video-wrap abt-reveal-scroll opacity-0 translate-y-8">
+                        <video
+                            className="interview-video"
+                            controls
+                            preload="metadata"
+                            poster="/videos/thumbnail.png"
+                        >
+                            <source src="/videos/EPS.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <div className="interview-video-caption">
+                            <span className="interview-caption-label">Feature</span>
+                            <span className="interview-caption-text">
+                                KDC Feature Interview — Kossy Langat on EPS Technology, Innovation, and Building Kenya's Future
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
                 {/* ─── GYM — THE DISCIPLINE SECTION ─── */}
                 <section className="gym-section">
                     <div className="gym-header abt-reveal-scroll opacity-0 translate-y-8">
-                        <SectionLabel number="05" text="Beyond the Blueprint" className="mb-6" />
+                        <SectionLabel number="06" text="Beyond the Blueprint" className="mb-6" />
                         <h2 className="gym-headline">Discipline Outside the Site</h2>
                         <p className="gym-subhead">
                             Monday through Friday. 5:30 AM. Rain, deadlines, or difficult days — the gym waits.
@@ -480,7 +510,7 @@ export default function AboutPage() {
                 {/* ─── CORE VALUES GRID (glowing hover cards) ─── */}
                 <section className="values-section">
                     <div className="values-header abt-reveal-scroll opacity-0 translate-y-8">
-                        <SectionLabel number="06" text="Core Values" className="mb-6" />
+                        <SectionLabel number="07" text="Core Values" className="mb-6" />
                         <h2 className="values-headline">The Framework She Lives By</h2>
                     </div>
                     <div className="values-grid">
@@ -500,7 +530,7 @@ export default function AboutPage() {
                     <div className="inspiration-inner">
                         <div className="inspiration-text-col">
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
-                                <SectionLabel number="07" text="For Young Women" className="mb-6" />
+                                <SectionLabel number="08" text="For Young Women" className="mb-6" />
                                 <h2 className="inspiration-headline">You Belong Here.</h2>
                             </div>
                             <div className="abt-reveal-scroll opacity-0 translate-y-8">
@@ -544,7 +574,7 @@ export default function AboutPage() {
 
                 {/* ─── CREDENTIALS ─── */}
                 <section className="credentials-section abt-reveal-scroll opacity-0 translate-y-8">
-                    <SectionLabel number="08" text="Credentials" className="mb-10" />
+                    <SectionLabel number="09" text="Credentials" className="mb-10" />
                     <div className="credentials-grid">
                         <div className="credential-group">
                             <h3 className="credential-group-title">Education</h3>

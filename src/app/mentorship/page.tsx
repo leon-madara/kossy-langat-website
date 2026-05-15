@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import gsap from "gsap"
@@ -46,6 +46,7 @@ const RESILIENCE_SYSTEMS = [
 export default function MentorshipPage() {
     const pageRef = useRef<HTMLDivElement>(null)
     const heroImageWrapRef = useRef<HTMLDivElement>(null)
+    const [isRevealed, setIsRevealed] = useState(false)
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -224,6 +225,51 @@ export default function MentorshipPage() {
 
                 {/* Pinned slider stage */}
                 <PracticalAdviceSlider />
+            </section>
+
+            {/* ── IMPACT & EVIDENCE ── */}
+            <section className="mentor-impact" id="impact" data-micro-pin="off">
+                <div className="mentor-container">
+                    <span className="mentor-section-label m-reveal">EVIDENCE OF IMPACT</span>
+                    <h2 className="mentor-section-title m-reveal">
+                        A load-bearing legacy.
+                    </h2>
+                    <p className="mentor-body-text m-reveal">
+                        The true measure of structural engineering isn&apos;t just the buildings that stand, but the careers built within them. This is a private note from a former mentee, shared with permission.
+                    </p>
+
+                    <div className={`impact-letter-vault m-reveal ${isRevealed ? "is-revealed" : ""}`}>
+                        <div className="letter-container">
+                            <div className="letter-image-wrapper">
+                                <Image
+                                    src="/mentorMessage.jpeg"
+                                    alt="Handwritten thank you note from a mentee"
+                                    width={600}
+                                    height={800}
+                                    className="impact-letter-img"
+                                />
+                                {/* Security Blur Overlay - Blurs the name area */}
+                                <div className="security-blur-overlay" />
+                            </div>
+
+                            {!isRevealed && (
+                                <div className="letter-unlock-overlay">
+                                    <button
+                                        className="unlock-button"
+                                        onClick={() => setIsRevealed(true)}
+                                    >
+                                        <span className="unlock-icon">🔒</span>
+                                        <span>Click to View Private Note</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                        <div className="impact-letter-caption">
+                            <p>[ Document / Testimonial_04.2023 ]</p>
+                            <p>Handwritten correspondence from a Junior Structural Engineer.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* ── RESILIENCE ── */}

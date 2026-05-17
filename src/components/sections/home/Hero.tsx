@@ -27,7 +27,7 @@ export function Hero() {
     const heroAlt = "Kossy - Structural Engineer reviewing blueprints"
 
     const { props: desktopImageProps } = getImageProps({
-        src: "/images/hero/6dea.png",
+        src: "/images/hero/newHeroDesktop.png",
         alt: heroAlt,
         width: 1308,
         height: 852,
@@ -36,7 +36,7 @@ export function Hero() {
     })
 
     const { props: mobileImageProps } = getImageProps({
-        src: "/images/hero/1deaMobile.png",
+        src: "/images/hero/newHeroMobile.png",
         alt: heroAlt,
         width: 561,
         height: 1024,

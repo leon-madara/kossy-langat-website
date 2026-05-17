@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef } from "react"
-import Image, { getImageProps } from "next/image"
+import { getImageProps } from "next/image"
 import Link from "next/link"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -15,9 +15,8 @@ if (typeof window !== "undefined") {
 export function Hero() {
     const sectionRef = useRef<HTMLElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
-    const blurredImageRef = useRef<HTMLDivElement>(null)
 
-    // Refs for GSAP entry animations (replaces Framer Motion fadeUp)
+    // Refs for GSAP entry animations
     const eyebrowRef = useRef<HTMLParagraphElement>(null)
     const headlineRef = useRef<HTMLHeadingElement>(null)
     const subheadRef = useRef<HTMLParagraphElement>(null)
@@ -50,12 +49,11 @@ export function Hero() {
     useGSAP(() => {
         const section = sectionRef.current
         const content = contentRef.current
-        const blurredOverlay = blurredImageRef.current
-        if (!section || !content || !blurredOverlay) return
+        if (!section || !content) return
 
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
-        // ── Phase A: Entry animations (replaces Framer Motion fadeUp) ──
+        // Entry animations — staggered fade-up on load
         const entryTargets = [
             eyebrowRef.current,
             headlineRef.current,
@@ -65,13 +63,10 @@ export function Hero() {
         ].filter(Boolean) as HTMLElement[]
 
         if (reducedMotion) {
-            // Show everything immediately, no blur
             gsap.set(entryTargets, { opacity: 1, y: 0 })
-            gsap.set(blurredOverlay, { autoAlpha: 0 })
             return
         }
 
-        // Staggered fade-up on load
         gsap.set(entryTargets, { opacity: 0, y: 28 })
         gsap.to(entryTargets, {
             opacity: 1,
@@ -81,39 +76,6 @@ export function Hero() {
             stagger: 0.15,
             delay: 0.1,
         })
-
-        // ── Phase B: Scroll-driven blur-to-clear + content fade ──
-        gsap.set(blurredOverlay, { autoAlpha: 1 })
-
-        const scrollTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: section,
-                start: "top top",
-                end: () => `+=${window.innerHeight * 0.6}`,
-                pin: true,
-                pinSpacing: true,
-                scrub: 0.6,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
-            },
-        })
-
-        // 1. Content (words) fades out quickly
-        scrollTimeline.to(content, {
-            autoAlpha: 0,
-            ease: "power1.out",
-            duration: 0.4,
-        }, 0)
-
-        // 2. Tint/Blur overlay fades out quickly, slightly trailing the words
-        scrollTimeline.to(blurredOverlay, {
-            autoAlpha: 0,
-            ease: "none",
-            duration: 0.4,
-        }, 0.2)
-
-        // 3. Pad the timeline to 1.0 so we get a "dead zone" of ~24vh where the clear image is held.
-        scrollTimeline.set({}, {}, 1.0)
     }, { scope: sectionRef })
 
     return (
@@ -135,20 +97,6 @@ export function Hero() {
                             fetchPriority="high"
                         />
                     </picture>
-
-                    <div ref={blurredImageRef} className="hero-bg__blurred-overlay" style={{ position: "absolute", inset: 0 }}>
-                        <picture>
-                            <source media="(max-width: 767px)" srcSet="/images/hero/1deaMobile-blur.png" />
-                            <Image
-                                src="/images/hero/6dea-blur.png"
-                                alt=""
-                                fill
-                                className="hero-bg__image"
-                                priority
-                                sizes="100vw"
-                            />
-                        </picture>
-                    </div>
                 </div>
             </div>
 

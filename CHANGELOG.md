@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-05-17] - Hero background image swap
+
+### Changed
+- **`src/components/sections/home/Hero.tsx`**: Replaced hero background images with new assets. Desktop source updated from `6dea.png` → `newHeroDesktop.png`; mobile source updated from `1deaMobile.png` → `newHeroMobile.png`. Blur overlay images remain unchanged (no new blur variants provided). Change delivered on branch `feat/hero-image-swap`, merged to `main`.
+
+---
 ## [2026-04-14] - Real project work section refresh
 
 ### Changed

@@ -324,6 +324,11 @@
 }
 
 @media (max-width: 767px) {
+  .hero-section,
+  .hero-content {
+    min-height: 100svh;
+  }
+
   .hero-content {
     align-items: flex-start;
   }
@@ -334,6 +339,9 @@
 
   .hero-content__inner {
     min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
     padding: 6.9625rem 0 2.5rem;
   }
 
@@ -355,7 +363,7 @@
     gap: 0.75rem;
     width: 100%;
     max-width: 21.375rem;
-    margin-top: 33rem;
+    margin-top: auto;
     margin-inline: auto;
     margin-bottom: 3.25rem;
   }

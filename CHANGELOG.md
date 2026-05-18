@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-05-18] - Hero blur transition and mobile CTA composition
+
+### Changed
+- **`src/components/sections/home/Hero.tsx`** and **`src/components/sections/home/Hero.css`**: Restores the blur-to-clear hero image transition with the new desktop/mobile clear and blur assets, keeps desktop hero copy intact, and adjusts the mobile hero composition by hiding the headline/subhead, using role/location bullets, and stacking centered CTAs with larger text.
+- **`public/images/hero/newHeroDesktop.png`**, **`newHeroDesktopBlur.png`**, **`newHeroMobile.png`**, and **`newHeroMobileBlur.png`**: Adds the new responsive hero image pairs used by the homepage reveal.
+
+---
 ## [2026-05-17] - Hero background image swap
 
 ### Changed

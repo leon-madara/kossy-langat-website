@@ -329,6 +329,10 @@
     min-height: 100svh;
   }
 
+  .hero-bg__image {
+    object-position: center calc(50% + 20px);
+  }
+
   .hero-content {
     align-items: flex-start;
   }
@@ -365,7 +369,7 @@
     max-width: 21.375rem;
     margin-top: auto;
     margin-inline: auto;
-    margin-bottom: 3.25rem;
+    margin-bottom: 1.375rem;
   }
 
   .hero-cta {

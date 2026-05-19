@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ---
+## [2026-05-19] - Vercel Web Analytics instrumentation
+
+### Added
+- **`@vercel/analytics`**: Adds the Vercel Web Analytics package so production deployments can report visitor and pageview data.
+- **`src/app/layout.tsx`**: Wires the App Router root layout with `<Analytics />` from `@vercel/analytics/next`, ensuring every route can emit Vercel pageview events after redeploy.
+
+---
 ## [2026-05-18] - Hero blur transition and mobile CTA composition
 
 ### Changed

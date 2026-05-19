@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Inter, Playfair_Display, Instrument_Serif } from "next/font/google";
 import { ScrollMicroPin } from "@/components/layout/ScrollMicroPin";
 import "./globals.css";
@@ -163,6 +164,7 @@ export default function RootLayout({
       >
         {children}
         <ScrollMicroPin />
+        <Analytics />
       </body>
     </html>
   );

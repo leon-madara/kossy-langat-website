@@ -54,7 +54,7 @@ export default function MentorshipPage() {
 
             // ── Hero parallax ──
             if (heroImageWrapRef.current && !reducedMotion) {
-                gsap.to(heroImageWrapRef.current.querySelector("img"), {
+                gsap.to(heroImageWrapRef.current.querySelectorAll("img"), {
                     yPercent: 20,
                     ease: "none",
                     scrollTrigger: {
@@ -128,11 +128,32 @@ export default function MentorshipPage() {
             <section className="mentor-hero" data-micro-pin="off">
                 <div className="mentor-hero-bg" ref={heroImageWrapRef}>
                     <Image
-                        src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1920&q=80"
-                        alt="Woman engineer reviewing blueprints"
+                        src="/images/mentorship/mentorshipHeroDesktopLight.png"
+                        alt="African women structural engineers reviewing drawings on a construction site"
                         fill priority
-                        style={{ objectFit: "cover" }}
-                        unoptimized
+                        sizes="100vw"
+                        className="mentor-hero-image mentor-hero-image--desktop-light"
+                    />
+                    <Image
+                        src="/images/mentorship/mentorshipHeroDesktopDark.png"
+                        alt="African women structural engineers reviewing drawings on a construction site"
+                        fill
+                        sizes="100vw"
+                        className="mentor-hero-image mentor-hero-image--desktop-dark"
+                    />
+                    <Image
+                        src="/images/mentorship/mentorshipHeroMobileLight.png"
+                        alt="African women structural engineers reviewing drawings on a construction site"
+                        fill
+                        sizes="100vw"
+                        className="mentor-hero-image mentor-hero-image--mobile-light"
+                    />
+                    <Image
+                        src="/images/mentorship/mentorshipHeroMobileDark.png"
+                        alt="African women structural engineers reviewing drawings on a construction site"
+                        fill
+                        sizes="100vw"
+                        className="mentor-hero-image mentor-hero-image--mobile-dark"
                     />
                 </div>
 

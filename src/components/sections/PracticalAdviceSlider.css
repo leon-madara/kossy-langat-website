@@ -5,16 +5,23 @@
 
 /* Theme-driven section surfaces — defined in CSS so SSR and
    first paint match the resolved theme (set on <html> before
-   hydration). Previously inline styles driven by useState
-   caused a light→dark flash on entry for dark-mode users. */
+   hydration). */
 .slider-frame {
     background-color: hsl(40 25% 96%);
     color: hsl(220 18% 6%);
+    height: 100vh; /* Fallback */
+    height: 100svh; /* Prevent dynamic address bar layout shifts on mobile */
 }
 
 [data-theme="dark"] .slider-frame {
     background-color: hsl(220 18% 6%);
     color: hsl(0 0% 95%);
+}
+
+@media (min-width: 768px) {
+    .slider-frame {
+        height: 100vh;
+    }
 }
 
 .pas-overlay {
@@ -35,6 +42,21 @@
         hsl(220 18% 4% / 0.25) 55%,
         transparent 100%
     );
+}
+
+@media (max-width: 767px) {
+    [data-theme="dark"] .pas-overlay {
+        background: linear-gradient(
+            90deg,
+            hsl(220 18% 3% / 0.35) 0%,
+            hsl(220 18% 3% / 0.58) 42%,
+            hsl(220 18% 3% / 0.82) 100%
+        );
+    }
+
+    [data-theme="dark"] .pas-slide-image[data-slide-number="03"] {
+        object-position: left center;
+    }
 }
 
 .pas-chip {
@@ -63,14 +85,21 @@
     color: hsl(220 8% 55%);
 }
 
-
 .pas-eyebrow {
     margin-bottom: 1.5rem;
     font-family: var(--font-mono), monospace;
     font-size: 11px;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     color: var(--blue-slate);
+}
+
+@media (max-width: 767px) {
+    .pas-eyebrow {
+        font-size: 13px;
+        font-weight: 700;
+    }
 }
 
 /* --blue-slate (#48616B) is 2.95:1 on dark slider bg — fails 4.5:1 for 11px text */

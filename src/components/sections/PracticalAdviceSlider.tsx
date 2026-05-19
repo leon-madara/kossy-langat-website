@@ -14,6 +14,8 @@ type Principle = {
     body: string
     imageDark: string
     imageLight: string
+    imageDarkMobile: string
+    imageLightMobile: string
 }
 
 const principles: Principle[] = [
@@ -22,42 +24,61 @@ const principles: Principle[] = [
         eyebrow: "Technical Depth First",
         title: "Master the fundamentals.",
         body: "Before visibility, build an unshakeable technical foundation. Know your codes, your load paths, your material science. Competence is the only credential that cannot be questioned.",
-        imageDark: "/images/mentorship/concept/01-fundamentals.jpg",
-        imageLight: "/images/mentorship/concept/01-fundamentals-light.jpg",
+        imageDark: "/images/mentorship/chapter1DesktopDark.png",
+        imageLight: "/images/mentorship/chapter1DesktopLight.png",
+        imageDarkMobile: "/images/mentorship/chapter1Dark.png",
+        imageLightMobile: "/images/mentorship/chapter1Light.png",
     },
     {
         number: "02",
         eyebrow: "Lead Through Language",
         title: "Speak with clarity.",
         body: "In meetings, in reports, on-site — communication is not a soft skill, it is a structural one. A misunderstood instruction on a construction site is a safety hazard.",
-        imageDark: "/images/mentorship/concept/02-clarity-dark.jpg",
-        imageLight: "/images/mentorship/concept/02-clarity.jpg",
+        imageDark: "/images/mentorship/chapter2DesktopDark.png",
+        imageLight: "/images/mentorship/chapter2DesktopLight.png",
+        imageDarkMobile: "/images/mentorship/chapter2Dark.png",
+        imageLightMobile: "/images/mentorship/chapter2Light.png",
     },
     {
         number: "03",
         eyebrow: "Commercial Fluency",
         title: "Learn the language of money.",
         body: "Budgets, lifecycle costing, ROI. Engineers who only speak in kN and MPa get sidelined. Speak the language of the boardroom to protect the integrity of the building.",
-        imageDark: "/images/mentorship/concept/03-commercial.jpg",
-        imageLight: "/images/mentorship/concept/03-commercial-light.jpg",
+        imageDark: "/images/mentorship/chapter3DesktopDark.png",
+        imageLight: "/images/mentorship/chapter3DesktopLight.png",
+        imageDarkMobile: "/images/mentorship/chapter3Dark.png",
+        imageLightMobile: "/images/mentorship/chapter3Light.png",
     },
     {
         number: "04",
         eyebrow: "Endurance Under Load",
         title: "Build physical resilience.",
         body: "Construction is physically demanding. The gym is not optional — it is a system for endurance, mental clarity, and stress conversion. Your body supports your mind.",
-        imageDark: "/images/mentorship/concept/04-endurance.jpg",
-        imageLight: "/images/mentorship/concept/04-endurance-light.jpg",
+        imageDark: "/images/mentorship/chapter4DesktopDark.png",
+        imageLight: "/images/mentorship/chapter4DesktopLight.png",
+        imageDarkMobile: "/images/mentorship/chapter4Dark.png",
+        imageLightMobile: "/images/mentorship/chapter4Light.png",
     },
     {
         number: "05",
         eyebrow: "Systems Over Chaos",
         title: "Engineer your routine.",
         body: "5:30 AM training. Structured workflows. Consistent review cycles. Discipline is not rigidity — it is freedom from chaos. It is how you remain composed when pressure builds.",
-        imageDark: "/images/mentorship/concept/05-systems-dark.jpg",
-        imageLight: "/images/mentorship/concept/05-systems.jpg",
+        imageDark: "/images/mentorship/chapter5DesktopDark.png",
+        imageLight: "/images/mentorship/chapter5DesktopLight.png",
+        imageDarkMobile: "/images/mentorship/chapter5Dark.png",
+        imageLightMobile: "/images/mentorship/chapter5Light.png",
     },
 ]
+
+function getSlideImageSrc(slide: Principle, theme: "dark" | "light") {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768
+    if (theme === "dark") {
+        return isMobile ? slide.imageDarkMobile : slide.imageDark
+    } else {
+        return isMobile ? slide.imageLightMobile : slide.imageLight
+    }
+}
 
 const MAX_CACHED_IMAGES = 3
 
@@ -134,8 +155,8 @@ export default function PracticalAdviceSlider() {
     useLayoutEffect(() => {
         const theme = getTheme()
         themeRef.current = theme
-        if (theme === "dark" && firstImgRef.current) {
-            firstImgRef.current.src = principles[0].imageDark
+        if (firstImgRef.current) {
+            firstImgRef.current.src = getSlideImageSrc(principles[0], theme)
         }
     }, [])
 
@@ -158,9 +179,10 @@ export default function PracticalAdviceSlider() {
 
             // Image transition
             const newImg = document.createElement("img")
-            newImg.src = themeRef.current === "dark" ? slide.imageDark : slide.imageLight
+            newImg.src = getSlideImageSrc(slide, themeRef.current)
             newImg.alt = slide.eyebrow
-            newImg.className = "absolute inset-0 h-full w-full object-cover"
+            newImg.dataset.slideNumber = slide.number
+            newImg.className = "pas-slide-image absolute inset-0 h-full w-full object-cover"
             newImg.style.willChange = "transform, opacity"
             gsap.set(newImg, { opacity: 0, scale: 1.12 })
             imagesEl.appendChild(newImg)
@@ -257,9 +279,10 @@ export default function PracticalAdviceSlider() {
 
             const slide = principles[activeRef.current] ?? principles[0]
             const newImg = document.createElement("img")
-            newImg.src = newTheme === "dark" ? slide.imageDark : slide.imageLight
+            newImg.src = getSlideImageSrc(slide, newTheme)
             newImg.alt = slide.eyebrow
-            newImg.className = "absolute inset-0 h-full w-full object-cover"
+            newImg.dataset.slideNumber = slide.number
+            newImg.className = "pas-slide-image absolute inset-0 h-full w-full object-cover"
             newImg.style.willChange = "transform, opacity"
             gsap.set(newImg, { opacity: 0, scale: 1.04 })
             imagesEl.appendChild(newImg)
@@ -291,7 +314,7 @@ export default function PracticalAdviceSlider() {
         <section
             ref={sectionRef}
             data-micro-pin="off"
-            className="slider-frame relative h-screen w-full overflow-hidden"
+            className="slider-frame relative w-full overflow-hidden"
             style={{ willChange: "transform" }}
         >
             {/* Images layer — first image rendered in JSX so first paint
@@ -301,7 +324,8 @@ export default function PracticalAdviceSlider() {
                     ref={firstImgRef}
                     src={firstSlide.imageLight}
                     alt={firstSlide.eyebrow}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    data-slide-number={firstSlide.number}
+                    className="pas-slide-image absolute inset-0 h-full w-full object-cover"
                     style={{ willChange: "transform, opacity" }}
                 />
             </div>
